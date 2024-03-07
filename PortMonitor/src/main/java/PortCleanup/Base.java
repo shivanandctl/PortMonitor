@@ -54,8 +54,10 @@ public class Base {
 	}
 
 	public static HashMap<String, String> configMethod() {
-		String configFilePath = System.getProperty("user.dir") + "\\environment.Properties";
-		// System.out.println(configFilePath);
+		// path of the file for Jenkins build
+		String configFilePath = System.getProperty("user.dir") + "\\target\\environment.Properties";
+		// path of the file for Local build
+		// String configFilePath = System.getProperty("user.dir") + "\\environment.Properties";
 
 		File configFile = new File(configFilePath);
 		HashMap<String, String> envDetails = new HashMap<String, String>();
