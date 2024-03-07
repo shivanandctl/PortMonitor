@@ -10,7 +10,7 @@ import java.util.Properties;
 public class Base {
 
 	// TEST1 VARIABLES
-	public static String TEST1_SASI_ASRI = "";
+	public static String TEST1_SASI_ASRI = "https://sasi-test1.kubeodc-test.corp.intranet/inventory/v1/asri/services?name=";
 	public static String TEST1_SASI_ARM = "";
 	
 	public static String TEST1_AUTH_URL = "";
@@ -20,7 +20,7 @@ public class Base {
 	public static String TEST1_OMNIVUE = "";
 
 	// TEST2 VARIABLES
-	public static String TEST2_SASI_ASRI = "";
+	public static String TEST2_SASI_ASRI = "https://sasi-test2.kubeodc-test.corp.intranet/inventory/v1/asri/services?name=";
 	public static String TEST2_SASI_ARM = "";
 	
 	public static String TEST2_AUTH_URL = "";
@@ -30,7 +30,7 @@ public class Base {
 	public static String TEST2_OMNIVUE = "";
 
 	// TEST4 VARIABLES
-	public static String TEST4_SASI_ASRI = "";
+	public static String TEST4_SASI_ASRI = "https://sasi-test4.kubeodc-test.corp.intranet/inventory/v1/asri/services?name=";
 	public static String TEST4_SASI_ARM = "";
 	
 	public static String TEST4_AUTH_URL = "";
@@ -44,8 +44,8 @@ public class Base {
 	public static String TEST_IP_RELEASE = "";
 
 	// LAB RUBICON VARIABLES
-	public static String RUBICON_INT_DESCRIPTION_URL = "";
-	public static String RUBICON_CHECKPORTS_URL = "";
+	public static String RUBICON_INT_DESCRIPTION_URL = "http://rubicon-test01.idc1.level3.com:8080/nds.services/query/intDescriptions?tid=";
+	public static String RUBICON_CHECKPORTS_URL = "http://rubicon-test01.idc1.level3.com:8080/nds.services/query/checkPorts?tid=";
 	public static String username = "AC70068";
 	public static String password = "Arshi1994#";
 
