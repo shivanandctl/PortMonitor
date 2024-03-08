@@ -38,7 +38,7 @@ public class PortMonitor {
 //			System.out.println("Response: " + sasiRes);
 			String userComment = JsonPath.read(sasiRes, "$.user_comment");
 			System.out.println("User comment: " + userComment);
-			if (userComment.equals("CAN BE CLEANED!")) {
+			if (userComment.equals("CAN BE CLEANED!")||userComment.equals("CLEANED")||userComment.equals("CLEANED!")) {
 				String cleanupDate = JsonPath.read(sasiRes, "$.cleanup_date");
 				System.out.println("Cleanup date: " + cleanupDate);
 				System.out.println("Todays date: " + LocalDate.now());
