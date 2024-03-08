@@ -119,11 +119,11 @@ public class PortMonitor {
 
 					if (envs.size() == 0) {
 						System.out.println(unis + "::No Environment found");
-//						cleanPortsViaPortMonitorData(unis, "1");
+						cleanPortsViaPortMonitorData(unis, "1");
 					} else if (envs.size() > 0) {
 						for (String env : envs) {
 							System.out.println(unis + "====>" + env);
-//							cleanPortsViaPortMonitorData(unis, env);
+							cleanPortsViaPortMonitorData(unis, env);
 						}
 					}
 
