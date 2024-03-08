@@ -41,6 +41,7 @@ public class PortMonitor {
 			if (userComment.equals("CAN BE CLEANED!")) {
 				String cleanupDate = JsonPath.read(sasiRes, "$.cleanup_date");
 				System.out.println("Cleanup date: " + cleanupDate);
+				System.out.println("Todays date: " + LocalDate.now());
 				System.out.println("User comment is :" + userComment+ " hence adding for cleanup");
 				cleanupUnis.add(uni);
 				System.out.println(
@@ -49,6 +50,7 @@ public class PortMonitor {
 			if (userComment.equals("DO NOT CLEAN!")) {
 				String cleanupDate = JsonPath.read(sasiRes, "$.cleanup_date");
 				System.out.println("Cleanup date: " + cleanupDate);
+				System.out.println("Todays date: " + LocalDate.now());
 				// Parse the string date "2024-03-30" into a LocalDate
 				LocalDate parsedStringDate = LocalDate.parse(cleanupDate);
 				LocalDate currentDate = LocalDate.now();
@@ -86,7 +88,9 @@ public class PortMonitor {
 		// fetch devices from Rubicon
 		 ArrayList<String> devices = rubicon.listLabDevices();
 		 for (String device : devices) {
+			    System.out.println("################################################################################################");
 			 	System.out.println("Device::"+device);
+			 	System.out.println("################################################################################################");
 				ArrayList<String> uniList = rubicon.fetchUnisFromDevice(device);
 				System.out.println("+------------------List of UNIs on Device::" + device + "------------------------+");
 				for (String uni : uniList) {
@@ -102,7 +106,7 @@ public class PortMonitor {
 				}
 
 				// print the validated UNIs
-				System.out.println("+------------------------------VALIDATED UNIs------------------------------------+");
+				System.out.println("+------------------------------VALIDATED UNIs FOR CLEANUP------------------------------------+");
 				for (String unis : validatedUnis) {
 					System.out.println(unis);
 				}
@@ -115,15 +119,16 @@ public class PortMonitor {
 
 					if (envs.size() == 0) {
 						System.out.println(unis + "::No Environment found");
-						cleanPortsViaPortMonitorData(unis, "1");
+//						cleanPortsViaPortMonitorData(unis, "1");
 					} else if (envs.size() > 0) {
 						for (String env : envs) {
 							System.out.println(unis + "====>" + env);
-							cleanPortsViaPortMonitorData(unis, env);
+//							cleanPortsViaPortMonitorData(unis, env);
 						}
 					}
 
 				}
+				validatedUnis.clear();
 		 }
 		
 		
@@ -252,7 +257,7 @@ public class PortMonitor {
 									if (asriCleanUpStatus) {
 										System.out.println("ASRI Cleanup is successful");
 										// update the record in portmonitor db
-										if (s.contains("KXFN")) {
+										if (s.contains("KXFN")&& !s.contains("_")) {
 											updateRecordAfterCleanup(s);
 										}
 

@@ -561,6 +561,9 @@ public class Asri {
 			rearragedServices.add(isOvcServiceExists.split("\\$")[3]);
 		}
 		
+		if (isDiaServiceExists.contains("true")) {
+			rearragedServices.add(isDiaServiceExists.split("\\$")[3]);
+		}
 		
 		if (isIpvpnEndpointExists.contains("true")) {
 			rearragedServices.add(isIpvpnEndpointExists.split("\\$")[3]);
@@ -569,9 +572,6 @@ public class Asri {
 			rearragedServices.add(isIpvpnServiceExists.split("\\$")[3]);
 		}
 		
-		if (isDiaServiceExists.contains("true")) {
-			rearragedServices.add(isDiaServiceExists.split("\\$")[3]);
-		}
 		if (isOlineServiceExists.contains("true")) {
 			rearragedServices.add(isOlineServiceExists.split("\\$")[3]);
 		}
@@ -619,7 +619,7 @@ public class Asri {
 	public static void main(String[] args) {
 		Asri asri = new Asri();
 		
-		String service = "CO/KXFN/048520/LUMN";
+		String service = "CO/KXFN/048751/LUMN";
 		String env = "4";
 		
 		LinkedHashMap<String, String> servicesMap = asri.consolidateServices(service, env);

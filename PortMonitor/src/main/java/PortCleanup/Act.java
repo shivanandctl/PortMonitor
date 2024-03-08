@@ -56,8 +56,11 @@ public class Act {
 					String identifier_id = actInfo.get(0);
 					String header_identifier = actInfo.get(1);
 					// cleanup the network
+					System.out.println("+-----------------ACT CLEANUP START---------------------------------------------------------------+");
+					System.out.println("Act request found for ServiceID::"+service+ "in the environment::"+ environment);
 					System.out.println("Network cleanup already done for ServiceID::"+service+ "\nidentifier_id::" + identifier_id + "\nheader_identifier::" + header_identifier);
 					actCleanupStatus = true;
+					System.out.println("+-----------------ACT CLEANUP END-----------------------------------------------------------------+");
 				}
 			} else {
 				// get the act details using request id
@@ -67,6 +70,8 @@ public class Act {
 					String identifier_id = actInfo.get(0);
 					String header_identifier = actInfo.get(1);
 					// cleanup the network
+					System.out.println("+-----------------ACT CLEANUP START---------------------------------------------------------------+");
+					System.out.println("Act request found for ServiceID::"+service+ "in the environment::"+ environment);
 					System.out.println("Network cleanup is in progress for ServiceID::"+service+ "\nidentifier_id::" + identifier_id + "\nheader_identifier::" + header_identifier);
 					
 					//perform network cleanup
@@ -89,6 +94,8 @@ public class Act {
 							System.out.println("Delete Transaction from ACT completed Successfully");
 							String successDelActId = autopilot.getTaskDetail(jobid_, "14bc", "$..actIdentifierId", token);
 							actCleanupStatus = true;
+							System.out.println("Delete Transaction from ACT completed Successfully::" + successDelActId);
+							System.out.println("+-----------------ACT CLEANUP END-----------------------------------------------------------------+");
 						} else {
 							errorString = autopilot.getTaskDetail(jobid_, "51ed", "$..outgoing..message", token);
 							String delActId = autopilot.getTaskDetail(jobid_, "51ed", "$..outgoing..actID", token);
@@ -98,6 +105,8 @@ public class Act {
 							System.out.println(errorString);
 							System.out.println(
 									"+-----------+---------+-----------+---------+-----------+---------+-----------+---------+-----------+---------+");
+							System.out.println("Failed to delete Transaction from ACT::" + delActId);
+							System.out.println("+-----------------ACT CLEANUP END-----------------------------------------------------------------+");
 						}
 					} catch (InterruptedException e) {
 						e.printStackTrace();
