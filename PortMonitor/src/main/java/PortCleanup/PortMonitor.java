@@ -165,7 +165,7 @@ public class PortMonitor {
 					if (asriCleanUpStatus) {
 						System.out.println("ASRI Cleanup is successful");
 						// update the record in portmonitor db
-						if (s.contains("KXFN")) {
+						if (s.contains("KXFN")&& !s.contains("_")) {
 							updateRecordAfterCleanup(s);
 						}
 
