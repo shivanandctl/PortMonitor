@@ -429,7 +429,7 @@ public class PortMonitor {
 //		}
 
 		String ss[] = sasiRes.split(",");
-		ss[9] = "\"createdBy\":\"Jenkins_Auto\"";
+//		ss[9] = "\"createdBy\":\"Jenkins_Auto\"";
 		ss[10] = "\"user_comment\":\"CLEANED\"";
 		ss[12] = "\"cleanedDate\":\"" + formattedDate + "\"}";
 		System.out.println("+++++++----------------------------------------------+++++++++++++");
