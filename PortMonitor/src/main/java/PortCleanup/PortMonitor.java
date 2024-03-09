@@ -55,8 +55,8 @@ public class PortMonitor {
 				LocalDate parsedStringDate = LocalDate.parse(cleanupDate);
 				LocalDate currentDate = LocalDate.now();
 				int comparisonResult = currentDate.compareTo(parsedStringDate);
-				if (comparisonResult > 0) {
-					System.out.println(uni + "::Cleanup date has crossed today's date adding for cleanup");
+				if (comparisonResult > 0 || comparisonResult == 0) {
+					System.out.println(uni + "::Cleanup date is less than or equals today's date adding for cleanup");
 					cleanupUnis.add(uni);
 					System.out.println(
 							"+----------------------------------------------------------------------------------+");
