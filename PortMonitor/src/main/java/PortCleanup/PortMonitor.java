@@ -15,6 +15,83 @@ import com.jayway.jsonpath.*;
 import io.restassured.response.*;
 
 public class PortMonitor {
+	
+	public static void main(String[] args) {
+		PortMonitor pm = new PortMonitor();
+		Rubicon rubicon = new Rubicon();
+		Asri asri = new Asri();
+		ArrayList<String> cleanupUnis = new ArrayList<String>();
+		ArrayList<String> validatedUnis = new ArrayList<String>();
+		
+		System.out.println("\n");
+		
+		System.out.println("######   ########    #########  #########   #########");
+		System.out.println("##          ##       ##     ##  ##     ##       ##   ");
+		System.out.println("##          ##       ##     ##  ##     ##       ##   ");
+		System.out.println("######      ##       #########  #########       ##   ");		
+		System.out.println("    ##      ##       ##     ##  ## ##           ##   ");
+		System.out.println("    ##      ##       ##     ##  ##  ###         ##   ");
+		System.out.println("######      ##       ##     ##  ##    ###       ##   ");
+		
+		
+		System.out.println("\n\n");
+		
+		
+		
+
+		// fetch devices from Rubicon
+		 ArrayList<String> devices = rubicon.listLabDevices();
+		 for (String device : devices) {
+			    System.out.println("################################################################################################");
+			 	System.out.println("Device::"+device);
+			 	System.out.println("################################################################################################");
+				ArrayList<String> uniList = rubicon.fetchUnisFromDevice(device);
+				System.out.println("+------------------List of UNIs on Device::" + device + "------------------------+");
+				for (String uni : uniList) {
+					System.out.println(uni);
+				}
+				System.out.println("===============================================================================");
+
+				for (int i = 1; i < uniList.size(); i++) {
+					cleanupUnis = pm.validateUniForCleanup(uniList.get(i));
+					if (cleanupUnis.size() > 0) {
+						validatedUnis.add(uniList.get(i));
+					}
+				}
+
+				// print the validated UNIs
+				System.out.println("+------------------------------VALIDATED UNIs FOR CLEANUP------------------------------------+");
+				for (String unis : validatedUnis) {
+					System.out.println(unis);
+				}
+				System.out.println("===============================================================================");
+
+				for (String unis : validatedUnis) {
+					System.out.println("############################################################################");
+					System.out.println("Cleanup Started for::" + unis);
+					ArrayList<String> envs = asri.getServiceEnvironment(unis);
+
+					if (envs.size() == 0) {
+						System.out.println(unis + "::No Environment found");
+						cleanPortsViaPortMonitorData(unis, "1");
+					} else if (envs.size() > 0) {
+						for (String env : envs) {
+							System.out.println(unis + "====>" + env);
+							cleanPortsViaPortMonitorData(unis, env);
+						}
+					}
+
+				}
+				validatedUnis.clear();
+		 }
+		
+		
+
+//		updatePortMonitorIfUniNotUpdated("CO/KXFN/048399/LUMN");
+//		updateRecordAfterCleanup("CO/KXFN/048399/LUMN");CO/KXFN/048664/LUMN
+//		cleanPortsViaPortMonitorData("CO/KXFN/048459/LUMN", "4");
+
+	}
 
 	public ArrayList<String> validateUniForCleanup(String uni) {
 
@@ -78,66 +155,6 @@ public class PortMonitor {
 		return cleanupUnis;
 	}
 
-	public static void main(String[] args) {
-		PortMonitor pm = new PortMonitor();
-		Rubicon rubicon = new Rubicon();
-		Asri asri = new Asri();
-		ArrayList<String> cleanupUnis = new ArrayList<String>();
-		ArrayList<String> validatedUnis = new ArrayList<String>();
-
-		// fetch devices from Rubicon
-		 ArrayList<String> devices = rubicon.listLabDevices();
-		 for (String device : devices) {
-			    System.out.println("################################################################################################");
-			 	System.out.println("Device::"+device);
-			 	System.out.println("################################################################################################");
-				ArrayList<String> uniList = rubicon.fetchUnisFromDevice(device);
-				System.out.println("+------------------List of UNIs on Device::" + device + "------------------------+");
-				for (String uni : uniList) {
-					System.out.println(uni);
-				}
-				System.out.println("===============================================================================");
-
-				for (int i = 1; i < uniList.size(); i++) {
-					cleanupUnis = pm.validateUniForCleanup(uniList.get(i));
-					if (cleanupUnis.size() > 0) {
-						validatedUnis.add(uniList.get(i));
-					}
-				}
-
-				// print the validated UNIs
-				System.out.println("+------------------------------VALIDATED UNIs FOR CLEANUP------------------------------------+");
-				for (String unis : validatedUnis) {
-					System.out.println(unis);
-				}
-				System.out.println("===============================================================================");
-
-				for (String unis : validatedUnis) {
-					System.out.println("############################################################################");
-					System.out.println("Cleanup Started for::" + unis);
-					ArrayList<String> envs = asri.getServiceEnvironment(unis);
-
-					if (envs.size() == 0) {
-						System.out.println(unis + "::No Environment found");
-						cleanPortsViaPortMonitorData(unis, "1");
-					} else if (envs.size() > 0) {
-						for (String env : envs) {
-							System.out.println(unis + "====>" + env);
-							cleanPortsViaPortMonitorData(unis, env);
-						}
-					}
-
-				}
-				validatedUnis.clear();
-		 }
-		
-		
-
-//		updatePortMonitorIfUniNotUpdated("CO/KXFN/048399/LUMN");
-//		updateRecordAfterCleanup("CO/KXFN/048399/LUMN");CO/KXFN/048664/LUMN
-//		cleanPortsViaPortMonitorData("CO/KXFN/048664/LUMN", "4");
-
-	}
 
 	public static void cleanPortsViaPortMonitorData(String service, String env) {
 		Asri asri = new Asri();
