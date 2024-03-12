@@ -22,7 +22,6 @@ public class PortMonitor {
 		Asri asri = new Asri();
 		ArrayList<String> cleanupUnis = new ArrayList<String>();
 		ArrayList<String> validatedUnis = new ArrayList<String>();
-		ArrayList<String> storeCleanedUni = new ArrayList<String>();
 		ArrayList<String> CleanedUniList = new ArrayList<String>();
 
 		System.out.println("\n");
@@ -72,10 +71,10 @@ public class PortMonitor {
 
 				if (envs.size() == 0) {
 					System.out.println(unis + "::No Environment found");
-					storeCleanedUni = cleanPortsViaPortMonitorData(unis, "1");
+					ArrayList<String> storeCleanedUni1 = cleanPortsViaPortMonitorData(unis, "1");
 					// print cleaned Uni List
-					if (storeCleanedUni.size() > 0) {
-						for (String cleanedUni : storeCleanedUni) {
+					if (storeCleanedUni1.size() > 0) {
+						for (String cleanedUni : storeCleanedUni1) {
 							CleanedUniList.add(cleanedUni);
 						}
 					}
@@ -83,10 +82,10 @@ public class PortMonitor {
 				} else if (envs.size() > 0) {
 					for (String env : envs) {
 						System.out.println(unis + "====>" + env);
-						storeCleanedUni = cleanPortsViaPortMonitorData(unis, env);
+						ArrayList<String> storeCleanedUni2 = cleanPortsViaPortMonitorData(unis, env);
 						// print cleaned Uni List
-						if (storeCleanedUni.size() > 0) {
-							for (String cleanedUni : storeCleanedUni) {
+						if (storeCleanedUni2.size() > 0) {
+							for (String cleanedUni : storeCleanedUni2) {
 								CleanedUniList.add(cleanedUni);
 							}
 						}
