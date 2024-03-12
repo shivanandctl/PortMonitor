@@ -339,9 +339,9 @@ public class PortMonitor {
 
 	public static String getSasiDetails(Response response, String env) {
 
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Date currentDate = new Date();
-		String formattedDate = formatter.format(currentDate);
+//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//		Date currentDate = new Date();
+//		String formattedDate = formatter.format(currentDate);
 
 		String sasiRes = response.asString();
 //		response.prettyPrint();
@@ -381,7 +381,9 @@ public class PortMonitor {
 
 		String createdBy = "Jenkins_Auto";
 		String user_comment = "CAN BE CLEANED!";
-		String cleanup_date = formattedDate;
+		
+		LocalDate formattedDate = LocalDate.now().plusDays(1);
+		LocalDate cleanup_date = formattedDate;
 
 		String sasiDetails = unialias.get(0) + "," + environment + "," + createddate.get(0).split(" ")[0] + ","
 				+ deviceName + "," + portName + "," + prodType + "," + team + "," + orderIdValue + "," + createdBy + ","
@@ -425,9 +427,10 @@ public class PortMonitor {
 	// done in network and inventory
 	public static void updateRecordAfterCleanup(String uni) {
 
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Date currentDate = new Date();
-		String formattedDate = formatter.format(currentDate);
+//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//		Date currentDate = new Date();
+//		String formattedDate = formatter.format(currentDate);
+		
 
 		Response response;
 		String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/getUnidata/" + uni;
@@ -446,6 +449,8 @@ public class PortMonitor {
 		String ss[] = sasiRes.split(",");
 //		ss[9] = "\"createdBy\":\"Jenkins_Auto\"";
 		ss[10] = "\"user_comment\":\"CLEANED\"";
+		
+		LocalDate formattedDate = LocalDate.now().plusDays(1);
 		ss[12] = "\"cleanedDate\":\"" + formattedDate + "\"}";
 		System.out.println("+++++++----------------------------------------------+++++++++++++");
 
