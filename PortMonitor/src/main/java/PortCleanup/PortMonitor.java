@@ -24,20 +24,14 @@ public class PortMonitor {
 		ArrayList<String> validatedUnis = new ArrayList<String>();
 		
 		System.out.println("\n");
-		
-		System.out.println("######   ########    #########  #########   #########");
-		System.out.println("##          ##       ##     ##  ##     ##       ##   ");
-		System.out.println("##          ##       ##     ##  ##     ##       ##   ");
-		System.out.println("######      ##       #########  #########       ##   ");		
-		System.out.println("    ##      ##       ##     ##  ## ##           ##   ");
-		System.out.println("    ##      ##       ##     ##  ##  ###         ##   ");
-		System.out.println("######      ##       ##     ##  ##    ###       ##   ");
-		
-		
-		System.out.println("\n\n");
-		
-		
-		
+		System.out.println("######  ########   #########   #########   #########");
+		System.out.println("##         ##      ##     ##   ##     ##       ##   ");
+		System.out.println("##         ##      ##     ##   ##     ##       ##   ");
+		System.out.println("######     ##      #########   #########       ##   ");		
+		System.out.println("    ##     ##      ##     ##   ## ##           ##   ");
+		System.out.println("    ##     ##      ##     ##   ##  ###         ##   ");
+		System.out.println("######     ##      ##     ##   ##    ###       ##   ");
+		System.out.println("\n");
 
 		// fetch devices from Rubicon
 		 ArrayList<String> devices = rubicon.listLabDevices();
@@ -114,11 +108,14 @@ public class PortMonitor {
 			String sasiRes = response.asString();
 //			System.out.println("Response: " + sasiRes);
 			String userComment = JsonPath.read(sasiRes, "$.user_comment");
+			String createdBy = JsonPath.read(sasiRes, "$.createdBy");
 			System.out.println("User comment: " + userComment);
 			if (userComment.equals("CAN BE CLEANED!")||userComment.equals("CLEANED")||userComment.equals("CLEANED!")) {
 				String cleanupDate = JsonPath.read(sasiRes, "$.cleanup_date");
+				System.out.println("Created by: " + createdBy);
 				System.out.println("Cleanup date: " + cleanupDate);
 				System.out.println("Todays date: " + LocalDate.now());
+				
 				System.out.println("User comment is :" + userComment+ " hence adding for cleanup");
 				cleanupUnis.add(uni);
 				System.out.println(
@@ -126,6 +123,7 @@ public class PortMonitor {
 			}
 			if (userComment.equals("DO NOT CLEAN!")) {
 				String cleanupDate = JsonPath.read(sasiRes, "$.cleanup_date");
+				System.out.println("Created by: " + createdBy);
 				System.out.println("Cleanup date: " + cleanupDate);
 				System.out.println("Todays date: " + LocalDate.now());
 				// Parse the string date "2024-03-30" into a LocalDate
