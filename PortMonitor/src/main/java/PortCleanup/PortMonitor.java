@@ -114,7 +114,7 @@ public class PortMonitor {
 				String cleanupDate = JsonPath.read(sasiRes, "$.cleanup_date");
 				System.out.println("Created by: " + createdBy);
 				System.out.println("Cleanup date: " + cleanupDate);
-				System.out.println("Todays date: " + LocalDate.now());
+				System.out.println("Todays date: " + LocalDate.now().plusDays(1));//adjusting GMT to IST
 				
 				System.out.println("User comment is :" + userComment+ " hence adding for cleanup");
 				cleanupUnis.add(uni);
@@ -125,10 +125,10 @@ public class PortMonitor {
 				String cleanupDate = JsonPath.read(sasiRes, "$.cleanup_date");
 				System.out.println("Created by: " + createdBy);
 				System.out.println("Cleanup date: " + cleanupDate);
-				System.out.println("Todays date: " + LocalDate.now());
+				System.out.println("Todays date: " + LocalDate.now().plusDays(1));
 				// Parse the string date "2024-03-30" into a LocalDate
 				LocalDate parsedStringDate = LocalDate.parse(cleanupDate);
-				LocalDate currentDate = LocalDate.now();
+				LocalDate currentDate = LocalDate.now().plusDays(1);
 				int comparisonResult = currentDate.compareTo(parsedStringDate);
 				if (comparisonResult > 0 || comparisonResult == 0) {
 					System.out.println(uni + "::Cleanup date is less than or equals today's date adding for cleanup");
