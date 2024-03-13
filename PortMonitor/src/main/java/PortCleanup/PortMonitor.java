@@ -149,7 +149,6 @@ public class PortMonitor {
 		for (String[] row : data) {
 			printRow(row);
 			printLine();
-			System.out.println();
 		}
 		System.out.println("+===============================================================================================+");
 		
