@@ -71,7 +71,8 @@ public class PortMonitor {
 
 				if (envs.size() == 0) {
 					System.out.println(unis + "::No Environment found");
-					ArrayList<String> storeCleanedUni1 = cleanPortsViaPortMonitorData(unis, "1");
+					ArrayList<String> storeCleanedUni1 = new ArrayList<String>();
+					storeCleanedUni1 = cleanPortsViaPortMonitorData(unis, "1");
 					// print cleaned Uni List
 					if (storeCleanedUni1.size() > 0) {
 						for (String cleanedUni : storeCleanedUni1) {
@@ -82,7 +83,8 @@ public class PortMonitor {
 				} else if (envs.size() > 0) {
 					for (String env : envs) {
 						System.out.println(unis + "====>" + env);
-						ArrayList<String> storeCleanedUni2 = cleanPortsViaPortMonitorData(unis, env);
+						ArrayList<String> storeCleanedUni2 = new ArrayList<String>();
+						storeCleanedUni2 = cleanPortsViaPortMonitorData(unis, env);
 						// print cleaned Uni List
 						if (storeCleanedUni2.size() > 0) {
 							for (String cleanedUni : storeCleanedUni2) {
