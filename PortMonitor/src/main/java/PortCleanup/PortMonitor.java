@@ -119,7 +119,7 @@ public class PortMonitor {
 		int rows = CleanedUniList.size()+1;
 		String data[][] = new String[rows][4];
 		data[0][0] = "UNI SERVICE";
-		data[0][1] = "\tENVIRONMENT";
+		data[0][1] = "\t\tENVIRONMENT";
 		data[0][2] = "\tDEVICE";
 		data[0][3] = "\tPORT";
 		
