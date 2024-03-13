@@ -112,13 +112,13 @@ public class PortMonitor {
 		//
 		System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_START");
 		System.out.println(""
-				+ "+=========================================================================+");
+				+ "+====================================================================+");
 		System.out.println("\t\tCLEANED UNI LIST                                                      ");
 		System.out.println(""
-				+ "+==========================================================================+");
+				+ "+=====================================================================+");
 		int rows = CleanedUniList.size()+1;
 		String data[][] = new String[rows][4];
-		data[0][0] = "UNI SERVICE ";
+		data[0][0] = "UNI SERVICE";
 		data[0][1] = "\t\tENV";
 		data[0][2] = "\t   DEVICE";
 		data[0][3] = "\t   PORT";
@@ -151,11 +151,11 @@ public class PortMonitor {
 			printLine();
 		}
 		System.out.println(""
-				+ "+==========================================================================+");
+				+ "+=====================================================================+");
 		
 		System.out.println(" 						         \t\tTOTAL UNIs CLEANED::" + CleanedUniList.size());
 		System.out.println(""
-				+ "+==========================================================================+");
+				+ "+=====================================================================+");
 
 		System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_END");
 	}
