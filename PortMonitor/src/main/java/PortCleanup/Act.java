@@ -101,8 +101,8 @@ public class Act {
 							String delActId = autopilot.getTaskDetail(jobid_, "51ed", "$..outgoing..actID", token);
 							System.out.println("DELETE Transaction failed with error::");
 							System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_ERROR_START");
-							System.out.println("\n\n--------------------------------------------------------------------------------------");
-							System.out.println("[SERVICE_ID]\n" + service + "\n\n[ACT_ID]\n" + delActId + "\n\n[ERROR]\n" + errorString);
+							System.out.println("\n--------------------------------------------------------------------------------------------------------");
+							System.out.println("[SERVICE_ID]==>["+environment+"]\n" + service + "\n\n[ACT_ID]\n" + delActId + "\n\n[ERROR]\n" + errorString);
 							System.out.println("======================================================================================");
 							System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_ERROR_END");
 							System.out.println(

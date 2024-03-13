@@ -102,7 +102,17 @@ public class Test {
 //		}
 
 		// print cleaned Uni List
-		pm.printCleanedUniList(CleanedUniList);
+			ArrayList<String> uniList = new ArrayList<String>();
+			uniList.add("CO/KXFN/048828/LUMN");
+			uniList.add("CO/KXFN/048831/LUMN");
+			uniList.add("CO/KXFN/048602/LUMN");
+			uniList.add("CO/KXFN/048636/LUMN");
+			uniList.add("CO/KXFN/048637/LUMN");
+			uniList.add("CO/KXFN/048678/LUMN");
+			uniList.add("CO/KXFN/048727/LUMN");
+			uniList.add("CO/KXFN/048744/LUMN");
+			uniList.add("CO/KXFN/048754/LUMN");
+			pm.printCleanedUniList(uniList);
 
 //		updatePortMonitorIfUniNotUpdated("CO/KXFN/048399/LUMN");
 //		updateRecordAfterCleanup("CO/KXFN/048399/LUMN");CO/KXFN/048664/LUMN
