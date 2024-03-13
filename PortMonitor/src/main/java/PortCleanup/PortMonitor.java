@@ -109,6 +109,8 @@ public class PortMonitor {
 
 	// Function to print final list of cleaned UNIs
 	public void printCleanedUniList(ArrayList<String> CleanedUniList) {
+		//
+		System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_START");
 		System.out.println("\n\n"
 				+ "+===============================================================================================+");
 		System.out.println("|                          CLEANED UNI LIST                                                     |");
@@ -154,6 +156,7 @@ public class PortMonitor {
 		System.out.println(""
 				+ "+===============================================================================================+");
 
+		System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_END");
 	}
 
 	public static void printLine() {
