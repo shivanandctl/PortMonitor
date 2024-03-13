@@ -119,9 +119,9 @@ public class PortMonitor {
 		int rows = CleanedUniList.size()+1;
 		String data[][] = new String[rows][4];
 		data[0][0] = "UNI SERVICE";
-		data[0][1] = "   ENVIRONMENT";
-		data[0][2] = "DEVICE";
-		data[0][3] = "PORT";
+		data[0][1] = "\tENVIRONMENT";
+		data[0][2] = "\tDEVICE";
+		data[0][3] = "\tPORT";
 		
 		int i = 1;
 		for (String uni : CleanedUniList) {
@@ -145,7 +145,7 @@ public class PortMonitor {
 
 		}
 
-		printLine();
+//		printLine();
 		for (String[] row : data) {
 			printRow(row);
 //			printLine();
