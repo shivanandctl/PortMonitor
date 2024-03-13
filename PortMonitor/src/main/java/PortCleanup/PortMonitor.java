@@ -113,13 +113,13 @@ public class PortMonitor {
 		System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_START");
 		System.out.println("\n\n"
 				+ "+===============================================================================================+");
-		System.out.println("|                          CLEANED UNI LIST                                                     |");
+		System.out.println("                           CLEANED UNI LIST                                                      ");
 		System.out.println(""
 				+ "+===============================================================================================+");
 		int rows = CleanedUniList.size()+1;
 		String data[][] = new String[rows][4];
 		data[0][0] = "UNI SERVICE";
-		data[0][1] = "ENVIRONMENT";
+		data[0][1] = "   ENVIRONMENT";
 		data[0][2] = "DEVICE";
 		data[0][3] = "PORT";
 		
@@ -148,11 +148,12 @@ public class PortMonitor {
 		printLine();
 		for (String[] row : data) {
 			printRow(row);
-			printLine();
+//			printLine();
+			System.out.println();
 		}
 		System.out.println("+===============================================================================================+");
 		
-		System.out.println("|						         TOTAL UNIs CLEANED::" + CleanedUniList.size()+"               	|");
+		System.out.println(" 						         TOTAL UNIs CLEANED::" + CleanedUniList.size()+"               	 ");
 		System.out.println(""
 				+ "+===============================================================================================+");
 
@@ -166,9 +167,9 @@ public class PortMonitor {
 
 	public static void printRow(String[] row) {
 		for (String cell : row) {
-			System.out.printf("| %-21s ", cell);
+			System.out.printf("  %-21s ", cell);
 		}
-		System.out.println("|");
+//		System.out.println("|");
 	}
 
 	public ArrayList<String> validateUniForCleanup(String uni) {
