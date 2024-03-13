@@ -35,34 +35,37 @@ public class PortMonitor {
 		System.out.println("\n");
 
 		// fetch devices from Rubicon
-		ArrayList<String> devices = rubicon.listLabDevices();
-		for (String device : devices) {
-			System.out.println(
-					"################################################################################################");
-			System.out.println("Device::" + device);
-			System.out.println(
-					"################################################################################################");
-			ArrayList<String> uniList = rubicon.fetchUnisFromDevice(device);
-			System.out.println("+------------------List of UNIs on Device::" + device + "------------------------+");
-			for (String uni : uniList) {
-				System.out.println(uni);
-			}
-			System.out.println("===============================================================================");
-
-			for (int i = 1; i < uniList.size(); i++) {
-				cleanupUnis = pm.validateUniForCleanup(uniList.get(i));
-				if (cleanupUnis.size() > 0) {
-					validatedUnis.add(uniList.get(i));
-				}
-			}
-
-			// print the validated UNIs
-			System.out.println(
-					"+------------------------------VALIDATED UNIs FOR CLEANUP------------------------------------+");
-			for (String unis : validatedUnis) {
-				System.out.println(unis);
-			}
-			System.out.println("===============================================================================");
+//		ArrayList<String> devices = rubicon.listLabDevices();
+//		for (String device : devices) {
+//			System.out.println(
+//					"################################################################################################");
+//			System.out.println("Device::" + device);
+//			System.out.println(
+//					"################################################################################################");
+//			ArrayList<String> uniList = rubicon.fetchUnisFromDevice(device);
+//			System.out.println("+------------------List of UNIs on Device::" + device + "------------------------+");
+//			for (String uni : uniList) {
+//				System.out.println(uni);
+//			}
+//			System.out.println("===============================================================================");
+//
+//			for (int i = 1; i < uniList.size(); i++) {
+//				cleanupUnis = pm.validateUniForCleanup(uniList.get(i));
+//				if (cleanupUnis.size() > 0) {
+//					validatedUnis.add(uniList.get(i));
+//				}
+//			}
+//
+//			// print the validated UNIs
+//			System.out.println(
+//					"+------------------------------VALIDATED UNIs FOR CLEANUP------------------------------------+");
+//			for (String unis : validatedUnis) {
+//				System.out.println(unis);
+//			}
+//			System.out.println("===============================================================================");
+		
+			validatedUnis.add("CO/KXFN/048253/LUMN");
+			validatedUnis.add("CO/KXFN/048525/LUMN");
 
 			for (String unis : validatedUnis) {
 				System.out.println("############################################################################");
@@ -96,7 +99,7 @@ public class PortMonitor {
 
 			}
 			validatedUnis.clear();
-		}
+//		}
 
 		// print cleaned Uni List
 		pm.printCleanedUniList(CleanedUniList);
@@ -119,7 +122,7 @@ public class PortMonitor {
 		int rows = CleanedUniList.size()+1;
 		String data[][] = new String[rows][4];
 		data[0][0] = "UNI SERVICE";
-		data[0][1] = "\t   ENV";
+		data[0][1] = "\t\tENV";
 		data[0][2] = "\t   DEVICE";
 		data[0][3] = "\t   PORT";
 		
