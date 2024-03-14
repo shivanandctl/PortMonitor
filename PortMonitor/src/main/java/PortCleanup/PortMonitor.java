@@ -173,7 +173,7 @@ public class PortMonitor {
 //			System.out.printf("  %-21s ", cell);
 			System.out.print(cell+"&nbsp;&nbsp;&nbsp;&nbsp;");
 		}
-		System.out.print("</pre>");
+		System.out.print("</pre><br>");
 	}
 	/*
 	// Function to print final list of cleaned UNIs

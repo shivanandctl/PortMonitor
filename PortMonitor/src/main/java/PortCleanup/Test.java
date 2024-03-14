@@ -113,7 +113,7 @@ public class Test {
 			uniList.add("CO/KXFN/048727/LUMN");
 			uniList.add("CO/KXFN/048744/LUMN");
 			uniList.add("CO/KXFN/048754/LUMN");
-			test.printCleanedUniList(uniList);
+			pm.printCleanedUniList(uniList);
 
 //		updatePortMonitorIfUniNotUpdated("CO/KXFN/048399/LUMN");
 //		updateRecordAfterCleanup("CO/KXFN/048399/LUMN");CO/KXFN/048664/LUMN
