@@ -131,7 +131,7 @@ public class Test {
 				+ "<br>+===============================================================================================+");
 		int rows = CleanedUniList.size()+1;
 		String data[][] = new String[rows][4];
-		data[0][0] = "UNI SERVICE";
+		data[0][0] = "<br>UNI SERVICE";
 		data[0][1] = "\t\tENV";
 		data[0][2] = "\t   DEVICE";
 		data[0][3] = "\t   PORT";
@@ -181,7 +181,8 @@ public class Test {
 
 	public static void printRow(String[] row) {
 		for (String cell : row) {
-			System.out.printf("  %-21s ", cell);
+//			System.out.printf("  %-21s ", cell);
+			System.out.print("<pre>"+cell+"</pre>");
 		}
 //		System.out.println("|");
 	}
