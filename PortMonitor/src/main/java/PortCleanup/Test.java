@@ -165,7 +165,7 @@ public class Test {
 		}
 		System.out.println("+===============================================================================================+");
 		
-		System.out.println(" 						         \t\tTOTAL UNIs CLEANED::" + CleanedUniList.size()+"               	 ");
+		System.out.println("TOTAL UNIs CLEANED::" + CleanedUniList.size()+"               	 ");
 		System.out.println(""
 				+ "+===============================================================================================+");
 
