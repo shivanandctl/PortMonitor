@@ -111,9 +111,9 @@ public class PortMonitor {
 	public void printCleanedUniList(ArrayList<String> CleanedUniList) {
 		//
 		System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_START");
-		System.out.println("<h2 style=\"background-color: #5aadff;color: #ffffff;margin-top: 7px;padding: 8px 5px;\">\r\n"
+		System.out.println("<h3 style=\"background-color: #5aadff;color: #ffffff;margin-top: 7px;padding: 8px 5px;\">\r\n"
 				+ "    CLEANED UNI LIST\r\n"
-				+ "</h2><hr>");
+				+ "</h3><hr>");
 		int rows = CleanedUniList.size()+1;
 		String data[][] = new String[rows][4];
 		data[0][0] = "<b>UNI SERVICE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
