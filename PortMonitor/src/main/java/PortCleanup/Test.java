@@ -125,15 +125,15 @@ public class Test {
 	public void printCleanedUniList(ArrayList<String> CleanedUniList) {
 		//
 		System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_START");
-		System.out.println("<h3 style=\"background-color: #ececec;color: #000000;margin-top: 7px;padding: 6px 15px;\">\r\n"
-				+ "              CLEANED UNI LIST\r\n"
-				+ "</h3><hr>");
+		System.out.println("<h2 style=\"background-color: #5aadff;color: #ffffff;margin-top: 7px;padding: 8px 5px;\">\r\n"
+				+ "    CLEANED UNI LIST\r\n"
+				+ "</h2><hr>");
 		int rows = CleanedUniList.size()+1;
 		String data[][] = new String[rows][4];
 		data[0][0] = "<b>UNI SERVICE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
 		data[0][1] = "<b>ENV&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
 		data[0][2] = "<b>DEVICE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
-		data[0][3] = "<b>PORT&nbsp;&nbsp;&nbsp;&nbsp;</b>";
+		data[0][3] = "<b>PORT&nbsp;&nbsp;&nbsp;&nbsp;</b><hr>";
 		
 		int i = 1;
 		for (String uni : CleanedUniList) {
@@ -165,9 +165,9 @@ public class Test {
 			
 		}
 		
-		System.out.println("<hr><h4 style=\"background-color: #ececec;color: #000000;margin-top: 7px;padding: 3px 10px;\">\r\n"
+		System.out.println("<hr><h5 style=\"background-color: #ececec;color: #000000;padding: 8px 5px;;\">\r\n"
 				+ "              TOTAL UNIs CLEANED::"+CleanedUniList.size()+"\r\n"
-				+ "</h4>");
+				+ "</h5>");
 		
 		
 
