@@ -102,8 +102,8 @@ public class Act {
 							System.out.println("DELETE Transaction failed with error::");
 							System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_ERROR_START");
 //							System.out.println("+------------------------------------------------------------------------------------------------------------------------------------------------+");
-							System.out.println("<h4 style=\"background-color: #ececec;color: #000000;margin-top: 7px;padding: 10px 1px;text-align: left;\">"+
-									service+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENV::"+environment+"\n</h4>\n<b>ACT_ID</b><br>\n" + delActId + "\n\n<br><br><b>ERROR</b><br>\n" + errorString+"<hr>");
+							System.out.println("<h4 style=\"background-color: #bebebe;color: #000000;margin-top: 7px;padding: 10px 1px;text-align: left;\">"+
+									service+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENV::"+environment+"\n</h4>\n<b>ACT_ID</b><br>\n" + delActId + "\n\n<br><br><b>ERROR</b><br>\n" + errorString+"<hr><hr>");
 							System.out.println("<br>===============================================================================================================");
 							System.out.println("ERROR_END");
 							System.out.println(

@@ -108,74 +108,73 @@ public class PortMonitor {
 	}
 	
 	// Function to print final list of cleaned UNIs
-		public void printCleanedUniList(ArrayList<String> CleanedUniList) {
-			//
-			System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_START");
-			System.out.println("<h3 style=\"background-color: #ececec;color: #000000;margin-top: 7px;padding: 6px 15px;\">\r\n"
-					+ "              CLEANED UNI LIST\r\n"
-					+ "</h3><hr>");
-			int rows = CleanedUniList.size()+1;
-			String data[][] = new String[rows][4];
-			data[0][0] = "<b>UNI SERVICE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
-			data[0][1] = "<b>ENV&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
-			data[0][2] = "<b>DEVICE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
-			data[0][3] = "<b>PORT&nbsp;&nbsp;&nbsp;&nbsp;</b>";
+	public void printCleanedUniList(ArrayList<String> CleanedUniList) {
+		//
+		System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_START");
+		System.out.println("<h2 style=\"background-color: #5aadff;color: #ffffff;margin-top: 7px;padding: 8px 5px;\">\r\n"
+				+ "    CLEANED UNI LIST\r\n"
+				+ "</h2><hr>");
+		int rows = CleanedUniList.size()+1;
+		String data[][] = new String[rows][4];
+		data[0][0] = "<b>UNI SERVICE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
+		data[0][1] = "<b>ENV&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
+		data[0][2] = "<b>DEVICE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
+		data[0][3] = "<b>PORT&nbsp;&nbsp;&nbsp;&nbsp;</b><hr>";
+		
+		int i = 1;
+		for (String uni : CleanedUniList) {
 			
-			int i = 1;
-			for (String uni : CleanedUniList) {
-				
-				String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/getUnidata/" + uni;
-				String response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json")
-						.and().when().get(query).then().extract().response().asString();
+			String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/getUnidata/" + uni;
+			String response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json")
+					.and().when().get(query).then().extract().response().asString();
 
-				String unialias = JsonPath.read(response, "$.unialias");
-				String env = JsonPath.read(response, "$.environment");
-				String device = JsonPath.read(response, "$.device");
-				String port = JsonPath.read(response, "$.portnum");
-				
-				
-					data[i][0] = unialias;
-					data[i][1] = env;
-					data[i][2] = device;
-					data[i][3] = port;
-				    i++;
-				
-
-			}
+			String unialias = JsonPath.read(response, "$.unialias");
+			String env = JsonPath.read(response, "$.environment");
+			String device = JsonPath.read(response, "$.device");
+			String port = JsonPath.read(response, "$.portnum");
 			
-			// print the data in html table format
-
-			for (int j = 0; j < rows; j++) {
-				printRow(data[j]);
-				System.out.println("");
-				
-			}
 			
-			System.out.println("<hr><h4 style=\"background-color: #ececec;color: #000000;margin-top: 7px;padding: 3px 10px;\">\r\n"
-					+ "              TOTAL UNIs CLEANED::"+CleanedUniList.size()+"\r\n"
-					+ "</h4>");
-			
+				data[i][0] = unialias;
+				data[i][1] = env;
+				data[i][2] = device;
+				data[i][3] = port;
+			    i++;
 			
 
-			System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_END");
 		}
+		
+		// print the data in html table format
 
-		public static void printLine() {
-//			System.out.println(
-//					"+-----------------------+-----------------------+-----------------------+-----------------------+");
-			System.out.println(""
-					+ "\n<br>--------------------------------------------------------------------------------------------------------------------------");
+		for (int j = 0; j < rows; j++) {
+			printRow(data[j]);
+			System.out.println("");
+			
 		}
+		
+		System.out.println("<hr><h5 style=\"background-color: #ececec;color: #000000;padding: 8px 5px;;\">\r\n"
+				+ "              TOTAL UNIs CLEANED::"+CleanedUniList.size()+"\r\n"
+				+ "</h5>");
+		
+		
 
-		public static void printRow(String[] row) {
-		    System.out.print("<pre>");	
-			for (String cell : row) {
-//				System.out.printf("  %-21s ", cell);
-				System.out.print(cell+"&nbsp;&nbsp;&nbsp;&nbsp;");
-			}
-			System.out.print("</pre>");
+		System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_END");
+	}
+
+	public static void printLine() {
+//		System.out.println(
+//				"+-----------------------+-----------------------+-----------------------+-----------------------+");
+		System.out.println(""
+				+ "\n<br>--------------------------------------------------------------------------------------------------------------------------");
+	}
+
+	public static void printRow(String[] row) {
+	    System.out.print("<pre>");	
+		for (String cell : row) {
+//			System.out.printf("  %-21s ", cell);
+			System.out.print(cell+"&nbsp;&nbsp;&nbsp;&nbsp;");
 		}
-
+		System.out.print("</pre>");
+	}
 	/*
 	// Function to print final list of cleaned UNIs
 	public void printCleanedUniList(ArrayList<String> CleanedUniList) {
