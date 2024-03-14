@@ -106,10 +106,80 @@ public class PortMonitor {
 //		cleanPortsViaPortMonitorData("CO/KXFN/048459/LUMN", "4");
 
 	}
+	
+	// Function to print final list of cleaned UNIs
+		public void printCleanedUniList(ArrayList<String> CleanedUniList) {
+			//
+			System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_START");
+			System.out.println("<h3 style=\"background-color: #ececec;color: #000000;margin-top: 7px;padding: 6px 15px;\">\r\n"
+					+ "              CLEANED UNI LIST\r\n"
+					+ "</h3><hr>");
+			int rows = CleanedUniList.size()+1;
+			String data[][] = new String[rows][4];
+			data[0][0] = "<b>UNI SERVICE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
+			data[0][1] = "<b>ENV&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
+			data[0][2] = "<b>DEVICE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
+			data[0][3] = "<b>PORT&nbsp;&nbsp;&nbsp;&nbsp;</b>";
+			
+			int i = 1;
+			for (String uni : CleanedUniList) {
+				
+				String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/getUnidata/" + uni;
+				String response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json")
+						.and().when().get(query).then().extract().response().asString();
 
+				String unialias = JsonPath.read(response, "$.unialias");
+				String env = JsonPath.read(response, "$.environment");
+				String device = JsonPath.read(response, "$.device");
+				String port = JsonPath.read(response, "$.portnum");
+				
+				
+					data[i][0] = unialias;
+					data[i][1] = env;
+					data[i][2] = device;
+					data[i][3] = port;
+				    i++;
+				
+
+			}
+			
+			// print the data in html table format
+
+			for (int j = 0; j < rows; j++) {
+				printRow(data[j]);
+				System.out.println("");
+				
+			}
+			
+			System.out.println("<hr><h4 style=\"background-color: #ececec;color: #000000;margin-top: 7px;padding: 3px 10px;\">\r\n"
+					+ "              TOTAL UNIs CLEANED::"+CleanedUniList.size()+"\r\n"
+					+ "</h4>");
+			
+			
+
+			System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_END");
+		}
+
+		public static void printLine() {
+//			System.out.println(
+//					"+-----------------------+-----------------------+-----------------------+-----------------------+");
+			System.out.println(""
+					+ "\n<br>--------------------------------------------------------------------------------------------------------------------------");
+		}
+
+		public static void printRow(String[] row) {
+		    System.out.print("<pre>");	
+			for (String cell : row) {
+//				System.out.printf("  %-21s ", cell);
+				System.out.print(cell+"&nbsp;&nbsp;&nbsp;&nbsp;");
+			}
+			System.out.print("</pre>");
+		}
+
+	/*
 	// Function to print final list of cleaned UNIs
 	public void printCleanedUniList(ArrayList<String> CleanedUniList) {
-		//
+
 		System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_START");
 		System.out.println(""
 				+ "+====================================================================+");
@@ -159,10 +229,8 @@ public class PortMonitor {
 
 		System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_END");
 	}
-
+	
 	public static void printLine() {
-//		System.out.println(
-//				"+-----------------------+-----------------------+-----------------------+-----------------------+");
 		System.out.println(""
 				+ "\n--------------------------------------------------------------------------------------------------------------------------");
 	}
@@ -171,8 +239,8 @@ public class PortMonitor {
 		for (String cell : row) {
 			System.out.printf("  %-21s ", cell);
 		}
-//		System.out.println("|");
 	}
+	*/
 
 	public ArrayList<String> validateUniForCleanup(String uni) {
 

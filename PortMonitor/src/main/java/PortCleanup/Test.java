@@ -18,6 +18,7 @@ public class Test {
 
 	public static void main(String[] args) {
 		PortMonitor pm = new PortMonitor();
+		Test test = new Test();
 		Rubicon rubicon = new Rubicon();
 		Asri asri = new Asri();
 		ArrayList<String> cleanupUnis = new ArrayList<String>();
@@ -55,8 +56,8 @@ public class Test {
 //					validatedUnis.add(uniList.get(i));
 //				}
 //			}
-//
-//			// print the validated UNIs
+////
+////			// print the validated UNIs
 //			System.out.println(
 //					"+------------------------------VALIDATED UNIs FOR CLEANUP------------------------------------+");
 //			for (String unis : validatedUnis) {
@@ -66,7 +67,7 @@ public class Test {
 		
 			validatedUnis.add("CO/KXFN/048253/LUMN");
 			validatedUnis.add("CO/KXFN/048525/LUMN");
-
+//
 			for (String unis : validatedUnis) {
 				System.out.println("############################################################################");
 				System.out.println("Cleanup Started for::" + unis);
@@ -76,7 +77,7 @@ public class Test {
 					System.out.println(unis + "::No Environment found");
 					ArrayList<String> storeCleanedUni1 = new ArrayList<String>();
 					storeCleanedUni1 = cleanPortsViaPortMonitorData(unis, "1");
-					// print cleaned Uni List
+//					// print cleaned Uni List
 					if (storeCleanedUni1.size() > 0) {
 						for (String cleanedUni : storeCleanedUni1) {
 							CleanedUniList.add(cleanedUni);
@@ -112,7 +113,7 @@ public class Test {
 			uniList.add("CO/KXFN/048727/LUMN");
 			uniList.add("CO/KXFN/048744/LUMN");
 			uniList.add("CO/KXFN/048754/LUMN");
-			pm.printCleanedUniList(uniList);
+			test.printCleanedUniList(uniList);
 
 //		updatePortMonitorIfUniNotUpdated("CO/KXFN/048399/LUMN");
 //		updateRecordAfterCleanup("CO/KXFN/048399/LUMN");CO/KXFN/048664/LUMN
@@ -124,17 +125,15 @@ public class Test {
 	public void printCleanedUniList(ArrayList<String> CleanedUniList) {
 		//
 		System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_START");
-		System.out.println("\n\n"
-				+ "<br>+===============================================================================================+");
-		System.out.println("<br>\t\tCLEANED UNI LIST                                                      ");
-		System.out.println(""
-				+ "<br>+===============================================================================================+");
+		System.out.println("<h3 style=\"background-color: #ececec;color: #000000;margin-top: 7px;padding: 6px 15px;\">\r\n"
+				+ "              CLEANED UNI LIST\r\n"
+				+ "</h3><hr>");
 		int rows = CleanedUniList.size()+1;
 		String data[][] = new String[rows][4];
-		data[0][0] = "<br>UNI SERVICE";
-		data[0][1] = "\t\tENV";
-		data[0][2] = "\t   DEVICE";
-		data[0][3] = "\t   PORT";
+		data[0][0] = "<b>UNI SERVICE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
+		data[0][1] = "<b>ENV&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
+		data[0][2] = "<b>DEVICE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
+		data[0][3] = "<b>PORT&nbsp;&nbsp;&nbsp;&nbsp;</b>";
 		
 		int i = 1;
 		for (String uni : CleanedUniList) {
@@ -157,17 +156,20 @@ public class Test {
 			
 
 		}
-
-		printLine();
-		for (String[] row : data) {
-			printRow(row);
-			printLine();
-		}
-		System.out.println("<br>+===============================================================================================+");
 		
-		System.out.println("<br>TOTAL UNIs CLEANED::" + CleanedUniList.size()+"               	 ");
-		System.out.println(""
-				+ "<br>+===============================================================================================+");
+		// print the data in html table format
+
+		for (int j = 0; j < rows; j++) {
+			printRow(data[j]);
+			System.out.println("");
+			
+		}
+		
+		System.out.println("<hr><h4 style=\"background-color: #ececec;color: #000000;margin-top: 7px;padding: 3px 10px;\">\r\n"
+				+ "              TOTAL UNIs CLEANED::"+CleanedUniList.size()+"\r\n"
+				+ "</h4>");
+		
+		
 
 		System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_END");
 	}
@@ -180,11 +182,12 @@ public class Test {
 	}
 
 	public static void printRow(String[] row) {
+	    System.out.print("<pre>");	
 		for (String cell : row) {
 //			System.out.printf("  %-21s ", cell);
-			System.out.print("<pre>"+cell+"</pre>");
+			System.out.print(cell+"&nbsp;&nbsp;&nbsp;&nbsp;");
 		}
-//		System.out.println("|");
+		System.out.print("</pre>");
 	}
 
 	public ArrayList<String> validateUniForCleanup(String uni) {
