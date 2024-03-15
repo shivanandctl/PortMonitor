@@ -65,57 +65,55 @@ public class Test {
 //			}
 //			System.out.println("===============================================================================");
 		
-			validatedUnis.add("CO/KXFN/048253/LUMN");
-			validatedUnis.add("CO/KXFN/048525/LUMN");
+//			validatedUnis.add("CO/KXFN/048253/LUMN");
+//			validatedUnis.add("CO/KXFN/048525/LUMN");
+//			
+//			for (String unis : validatedUnis) {
+//				System.out.println("############################################################################");
+//				System.out.println("Cleanup Started for::" + unis);
+//				ArrayList<String> envs = asri.getServiceEnvironment(unis);
 //
-			for (String unis : validatedUnis) {
-				System.out.println("############################################################################");
-				System.out.println("Cleanup Started for::" + unis);
-				ArrayList<String> envs = asri.getServiceEnvironment(unis);
-
-				if (envs.size() == 0) {
-					System.out.println(unis + "::No Environment found");
-					ArrayList<String> storeCleanedUni1 = new ArrayList<String>();
-					storeCleanedUni1 = cleanPortsViaPortMonitorData(unis, "1");
-//					// print cleaned Uni List
-					if (storeCleanedUni1.size() > 0) {
-						for (String cleanedUni : storeCleanedUni1) {
-							CleanedUniList.add(cleanedUni);
-						}
-					}
-					
-				} else if (envs.size() > 0) {
-					for (String env : envs) {
-						System.out.println(unis + "====>" + env);
-						ArrayList<String> storeCleanedUni2 = new ArrayList<String>();
-						storeCleanedUni2 = cleanPortsViaPortMonitorData(unis, env);
-						// print cleaned Uni List
-						if (storeCleanedUni2.size() > 0) {
-							for (String cleanedUni : storeCleanedUni2) {
-								CleanedUniList.add(cleanedUni);
-							}
-						}
-					}
-				}
-
-			}
-			validatedUnis.clear();
+//				if (envs.size() == 0) {
+//					System.out.println(unis + "::No Environment found");
+//					ArrayList<String> storeCleanedUni1 = new ArrayList<String>();
+//					storeCleanedUni1 = cleanPortsViaPortMonitorData(unis, "1");
+//					if (storeCleanedUni1.size() > 0) {
+//						for (String cleanedUni : storeCleanedUni1) {
+//							CleanedUniList.add(cleanedUni);
+//						}
+//					}
+//					
+//				} else if (envs.size() > 0) {
+//					for (String env : envs) {
+//						System.out.println(unis + "====>" + env);
+//						ArrayList<String> storeCleanedUni2 = new ArrayList<String>();
+//						storeCleanedUni2 = cleanPortsViaPortMonitorData(unis, env);
+//						if (storeCleanedUni2.size() > 0) {
+//							for (String cleanedUni : storeCleanedUni2) {
+//								CleanedUniList.add(cleanedUni);
+//							}
+//						}
+//					}
+//				}
+//
+//			}
+//			validatedUnis.clear();
 //		}
 
 		// print cleaned Uni List
-			ArrayList<String> uniList = new ArrayList<String>();
-			uniList.add("CO/KXFN/048828/LUMN");
-			uniList.add("CO/KXFN/048831/LUMN");
-			uniList.add("CO/KXFN/048602/LUMN");
-			uniList.add("CO/KXFN/048636/LUMN");
-			uniList.add("CO/KXFN/048637/LUMN");
-			uniList.add("CO/KXFN/048678/LUMN");
-			uniList.add("CO/KXFN/048727/LUMN");
-			uniList.add("CO/KXFN/048744/LUMN");
-			uniList.add("CO/KXFN/048754/LUMN");
-			pm.printCleanedUniList(uniList);
+//			ArrayList<String> uniList = new ArrayList<String>();
+//			uniList.add("CO/KXFN/048828/LUMN");
+//			uniList.add("CO/KXFN/048831/LUMN");
+//			uniList.add("CO/KXFN/048602/LUMN");
+//			uniList.add("CO/KXFN/048636/LUMN");
+//			uniList.add("CO/KXFN/048637/LUMN");
+//			uniList.add("CO/KXFN/048678/LUMN");
+//			uniList.add("CO/KXFN/048727/LUMN");
+//			uniList.add("CO/KXFN/048744/LUMN");
+//			uniList.add("CO/KXFN/048754/LUMN");
+//			pm.printCleanedUniList(uniList);
 
-//		updatePortMonitorIfUniNotUpdated("CO/KXFN/048399/LUMN");
+		updatePortMonitorIfUniNotUpdated("!!/KXFN/049195/LUMN");
 //		updateRecordAfterCleanup("CO/KXFN/048399/LUMN");CO/KXFN/048664/LUMN
 //		cleanPortsViaPortMonitorData("CO/KXFN/048459/LUMN", "4");
 

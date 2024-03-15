@@ -99,6 +99,11 @@ public class PortMonitor {
 		}
 
 		// print cleaned Uni List
+		CleanedUniList.add("CO/KXFN/049215/LUMN");
+		CleanedUniList.add("CO/KXFN/049218/LUMN");
+		CleanedUniList.add("CO/KXFN/048883/LUMN");
+		CleanedUniList.add("CO/KXFN/048884/LUMN");
+		CleanedUniList.add("CO/KXFN/049192/LUMN");
 		pm.printCleanedUniList(CleanedUniList);
 
 //		updatePortMonitorIfUniNotUpdated("CO/KXFN/048399/LUMN");
@@ -269,8 +274,8 @@ public class PortMonitor {
 				String cleanupDate = JsonPath.read(sasiRes, "$.cleanup_date");
 				System.out.println("Created by: " + createdBy);
 				System.out.println("Cleanup date: " + cleanupDate);
-				System.out.println("Todays date: " + LocalDate.now().plusDays(1));// adjusting GMT to IST
-
+//				System.out.println("Todays date: " + LocalDate.now().plusDays(1));// adjusting GMT to IST
+				System.out.println("Todays date: " + LocalDate.now());
 				System.out.println("User comment is :" + userComment + " hence adding for cleanup");
 				cleanupUnis.add(uni);
 				System.out.println(
@@ -280,10 +285,12 @@ public class PortMonitor {
 				String cleanupDate = JsonPath.read(sasiRes, "$.cleanup_date");
 				System.out.println("Created by: " + createdBy);
 				System.out.println("Cleanup date: " + cleanupDate);
-				System.out.println("Todays date: " + LocalDate.now().plusDays(1));
+//				System.out.println("Todays date: " + LocalDate.now().plusDays(1));// adjusting GMT to IST
+				System.out.println("Todays date: " + LocalDate.now());
 				// Parse the string date "2024-03-30" into a LocalDate
 				LocalDate parsedStringDate = LocalDate.parse(cleanupDate);
-				LocalDate currentDate = LocalDate.now().plusDays(1);
+//				LocalDate currentDate = LocalDate.now().plusDays(1);// adjusting GMT to IST
+				LocalDate currentDate = LocalDate.now();
 				int comparisonResult = currentDate.compareTo(parsedStringDate);
 				if (comparisonResult > 0 || comparisonResult == 0) {
 					System.out.println(uni + "::Cleanup date is less than or equals today's date adding for cleanup");
@@ -328,7 +335,7 @@ public class PortMonitor {
 					System.out.println("Act Cleanup is successful");
 
 					// cleaning Ips
-					if (s.contains("IRXX")) {
+					if (s.contains("IRXX")||s.contains("MVXX")) {
 						asri.cleanIp(s);
 					}
 					boolean asriCleanUpStatus = asri.inventoryCleanUp(s, env);
@@ -540,7 +547,8 @@ public class PortMonitor {
 		String createdBy = "Jenkins_Auto";
 		String user_comment = "CAN BE CLEANED!";
 
-		LocalDate formattedDate = LocalDate.now().plusDays(1);
+//		LocalDate formattedDate = LocalDate.now().plusDays(1);
+		LocalDate formattedDate = LocalDate.now();
 		LocalDate cleanup_date = formattedDate;
 
 		String sasiDetails = unialias.get(0) + "," + environment + "," + createddate.get(0).split(" ")[0] + ","
@@ -558,27 +566,33 @@ public class PortMonitor {
 	// This function is used to trigger the update db api to update the portmonitor
 	// db with the sasi details
 	public static void triggerUpdateDbApi(String sasiDetails) {
-		Response response;
-		String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/updateUnidetailsInDbFromSoa";
-		String jsonBody = "{\r\n" + "    \"unialias\": \"" + sasiDetails.split(",")[0] + "\",\r\n"
-				+ "    \"environment\": \"" + sasiDetails.split(",")[1] + "\",\r\n" + "    \"createddate\": \""
-				+ sasiDetails.split(",")[2] + "\",\r\n" + "    \"device\": \"" + sasiDetails.split(",")[3] + "\",\r\n"
-				+ "    \"portnum\": \"" + sasiDetails.split(",")[4] + "\",\r\n" + "    \"prodType\": \""
-				+ sasiDetails.split(",")[5] + "\",\r\n" + "    \"team\": \"" + sasiDetails.split(",")[6] + "\",\r\n"
-				+ "    \"orderId\": \"" + sasiDetails.split(",")[7] + "\",\r\n" + "    \"createdBy\": \""
-				+ sasiDetails.split(",")[8] + "\",\r\n" + "    \"user_comment\": \"" + sasiDetails.split(",")[9]
-				+ "\",\r\n" + "    \"cleanup_date\": \"" + sasiDetails.split(",")[10] + "\"\r\n" + "}";
+		
+		try {
+			Response response;
+			String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/updateUnidetailsInDbFromSoa";
+			String jsonBody = "{\r\n" + "    \"unialias\": \"" + sasiDetails.split(",")[0] + "\",\r\n"
+					+ "    \"environment\": \"" + sasiDetails.split(",")[1] + "\",\r\n" + "    \"createddate\": \""
+					+ sasiDetails.split(",")[2] + "\",\r\n" + "    \"device\": \"" + sasiDetails.split(",")[3] + "\",\r\n"
+					+ "    \"portnum\": \"" + sasiDetails.split(",")[4] + "\",\r\n" + "    \"prodType\": \""
+					+ sasiDetails.split(",")[5] + "\",\r\n" + "    \"team\": \"" + sasiDetails.split(",")[6] + "\",\r\n"
+					+ "    \"orderId\": \"" + sasiDetails.split(",")[7] + "\",\r\n" + "    \"createdBy\": \""
+					+ sasiDetails.split(",")[8] + "\",\r\n" + "    \"user_comment\": \"" + sasiDetails.split(",")[9]
+					+ "\",\r\n" + "    \"cleanup_date\": \"" + sasiDetails.split(",")[10] + "\"\r\n" + "}";
 
-//        make a post call to update the db
-		response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and()
-				.body(jsonBody).when().post(query).then().extract().response();
+//	        make a post call to update the db
+			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and()
+					.body(jsonBody).when().post(query).then().extract().response();
 
-		int statCode = response.getStatusCode();
-		if (statCode == 200) {
-			System.out.println("PortMonitor DB updated successfully");
-		} else {
-			System.out.println("PortMonitor DB not updated");
+			int statCode = response.getStatusCode();
+			if (statCode == 200) {
+				System.out.println("PortMonitor DB updated successfully");
+			} else {
+				System.out.println("PortMonitor DB not updated");
+			}
+		} catch (Exception e) {
+			System.out.println("Exception in triggerUpdateDbApi::" + e);
 		}
+		
 	}
 
 	// This function is used to update the record in portmonitor db after cleanup is
@@ -589,54 +603,60 @@ public class PortMonitor {
 //		Date currentDate = new Date();
 //		String formattedDate = formatter.format(currentDate);
 
-		Response response;
-		String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/getUnidata/" + uni;
-		response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
-				.get(query).then().extract().response();
+		try {
+			Response response;
+			String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/getUnidata/" + uni;
+			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
+					.get(query).then().extract().response();
 
-		int statCode = response.getStatusCode();
-		System.out.println("Status code: " + statCode);
-		String sasiRes = response.asString();
-		response.prettyPrint();
-//		System.out.println("+++++++----------------------------------------------+++++++++++++");
-//		for (String s : sasiRes.split(",")) {
-//			System.out.println(s);
-//		}
+			int statCode = response.getStatusCode();
+			System.out.println("Status code: " + statCode);
+			String sasiRes = response.asString();
+			response.prettyPrint();
+//			System.out.println("+++++++----------------------------------------------+++++++++++++");
+//			for (String s : sasiRes.split(",")) {
+//				System.out.println(s);
+//			}
 
-		String ss[] = sasiRes.split(",");
-//		ss[9] = "\"createdBy\":\"Jenkins_Auto\"";
-		ss[10] = "\"user_comment\":\"CLEANED\"";
+			String ss[] = sasiRes.split(",");
+//			ss[9] = "\"createdBy\":\"Jenkins_Auto\"";
+			ss[10] = "\"user_comment\":\"CLEANED\"";
 
-		LocalDate formattedDate = LocalDate.now().plusDays(1);
-		ss[12] = "\"cleanedDate\":\"" + formattedDate + "\"}";
-		System.out.println("+++++++----------------------------------------------+++++++++++++");
+//			LocalDate formattedDate = LocalDate.now().plusDays(1);
+			LocalDate formattedDate = LocalDate.now();
+			ss[12] = "\"cleanedDate\":\"" + formattedDate + "\"}";
+			System.out.println("+++++++----------------------------------------------+++++++++++++");
 
-		String modifiedPayload = "";
-		for (String m : ss) {
-			System.out.println(m);
-			if (!m.contains("cleanedDate")) {
-				modifiedPayload = modifiedPayload + m + ",";
-			} else {
-				modifiedPayload = modifiedPayload + m;
+			String modifiedPayload = "";
+			for (String m : ss) {
+				System.out.println(m);
+				if (!m.contains("cleanedDate")) {
+					modifiedPayload = modifiedPayload + m + ",";
+				} else {
+					modifiedPayload = modifiedPayload + m;
+				}
+
 			}
 
+			System.out.println("+++++++----------------------------------------------+++++++++++++");
+
+			System.out.println("PortMonitor DB UPDATE PAYLOAD::\n" + modifiedPayload);
+
+			// update the record
+			String updateQuery = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/updateUnidetailsInDb";
+			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and()
+					.body(modifiedPayload).when().post(updateQuery).then().extract().response();
+
+			statCode = response.getStatusCode();
+			System.out.println("Status code: " + statCode);
+			if (statCode == 200 || statCode == 201) {
+				System.out.println("PortMonitor DB updated successfully");
+			} else {
+				System.out.println("PortMonitor DB not updated");
+			}
+		} catch (Exception e) {
+			System.out.println("Exception in updateRecordAfterCleanup::" + e);
 		}
 
-		System.out.println("+++++++----------------------------------------------+++++++++++++");
-
-		System.out.println("PortMonitor DB UPDATE PAYLOAD::\n" + modifiedPayload);
-
-		// update the record
-		String updateQuery = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/updateUnidetailsInDb";
-		response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and()
-				.body(modifiedPayload).when().post(updateQuery).then().extract().response();
-
-		statCode = response.getStatusCode();
-		System.out.println("Status code: " + statCode);
-		if (statCode == 200 || statCode == 201) {
-			System.out.println("PortMonitor DB updated successfully");
-		} else {
-			System.out.println("PortMonitor DB not updated");
-		}
 	}
 }
