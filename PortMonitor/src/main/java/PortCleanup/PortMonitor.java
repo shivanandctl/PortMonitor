@@ -99,11 +99,6 @@ public class PortMonitor {
 		}
 
 		// print cleaned Uni List
-		CleanedUniList.add("CO/KXFN/049215/LUMN");
-		CleanedUniList.add("CO/KXFN/049218/LUMN");
-		CleanedUniList.add("CO/KXFN/048883/LUMN");
-		CleanedUniList.add("CO/KXFN/048884/LUMN");
-		CleanedUniList.add("CO/KXFN/049192/LUMN");
 		pm.printCleanedUniList(CleanedUniList);
 
 //		updatePortMonitorIfUniNotUpdated("CO/KXFN/048399/LUMN");
@@ -274,8 +269,8 @@ public class PortMonitor {
 				String cleanupDate = JsonPath.read(sasiRes, "$.cleanup_date");
 				System.out.println("Created by: " + createdBy);
 				System.out.println("Cleanup date: " + cleanupDate);
-//				System.out.println("Todays date: " + LocalDate.now().plusDays(1));// adjusting GMT to IST
-				System.out.println("Todays date: " + LocalDate.now());
+				System.out.println("Todays date: " + LocalDate.now().plusDays(1));// adjusting GMT to IST
+//				System.out.println("Todays date: " + LocalDate.now());
 				System.out.println("User comment is :" + userComment + " hence adding for cleanup");
 				cleanupUnis.add(uni);
 				System.out.println(
@@ -285,12 +280,12 @@ public class PortMonitor {
 				String cleanupDate = JsonPath.read(sasiRes, "$.cleanup_date");
 				System.out.println("Created by: " + createdBy);
 				System.out.println("Cleanup date: " + cleanupDate);
-//				System.out.println("Todays date: " + LocalDate.now().plusDays(1));// adjusting GMT to IST
-				System.out.println("Todays date: " + LocalDate.now());
+				System.out.println("Todays date: " + LocalDate.now().plusDays(1));// adjusting GMT to IST
+//				System.out.println("Todays date: " + LocalDate.now());
 				// Parse the string date "2024-03-30" into a LocalDate
 				LocalDate parsedStringDate = LocalDate.parse(cleanupDate);
-//				LocalDate currentDate = LocalDate.now().plusDays(1);// adjusting GMT to IST
-				LocalDate currentDate = LocalDate.now();
+				LocalDate currentDate = LocalDate.now().plusDays(1);// adjusting GMT to IST
+//				LocalDate currentDate = LocalDate.now();
 				int comparisonResult = currentDate.compareTo(parsedStringDate);
 				if (comparisonResult > 0 || comparisonResult == 0) {
 					System.out.println(uni + "::Cleanup date is less than or equals today's date adding for cleanup");
@@ -547,8 +542,8 @@ public class PortMonitor {
 		String createdBy = "Jenkins_Auto";
 		String user_comment = "CAN BE CLEANED!";
 
-//		LocalDate formattedDate = LocalDate.now().plusDays(1);
-		LocalDate formattedDate = LocalDate.now();
+		LocalDate formattedDate = LocalDate.now().plusDays(1);
+//		LocalDate formattedDate = LocalDate.now();
 		LocalDate cleanup_date = formattedDate;
 
 		String sasiDetails = unialias.get(0) + "," + environment + "," + createddate.get(0).split(" ")[0] + ","
@@ -622,8 +617,8 @@ public class PortMonitor {
 //			ss[9] = "\"createdBy\":\"Jenkins_Auto\"";
 			ss[10] = "\"user_comment\":\"CLEANED\"";
 
-//			LocalDate formattedDate = LocalDate.now().plusDays(1);
-			LocalDate formattedDate = LocalDate.now();
+			LocalDate formattedDate = LocalDate.now().plusDays(1);
+//			LocalDate formattedDate = LocalDate.now();
 			ss[12] = "\"cleanedDate\":\"" + formattedDate + "\"}";
 			System.out.println("+++++++----------------------------------------------+++++++++++++");
 
