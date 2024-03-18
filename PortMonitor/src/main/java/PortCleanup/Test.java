@@ -113,8 +113,8 @@ public class Test {
 //			uniList.add("CO/KXFN/048754/LUMN");
 //			pm.printCleanedUniList(uniList);
 
-		updatePortMonitorIfUniNotUpdated("!!/KXFN/049195/LUMN");
-//		updateRecordAfterCleanup("CO/KXFN/048399/LUMN");CO/KXFN/048664/LUMN
+//		updatePortMonitorIfUniNotUpdated("!!/KXFN/049241/LUMN");
+		updateRecordAfterCleanup("!!/KXFN/049241/LUMN");
 //		cleanPortsViaPortMonitorData("CO/KXFN/048459/LUMN", "4");
 
 	}
@@ -535,55 +535,61 @@ public class Test {
 //		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 //		Date currentDate = new Date();
 //		String formattedDate = formatter.format(currentDate);
+		try {
+			Response response;
+			String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/getUnidata/" + uni;
+			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
+					.get(query).then().extract().response();
 
-		Response response;
-		String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/getUnidata/" + uni;
-		response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
-				.get(query).then().extract().response();
+			int statCode = response.getStatusCode();
+			System.out.println("Status code: " + statCode);
+			String sasiRes = response.asString();
+			response.prettyPrint();
+//			System.out.println("+++++++----------------------------------------------+++++++++++++");
+//			for (String s : sasiRes.split(",")) {
+//				System.out.println(s);
+//			}
 
-		int statCode = response.getStatusCode();
-		System.out.println("Status code: " + statCode);
-		String sasiRes = response.asString();
-		response.prettyPrint();
-//		System.out.println("+++++++----------------------------------------------+++++++++++++");
-//		for (String s : sasiRes.split(",")) {
-//			System.out.println(s);
-//		}
+			String ss[] = sasiRes.split(",");
+//			ss[9] = "\"createdBy\":\"Jenkins_Auto\"";
+			ss[10] = "\"user_comment\":\"CLEANED\"";
 
-		String ss[] = sasiRes.split(",");
-//		ss[9] = "\"createdBy\":\"Jenkins_Auto\"";
-		ss[10] = "\"user_comment\":\"CLEANED\"";
+			LocalDate formattedDate = LocalDate.now().plusDays(1);
+			ss[12] = "\"cleanedDate\":\"" + formattedDate + "\"}";
+			System.out.println("+++++++----------------------------------------------+++++++++++++");
 
-		LocalDate formattedDate = LocalDate.now().plusDays(1);
-		ss[12] = "\"cleanedDate\":\"" + formattedDate + "\"}";
-		System.out.println("+++++++----------------------------------------------+++++++++++++");
+			String modifiedPayload = "";
+			for (String m : ss) {
+				System.out.println(m);
+				if (!m.contains("cleanedDate")) {
+					modifiedPayload = modifiedPayload + m + ",";
+				} else {
+					modifiedPayload = modifiedPayload + m;
+				}
 
-		String modifiedPayload = "";
-		for (String m : ss) {
-			System.out.println(m);
-			if (!m.contains("cleanedDate")) {
-				modifiedPayload = modifiedPayload + m + ",";
-			} else {
-				modifiedPayload = modifiedPayload + m;
 			}
 
-		}
+			System.out.println("+++++++----------------------------------------------+++++++++++++");
 
-		System.out.println("+++++++----------------------------------------------+++++++++++++");
+			System.out.println("PortMonitor DB UPDATE PAYLOAD::\n" + modifiedPayload);
 
-		System.out.println("PortMonitor DB UPDATE PAYLOAD::\n" + modifiedPayload);
+			// update the record
+			String updateQuery = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/updateUnidetailsInDb";
+			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and()
+					.body(modifiedPayload).when().post(updateQuery).then().extract().response();
 
-		// update the record
-		String updateQuery = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/updateUnidetailsInDb";
-		response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and()
-				.body(modifiedPayload).when().post(updateQuery).then().extract().response();
-
-		statCode = response.getStatusCode();
-		System.out.println("Status code: " + statCode);
-		if (statCode == 200 || statCode == 201) {
-			System.out.println("PortMonitor DB updated successfully");
-		} else {
+			statCode = response.getStatusCode();
+			System.out.println("Status code: " + statCode);
+			if (statCode == 200 || statCode == 201) {
+				System.out.println("PortMonitor DB updated successfully");
+			} else {
+				System.out.println("PortMonitor DB not updated");
+			}
+		} catch (Exception e) {
+			System.out.println("Exception in updateRecordAfterCleanup::" + e.getMessage());
 			System.out.println("PortMonitor DB not updated");
 		}
+
+		
 	}
 }

@@ -2,10 +2,13 @@ package PortCleanup;
 
 import io.restassured.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.codec.binary.Base64;
 
 import PortCleanup.*;
 
@@ -39,15 +42,33 @@ public class Rubicon {
 		uniList.clear();
 		uniList.add(device);
 		
-		String username = base.username;
-		String password = base.password;
+		String usernameRubicon = base.usernameRubicon;
+		String passwordRubicon = base.passwordRubicon;
 
 		// read from environment.properties file
 		String rubiconURL = base.RUBICON_INT_DESCRIPTION_URL + device;
+		
+		String auth = usernameRubicon + ":" + passwordRubicon;
+		String authHeader = "";
+		byte[] encodedAuth;
+		
+		//encode username and password
+		try {
+			encodedAuth = Base64.encodeBase64(auth.getBytes("UTF-8"));
+			authHeader = new String(encodedAuth);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		Response response;
 
-		response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
-				.get(rubiconURL).then().extract().response();
+//		response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
+//				.get(rubiconURL).then().extract().response();
+		response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and()
+				.auth().basic(usernameRubicon, passwordRubicon)
+				.header("authorization", "Basic "+authHeader).get(rubiconURL).then().extract().response();
 		String rubRes = response.asString();
 		
 		response.getStatusLine();

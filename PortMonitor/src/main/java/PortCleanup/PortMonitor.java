@@ -25,13 +25,13 @@ public class PortMonitor {
 		ArrayList<String> CleanedUniList = new ArrayList<String>();
 
 		System.out.println("\n");
-		System.out.println("######  ########   #########   #########   #########");
-		System.out.println("##         ##      ##     ##   ##     ##       ##   ");
-		System.out.println("##         ##      ##     ##   ##     ##       ##   ");
-		System.out.println("######     ##      #########   #########       ##   ");
-		System.out.println("    ##     ##      ##     ##   ## ##           ##   ");
-		System.out.println("    ##     ##      ##     ##   ##  ###         ##   ");
-		System.out.println("######     ##      ##     ##   ##    ###       ##   ");
+		System.out.println("###### ########  #######   ########  ########");
+		System.out.println("##        ##     ##   ##   ##    ##     ##   ");
+		System.out.println("##        ##     ##   ##   ##    ##     ##   ");
+		System.out.println("######    ##     #######   ########     ##   ");
+		System.out.println("    ##    ##     ##   ##   ## ##        ##   ");
+		System.out.println("    ##    ##     ##   ##   ##  ##       ##   ");
+		System.out.println("######    ##     ##   ##   ##   ###     ##   ");
 		System.out.println("\n");
 
 		// fetch devices from Rubicon
@@ -111,7 +111,7 @@ public class PortMonitor {
 	public void printCleanedUniList(ArrayList<String> CleanedUniList) {
 		//
 		System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_START");
-		System.out.println("<h3 style=\"background-color: #5aadff;color: #ffffff;margin-top: 7px;padding: 8px 5px;\">\r\n"
+		System.out.println("<h3 style=\"background-color: #5aadff;color: #ffffff;margin-top: 7px;padding: 8px 5px;text-align: center;\">\r\n"
 				+ "    CLEANED UNI LIST\r\n"
 				+ "</h3><hr>");
 		int rows = CleanedUniList.size()+1;
@@ -179,7 +179,7 @@ public class PortMonitor {
 	// Function to print final list of cleaned UNIs
 	public void printCleanedUniList(ArrayList<String> CleanedUniList) {
 
-		System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_START");
+		//System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_START");
 		System.out.println(""
 				+ "+====================================================================+");
 		System.out.println("\t\tCLEANED UNI LIST                                                      ");
@@ -226,7 +226,7 @@ public class PortMonitor {
 		System.out.println(""
 				+ "+=====================================================================+");
 
-		System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_END");
+		//System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_END");
 	}
 	
 	public static void printLine() {
@@ -586,6 +586,7 @@ public class PortMonitor {
 			}
 		} catch (Exception e) {
 			System.out.println("Exception in triggerUpdateDbApi::" + e);
+			System.out.println("PortMonitor DB not updated by triggerUpdateDbApi");
 		}
 		
 	}
@@ -651,6 +652,7 @@ public class PortMonitor {
 			}
 		} catch (Exception e) {
 			System.out.println("Exception in updateRecordAfterCleanup::" + e);
+			System.out.println("PortMonitor DB not updated after cleanup");
 		}
 
 	}
