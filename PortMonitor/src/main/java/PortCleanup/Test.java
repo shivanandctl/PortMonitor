@@ -101,20 +101,22 @@ public class Test {
 //		}
 
 		// print cleaned Uni List
-//			ArrayList<String> uniList = new ArrayList<String>();
-//			uniList.add("CO/KXFN/048828/LUMN");
-//			uniList.add("CO/KXFN/048831/LUMN");
-//			uniList.add("CO/KXFN/048602/LUMN");
-//			uniList.add("CO/KXFN/048636/LUMN");
-//			uniList.add("CO/KXFN/048637/LUMN");
-//			uniList.add("CO/KXFN/048678/LUMN");
-//			uniList.add("CO/KXFN/048727/LUMN");
-//			uniList.add("CO/KXFN/048744/LUMN");
-//			uniList.add("CO/KXFN/048754/LUMN");
-//			pm.printCleanedUniList(uniList);
+			ArrayList<String> uniList = new ArrayList<String>();
+			uniList.add("CO/KXFN/049311/LUMN");
+			uniList.add("CO/KXFN/049296/LUMN");
+			uniList.add("CO/KXFN/049299/LUMN");
+			uniList.add("CO/KXFN/049307/LUMN");
+			uniList.add("CO/KXFN/049308/LUMN");
+			uniList.add("CO/KXFN/123456/LUMN");
+			uniList.add("CO/KXFN/049309/LUMN");
+			uniList.add("CO/KXFN/049293/LUMN");
+			uniList.add("CO/KXFN/049290/LUMN");
+			
+
+			pm.printCleanedUniList(uniList);
 
 //		updatePortMonitorIfUniNotUpdated("!!/KXFN/049241/LUMN");
-		updateRecordAfterCleanup("!!/KXFN/049241/LUMN");
+//		updateRecordAfterCleanup("!!/KXFN/049241/LUMN");
 //		cleanPortsViaPortMonitorData("CO/KXFN/048459/LUMN", "4");
 
 	}
@@ -537,7 +539,8 @@ public class Test {
 //		String formattedDate = formatter.format(currentDate);
 		try {
 			Response response;
-			String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/getUnidata/" + uni;
+//			String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/getUnidata/" + uni;
+			String query = "http://localhost:8080/getUnidata/" + uni;
 			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
 					.get(query).then().extract().response();
 

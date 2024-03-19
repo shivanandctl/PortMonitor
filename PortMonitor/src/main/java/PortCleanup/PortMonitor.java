@@ -97,7 +97,16 @@ public class PortMonitor {
 			}
 			validatedUnis.clear();
 		}
-
+		System.out.println("############################################################################");
+		System.out.println("Final List of Cleaned UNIs");
+		System.out.println("############################################################################");
+		for (String uni : CleanedUniList) {
+			System.out.println(uni);
+		}
+		System.out.println("Total UNIs cleaned::" + CleanedUniList.size());
+		System.out.println("############################################################################");
+		
+		
 		// print cleaned Uni List
 		pm.printCleanedUniList(CleanedUniList);
 
@@ -124,23 +133,30 @@ public class PortMonitor {
 		int i = 1;
 		for (String uni : CleanedUniList) {
 			
-			String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/getUnidata/" + uni;
-			String response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json")
-					.and().when().get(query).then().extract().response().asString();
+			try {
+				String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/getUnidata/" + uni;
+				String response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json")
+						.and().when().get(query).then().extract().response().asString();
 
-			String unialias = JsonPath.read(response, "$.unialias");
-			String env = JsonPath.read(response, "$.environment");
-			String device = JsonPath.read(response, "$.device");
-			String port = JsonPath.read(response, "$.portnum");
-			
-			
-				data[i][0] = unialias;
-				data[i][1] = env;
-				data[i][2] = device;
-				data[i][3] = port;
+				String unialias = JsonPath.read(response, "$.unialias");
+				String env = JsonPath.read(response, "$.environment");
+				String device = JsonPath.read(response, "$.device");
+				String port = JsonPath.read(response, "$.portnum");
+				
+				
+					data[i][0] = unialias;
+					data[i][1] = env;
+					data[i][2] = device;
+					data[i][3] = port;
+				    i++;
+			} catch (Exception e) {
+//				System.out.println("Exception in getting UNI details::" + uni);
+				data[i][0] = uni;
+				data[i][1] = e.getMessage();
+				data[i][2] = "";
+				data[i][3] = "";
 			    i++;
-			
-
+			}		
 		}
 		
 		// print the data in html table format
