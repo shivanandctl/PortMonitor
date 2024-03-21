@@ -47,6 +47,7 @@ public class Act {
 		ReqID_ServiceType_ReqType = getRequestIDs(service, environment);
 		if (ReqID_ServiceType_ReqType.size() == 0) {
 			System.out.println("No request found for the given service::" + service +" in the "+environment+" environment");
+			actCleanupStatus = true;
 			return actCleanupStatus;
 		}else if (ReqID_ServiceType_ReqType.size() > 0) {
 			if(ReqID_ServiceType_ReqType.get(0).contains("delete")) {
