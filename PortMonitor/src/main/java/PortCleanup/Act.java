@@ -275,7 +275,11 @@ public class Act {
 						// if (reqType.equalsIgnoreCase(activity) &&
 						// reqComplete.equalsIgnoreCase("complete")) {
 						if (reqComplete.equalsIgnoreCase("complete")
-								&& innerServiceTypeName.equalsIgnoreCase(serviceTypeName)) {
+								&& innerServiceTypeName.equalsIgnoreCase(serviceTypeName)
+								&& (reqType.equalsIgnoreCase("new")||reqType.equalsIgnoreCase("delete"))
+								) 
+						{
+//						if (reqComplete.equalsIgnoreCase("complete")&& innerServiceTypeName.equalsIgnoreCase(serviceTypeName)) {
 							idNewRequest = JsonPath.read(jsonPrettyPrintString, "$..rows[" + i + "]..requestID");
 							if (idNewRequest.size() > 0) {
 								// System.out.println("Given input is of Type::"+serviceTypeName);
