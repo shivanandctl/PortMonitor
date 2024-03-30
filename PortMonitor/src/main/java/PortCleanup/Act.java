@@ -274,6 +274,7 @@ public class Act {
 						innerServiceTypeName = (String) serviceType.get(0);
 						// if (reqType.equalsIgnoreCase(activity) &&
 						// reqComplete.equalsIgnoreCase("complete")) {
+						//changed the condition to get the request id for all the request types
 						if (reqComplete.equalsIgnoreCase("complete")
 								&& innerServiceTypeName.equalsIgnoreCase(serviceTypeName)
 								&& (reqType.equalsIgnoreCase("new")||reqType.equalsIgnoreCase("delete"))
