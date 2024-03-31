@@ -336,9 +336,11 @@ public class PortMonitor {
 		if (servicesMap.size() > 0) {
 
 			services = asri.getRearragedServices(servicesMap, env);
-			for (Iterator iterator = services.iterator(); iterator.hasNext();) {
+//			for (Iterator iterator = services.iterator(); iterator.hasNext();) {
+			while (services.size() > 0) {
 
-				String s = (String) iterator.next();
+//				String s = (String) iterator.next();
+				String s = (String) services.get(0);
 				System.out.println("Cleanup started for::" + s);
 
 				boolean actCleanUpStatus = act.networkCleanup(s, env);
