@@ -107,8 +107,9 @@ public class Test {
 		pm.printCleanedUniList(CleanedUniList);
 		*/
 //		updatePortMonitorIfUniNotUpdated("CO/KXFN/048399/LUMN");
-//		updateRecordAfterCleanup("CO/KXFN/048399/LUMN");CO/KXFN/048664/LUMN
-		cleanPortsViaPortMonitorData("CO/KXFN/049518/LUMN", "4");
+//		updateRecordAfterCleanup("CO/KXFN/048864/LUMN");
+//		cleanPortsViaPortMonitorData("CO/IRXX/048658/LUMN", "4");
+		cleanPortsViaPortMonitorData("CO/KXFN/048602/LUMN", "4");
 
 	}
 	
@@ -558,7 +559,7 @@ public class Test {
 //			}
 
 			String ss[] = sasiRes.split(",");
-//			ss[9] = "\"createdBy\":\"Jenkins_Auto\"";
+			ss[9] = "\"createdBy\":\"Jenkins_Auto\"";
 			ss[10] = "\"user_comment\":\"CLEANED\"";
 
 			LocalDate formattedDate = LocalDate.now();
