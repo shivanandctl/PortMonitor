@@ -109,7 +109,7 @@ public class Test {
 //		updatePortMonitorIfUniNotUpdated("CO/KXFN/048399/LUMN");
 //		updateRecordAfterCleanup("CO/KXFN/048864/LUMN");
 //		cleanPortsViaPortMonitorData("CO/IRXX/048658/LUMN", "4");
-		cleanPortsViaPortMonitorData("CO/KXFN/048602/LUMN", "4");
+		cleanPortsViaPortMonitorData("CO/KXFN/049803/LUMN", "4");
 
 	}
 	
