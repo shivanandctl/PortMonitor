@@ -20,19 +20,25 @@ public class Autopilot {
 		String token = null;
 		String payload = autopilotLoginPayload(userName,password);
 		
-		if(environment.contains("1") || environment.contains("TEST1")) {
-			token = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().body(payload)
-	                .when().post("https://autopilotapp-test1-01.test.intranet:3443/login")
-	                .then().extract().response().asString();
-		}else if(environment.contains("2") || environment.contains("TEST2")) {
-			token = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().body(payload)
-	                .when().post("https://autopilotapp-test2-01.test.intranet:3443/login")
-	                .then().extract().response().asString();
-		}else if(environment.contains("4") || environment.contains("TEST4")) {
-			token = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().body(payload)
-	                .when().post("https://autopilotapp-test4-01.test.intranet:3443/login")
-	                .then().extract().response().asString();
-		}
+		try {
+			if(environment.contains("1") || environment.contains("TEST1")) {
+				token = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().body(payload)
+		                .when().post("https://autopilotapp-test1-01.test.intranet:3443/login")
+		                .then().extract().response().asString();
+			}else if(environment.contains("2") || environment.contains("TEST2")) {
+				token = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().body(payload)
+		                .when().post("https://autopilotapp-test2-01.test.intranet:3443/login")
+		                .then().extract().response().asString();
+			}else if(environment.contains("4") || environment.contains("TEST4")) {
+				token = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().body(payload)
+		                .when().post("https://autopilotapp-test4-01.test.intranet:3443/login")
+		                .then().extract().response().asString();
+			}
+		} catch (Exception e) {
+            e.printStackTrace();
+         }
+		
+		
 		return token;
 		
 	}
@@ -54,7 +60,9 @@ public class Autopilot {
 		String jobId="";
 		Response response;
 		String payload = getWorkflowJobIDpayload(identifierId,header_identifier, workflowName);
-		 if(environment.contains("1") || environment.contains("TEST1")) {
+		
+		try {
+			 if(environment.contains("1") || environment.contains("TEST1")) {
 				 response = RestAssured.given().relaxedHTTPSValidation().header("cookie", "token=" + token).header("Content-type", "application/json").and().body(payload)
 						  .when().post("https://autopilotapp-test1-01.test.intranet:3443/workflow_engine/startJobWithOptions/"+workflowName)
 		                  .then().extract().response();
@@ -76,6 +84,9 @@ public class Autopilot {
 				ArrayList<String> job_id_list = JsonPath.read(response.asString(), "$.._id");
 				jobId = job_id_list.get(0);
 			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		 return jobId;
 	}
 
@@ -162,9 +173,34 @@ public class Autopilot {
 			boolean isCompleted = false;
 			String status = "";
 			Response response;
-			 if(environment.contains("1") || environment.contains("TEST1")) {
+			
+			
+			try {
+				 if(environment.contains("1") || environment.contains("TEST1")) {
+					 response = RestAssured.given().relaxedHTTPSValidation().header("cookie", "token=" + token).and()
+							  .when().get("https://autopilotapp-test1-01.test.intranet:3443/workflow_engine/getJobShallow/"+jobId)
+			                 .then().extract().response();
+					 ArrayList<String> wfStatus_list = JsonPath.read(response.asString(), "$..workflow_end.status");
+					 status = wfStatus_list.get(0);
+					for (int i = 0; i < iterationCount; i++) {
+						if(status.equalsIgnoreCase("complete")) {
+							isCompleted=true;
+							break;
+						}
+						System.out.println("iteration::"+(i+1)+" Is Workflow Completed??::"+isCompleted);
+						Thread.sleep(30000);
+						 response = RestAssured.given().relaxedHTTPSValidation().header("cookie", "token=" + token).and()
+								  .when().get("https://autopilotapp-test1-01.test.intranet:3443/workflow_engine/getJobShallow/"+jobId)
+				                 .then().extract().response();
+//						 System.out.println(response.asPrettyString());
+		                 wfStatus_list = JsonPath.read(response.asString(), "$..workflow_end.status");
+						 status = wfStatus_list.get(0);
+						
+					}
+				}
+			 else if(environment.contains("2") || environment.contains("TEST2")) {
 				 response = RestAssured.given().relaxedHTTPSValidation().header("cookie", "token=" + token).and()
-						  .when().get("https://autopilotapp-test1-01.test.intranet:3443/workflow_engine/getJobShallow/"+jobId)
+						  .when().get("https://autopilotapp-test2-01.test.intranet:3443/workflow_engine/getJobShallow/"+jobId)
 		                 .then().extract().response();
 				 ArrayList<String> wfStatus_list = JsonPath.read(response.asString(), "$..workflow_end.status");
 				 status = wfStatus_list.get(0);
@@ -176,7 +212,29 @@ public class Autopilot {
 					System.out.println("iteration::"+(i+1)+" Is Workflow Completed??::"+isCompleted);
 					Thread.sleep(30000);
 					 response = RestAssured.given().relaxedHTTPSValidation().header("cookie", "token=" + token).and()
-							  .when().get("https://autopilotapp-test1-01.test.intranet:3443/workflow_engine/getJobShallow/"+jobId)
+							  .when().get("https://autopilotapp-test2-01.test.intranet:3443/workflow_engine/getJobShallow/"+jobId)
+			                 .then().extract().response();
+//					 System.out.println(response.asPrettyString());
+	                wfStatus_list = JsonPath.read(response.asString(), "$..workflow_end.status");
+					 status = wfStatus_list.get(0);
+					
+				}
+				}
+			 else if(environment.contains("4") || environment.contains("TEST4")) {
+				 response = RestAssured.given().relaxedHTTPSValidation().header("cookie", "token=" + token).and()
+						  .when().get("https://autopilotapp-test4-01.test.intranet:3443/workflow_engine/getJobShallow/"+jobId)
+		                 .then().extract().response();
+				 ArrayList<String> wfStatus_list = JsonPath.read(response.asString(), "$..workflow_end.status");
+				 status = wfStatus_list.get(0);
+				for (int i = 0; i < iterationCount; i++) {
+					if(status.equalsIgnoreCase("complete")) {
+						isCompleted=true;
+						break;
+					}
+					System.out.println("iteration::"+(i+1)+" Is Workflow Completed??::"+isCompleted);
+					Thread.sleep(30000);
+					 response = RestAssured.given().relaxedHTTPSValidation().header("cookie", "token=" + token).and()
+							  .when().get("https://autopilotapp-test4-01.test.intranet:3443/workflow_engine/getJobShallow/"+jobId)
 			                 .then().extract().response();
 //					 System.out.println(response.asPrettyString());
 	                 wfStatus_list = JsonPath.read(response.asString(), "$..workflow_end.status");
@@ -184,50 +242,11 @@ public class Autopilot {
 					
 				}
 			}
-		 else if(environment.contains("2") || environment.contains("TEST2")) {
-			 response = RestAssured.given().relaxedHTTPSValidation().header("cookie", "token=" + token).and()
-					  .when().get("https://autopilotapp-test2-01.test.intranet:3443/workflow_engine/getJobShallow/"+jobId)
-	                 .then().extract().response();
-			 ArrayList<String> wfStatus_list = JsonPath.read(response.asString(), "$..workflow_end.status");
-			 status = wfStatus_list.get(0);
-			for (int i = 0; i < iterationCount; i++) {
-				if(status.equalsIgnoreCase("complete")) {
-					isCompleted=true;
-					break;
-				}
-				System.out.println("iteration::"+(i+1)+" Is Workflow Completed??::"+isCompleted);
-				Thread.sleep(30000);
-				 response = RestAssured.given().relaxedHTTPSValidation().header("cookie", "token=" + token).and()
-						  .when().get("https://autopilotapp-test2-01.test.intranet:3443/workflow_engine/getJobShallow/"+jobId)
-		                 .then().extract().response();
-//				 System.out.println(response.asPrettyString());
-                wfStatus_list = JsonPath.read(response.asString(), "$..workflow_end.status");
-				 status = wfStatus_list.get(0);
-				
+			}catch (Exception e) {
+				e.printStackTrace();
 			}
-			}
-		 else if(environment.contains("4") || environment.contains("TEST4")) {
-			 response = RestAssured.given().relaxedHTTPSValidation().header("cookie", "token=" + token).and()
-					  .when().get("https://autopilotapp-test4-01.test.intranet:3443/workflow_engine/getJobShallow/"+jobId)
-	                 .then().extract().response();
-			 ArrayList<String> wfStatus_list = JsonPath.read(response.asString(), "$..workflow_end.status");
-			 status = wfStatus_list.get(0);
-			for (int i = 0; i < iterationCount; i++) {
-				if(status.equalsIgnoreCase("complete")) {
-					isCompleted=true;
-					break;
-				}
-				System.out.println("iteration::"+(i+1)+" Is Workflow Completed??::"+isCompleted);
-				Thread.sleep(30000);
-				 response = RestAssured.given().relaxedHTTPSValidation().header("cookie", "token=" + token).and()
-						  .when().get("https://autopilotapp-test4-01.test.intranet:3443/workflow_engine/getJobShallow/"+jobId)
-		                 .then().extract().response();
-//				 System.out.println(response.asPrettyString());
-                 wfStatus_list = JsonPath.read(response.asString(), "$..workflow_end.status");
-				 status = wfStatus_list.get(0);
-				
-			}
-		}
+			
+			
 		return isCompleted;
 		}
 	
@@ -235,63 +254,70 @@ public class Autopilot {
 	public static String getTaskDetail(String jobId,String taskId, String jsonPath, String token) throws InterruptedException {
 		boolean isCompleted = false;
 		String status = "";
-		String outgoingAttribute = "";
+		String outgoingAttribute = null;
 		Response response;
-		 if(environment.contains("1") || environment.contains("TEST1")) {
+		
+		try {
+			 if(environment.contains("1") || environment.contains("TEST1")) {
+				 response = RestAssured.given().relaxedHTTPSValidation().header("cookie", "token=" + token).and()
+						  .when().get("https://autopilotapp-test1-01.test.intranet:3443/workflow_engine/getTaskIterations/"+jobId+"/"+taskId)
+		                 .then().extract().response();
+//				 System.out.println(response.asString());
+				 {
+					 ArrayList<String> outgoing_list = JsonPath.read(response.asString(), jsonPath);
+					 if(outgoing_list.size()>0) {
+						try {
+							outgoingAttribute = outgoing_list.get(0);
+						} catch (Exception e) {
+							outgoingAttribute ="true";
+						}
+						  
+					 }else {
+						 outgoingAttribute = null;
+					 }		 			
+				}
+			}
+		 else if(environment.contains("2") || environment.contains("TEST2")) {
 			 response = RestAssured.given().relaxedHTTPSValidation().header("cookie", "token=" + token).and()
-					  .when().get("https://autopilotapp-test1-01.test.intranet:3443/workflow_engine/getTaskIterations/"+jobId+"/"+taskId)
+					  .when().get("https://autopilotapp-test2-01.test.intranet:3443/workflow_engine/getTaskIterations/"+jobId+"/"+taskId)
+	                .then().extract().response();
+//			 System.out.println(response.asString());
+			 {
+				 ArrayList<String> outgoing_list = JsonPath.read(response.asString(), jsonPath);
+				 if(outgoing_list.size()>0) {
+						try {
+							outgoingAttribute = outgoing_list.get(0);
+						} catch (Exception e) {
+							outgoingAttribute ="true";
+						}
+				 }else {
+					 outgoingAttribute = null;
+				 }		 			
+			}
+			}
+		 else if(environment.contains("4") || environment.contains("TEST4")) {
+			 response = RestAssured.given().relaxedHTTPSValidation().header("cookie", "token=" + token).and()
+					  .when().get("https://autopilotapp-test4-01.test.intranet:3443/workflow_engine/getTaskIterations/"+jobId+"/"+taskId)
 	                 .then().extract().response();
 //			 System.out.println(response.asString());
 			 {
 				 ArrayList<String> outgoing_list = JsonPath.read(response.asString(), jsonPath);
 				 if(outgoing_list.size()>0) {
-					try {
-						outgoingAttribute = outgoing_list.get(0);
-					} catch (Exception e) {
-						outgoingAttribute ="true";
-					}
-					  
+						try {
+							outgoingAttribute = outgoing_list.get(0);
+						} catch (Exception e) {
+							outgoingAttribute ="true";
+						} 
 				 }else {
 					 outgoingAttribute = null;
 				 }		 			
 			}
 		}
-	 else if(environment.contains("2") || environment.contains("TEST2")) {
-		 response = RestAssured.given().relaxedHTTPSValidation().header("cookie", "token=" + token).and()
-				  .when().get("https://autopilotapp-test2-01.test.intranet:3443/workflow_engine/getTaskIterations/"+jobId+"/"+taskId)
-                .then().extract().response();
-//		 System.out.println(response.asString());
-		 {
-			 ArrayList<String> outgoing_list = JsonPath.read(response.asString(), jsonPath);
-			 if(outgoing_list.size()>0) {
-					try {
-						outgoingAttribute = outgoing_list.get(0);
-					} catch (Exception e) {
-						outgoingAttribute ="true";
-					}
-			 }else {
-				 outgoingAttribute = null;
-			 }		 			
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
-		}
-	 else if(environment.contains("4") || environment.contains("TEST4")) {
-		 response = RestAssured.given().relaxedHTTPSValidation().header("cookie", "token=" + token).and()
-				  .when().get("https://autopilotapp-test4-01.test.intranet:3443/workflow_engine/getTaskIterations/"+jobId+"/"+taskId)
-                 .then().extract().response();
-//		 System.out.println(response.asString());
-		 {
-			 ArrayList<String> outgoing_list = JsonPath.read(response.asString(), jsonPath);
-			 if(outgoing_list.size()>0) {
-					try {
-						outgoingAttribute = outgoing_list.get(0);
-					} catch (Exception e) {
-						outgoingAttribute ="true";
-					} 
-			 }else {
-				 outgoingAttribute = null;
-			 }		 			
-		}
-	}
+		
+		
 	return outgoingAttribute;
 	}
 }
