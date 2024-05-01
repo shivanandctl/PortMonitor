@@ -77,59 +77,66 @@ public class Asri {
 		ArrayList<String> parentServiceName = new ArrayList<String>();
 		// linkedhashmap
 		LinkedHashMap parentServicesMap = new LinkedHashMap();
-
-		if (environment.contains("1")) {
-			autopilot.environment = "1";
-			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
-					.get(base.TEST1_SASI_ASRI + service).then().extract().response();
-			sasiRes = response.asString();
-		} else if (environment.contains("2")) {
-			autopilot.environment = "2";
-			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
-					.get(base.TEST2_SASI_ASRI + service).then().extract().response();
-			sasiRes = response.asString();
-		} else if (environment.contains("4")) {
-			autopilot.environment = "4";
-			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
-					.get(base.TEST4_SASI_ASRI + service).then().extract().response();
-			sasiRes = response.asString();
-		}
-		parentServiceName = JsonPath.read(sasiRes, "$..parentServices[*].name");
-
-		if (parentServiceName.isEmpty()) {
-//			System.out.println("+++++++++===================================++++++++");
-//			System.out.println("No parent services found for " + service);
-//			System.out.println("+++++++++===================================++++++++");
-		} else {
-//			System.out.println("===================================");
-//			System.out.println("Parent services for " + service + " in ENV:"+environment);
-//			System.out.println("===================================");
-			for (String parent : parentServiceName) {
-				if (parent.contains("_")) {
-					String ServiceFromEP = parent.split("_")[0];
-					ArrayList<String> serviceType = new ArrayList<String>();
-					serviceType = getServiceType(ServiceFromEP, environment);
-					if (!serviceType.isEmpty()) {
-						String serviceTypeName = serviceType.get(0);
-						String resName_resType = getReqNameAndReqType(serviceTypeName, environment);
-						String resType = resName_resType.split("_")[1];
-						parentServicesMap.put(ServiceFromEP, resType);
-
-					}
-				}
-				{
-					ArrayList<String> serviceType = new ArrayList<String>();
-					serviceType = getServiceType(parent, environment);
-					if (!serviceType.isEmpty()) {
-						String serviceTypeName = serviceType.get(0);
-						String resName_resType = getReqNameAndReqType(serviceTypeName, environment);
-						String resType = resName_resType.split("_")[1];
-						parentServicesMap.put(parent, resType);
-					}
-				}
-
+		
+		try {
+			if (environment.contains("1")) {
+				autopilot.environment = "1";
+				response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
+						.get(base.TEST1_SASI_ASRI + service).then().extract().response();
+				sasiRes = response.asString();
+			} else if (environment.contains("2")) {
+				autopilot.environment = "2";
+				response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
+						.get(base.TEST2_SASI_ASRI + service).then().extract().response();
+				sasiRes = response.asString();
+			} else if (environment.contains("4")) {
+				autopilot.environment = "4";
+				response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
+						.get(base.TEST4_SASI_ASRI + service).then().extract().response();
+				sasiRes = response.asString();
 			}
+			parentServiceName = JsonPath.read(sasiRes, "$..parentServices[*].name");
+
+			if (parentServiceName.isEmpty()) {
+//				System.out.println("+++++++++===================================++++++++");
+//				System.out.println("No parent services found for " + service);
+//				System.out.println("+++++++++===================================++++++++");
+			} else {
+//				System.out.println("===================================");
+//				System.out.println("Parent services for " + service + " in ENV:"+environment);
+//				System.out.println("===================================");
+				for (String parent : parentServiceName) {
+					if (parent.contains("_")) {
+						String ServiceFromEP = parent.split("_")[0];
+						ArrayList<String> serviceType = new ArrayList<String>();
+						serviceType = getServiceType(ServiceFromEP, environment);
+						if (!serviceType.isEmpty()) {
+							String serviceTypeName = serviceType.get(0);
+							String resName_resType = getReqNameAndReqType(serviceTypeName, environment);
+							String resType = resName_resType.split("_")[1];
+							parentServicesMap.put(ServiceFromEP, resType);
+
+						}
+					}
+					{
+						ArrayList<String> serviceType = new ArrayList<String>();
+						serviceType = getServiceType(parent, environment);
+						if (!serviceType.isEmpty()) {
+							String serviceTypeName = serviceType.get(0);
+							String resName_resType = getReqNameAndReqType(serviceTypeName, environment);
+							String resType = resName_resType.split("_")[1];
+							parentServicesMap.put(parent, resType);
+						}
+					}
+
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Error in getParentServices()"+e.getMessage());
+			return parentServicesMap;
 		}
+
+		
 
 		return parentServicesMap;
 
