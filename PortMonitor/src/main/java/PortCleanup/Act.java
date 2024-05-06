@@ -41,7 +41,6 @@ public class Act {
 		//set the environment
 		autopilot.environment = environment;
 		
-		
 		//get the request ids
 		ArrayList<String> ReqID_ServiceType_ReqType = new ArrayList<String>();
 		ReqID_ServiceType_ReqType = getRequestIDs(service, environment);
@@ -56,10 +55,23 @@ public class Act {
 				if (actInfo.size() > 0) {
 					String identifier_id = actInfo.get(0);
 					String header_identifier = actInfo.get(1);
+					String portName = null;
+					String deviceName = null;
+					
+					try {
+						portName = actInfo.get(2);
+						deviceName = actInfo.get(3);						
+					} catch (Exception e) {
+						portName = null;
+						deviceName = null;
+					}
 					// cleanup the network
 					System.out.println("+-----------------ACT CLEANUP START---------------------------------------------------------------+");
 					System.out.println("Act request found for ServiceID::"+service+ "in the environment::"+ environment);
-					System.out.println("Network cleanup already done for ServiceID::"+service+ "\nidentifier_id::" + identifier_id + "\nheader_identifier::" + header_identifier);
+					System.out.println("Network cleanup already done for ServiceID::"+service+ "\n\nIDENTIFIER_ID::" + identifier_id + "\nHEADER_IDENTIFIER::" + header_identifier);
+					if (portName != null && deviceName != null) {
+						System.out.println("DEVICE_NAME::" + deviceName +"\nPORT_NAME::" + portName  );
+					}
 					actCleanupStatus = true;
 					System.out.println("+-----------------ACT CLEANUP END-----------------------------------------------------------------+");
 				}
@@ -70,10 +82,23 @@ public class Act {
 				if (actInfo.size() > 0) {
 					String identifier_id = actInfo.get(0);
 					String header_identifier = actInfo.get(1);
+					String portName = null;
+					String deviceName = null;
+					
+					try {
+						portName = actInfo.get(2);
+						deviceName = actInfo.get(3);						
+					} catch (Exception e) {
+						portName = null;
+						deviceName = null;
+					}
 					// cleanup the network
 					System.out.println("+-----------------ACT CLEANUP START---------------------------------------------------------------+");
 					System.out.println("Act request found for ServiceID::"+service+ "in the environment::"+ environment);
-					System.out.println("Network cleanup is in progress for ServiceID::"+service+ "\nidentifier_id::" + identifier_id + "\nheader_identifier::" + header_identifier);
+					System.out.println("Network cleanup is in progress for ServiceID::"+service+ "\n\nIDENTIFIER_ID::" + identifier_id + "\nHEADER_IDENTIFIER::" + header_identifier);
+					if (portName != null && deviceName != null) {
+                        System.out.println("DEVICE_NAME::" + deviceName +"\nPORT_NAME::" + portName  );
+                    }
 					
 					//perform network cleanup
 					
@@ -323,6 +348,8 @@ public class Act {
 		String actJsonResponse = null;
 		String identifier_id = null;
 		String header_identifier = null;
+		String portName = null;
+		String deviceName = null;
 
 		if (environment.contains("1")) {
 			actJsonResponse = RestAssured.given().when()
@@ -342,11 +369,21 @@ public class Act {
 
 		ArrayList identifier_id_list     = JsonPath.read(jsonPrettyPrintString,"$..item[?(@.name=='identifier_id')].value");
 		ArrayList header_identifier_list = JsonPath.read(jsonPrettyPrintString,"$..item[?(@.name=='header.identifier')].value");
+		ArrayList portNameList = JsonPath.read(jsonPrettyPrintString, "$..item[?(@.name=='body.devices.ports[0].port')].value");
+		ArrayList deviceNameList = JsonPath.read(jsonPrettyPrintString, "$..item[?(@.name=='body.devices.device')].value");
 		if (identifier_id_list.size() > 0 && header_identifier_list.size() > 0) {
 			identifier_id = (String) identifier_id_list.get(0);
 			header_identifier = String.valueOf(header_identifier_list.get(0));
 			actInfo.add(identifier_id);
 			actInfo.add(header_identifier);
+			if (portNameList.size() > 0) {
+				portName = (String) portNameList.get(0);
+				actInfo.add(portName);
+			}
+			if (deviceNameList.size() > 0) {
+				deviceName = (String) deviceNameList.get(0);
+				actInfo.add(deviceName);
+			}
 		}
 
 		return actInfo;
