@@ -36,6 +36,16 @@ public class Rubicon {
 		labDevices.add("LABBRMCOZP307");
 //		labDevices.add("LABBRMCO5M301");
 //		labDevices.add("LABBRMCO5M302");
+		
+		//ZUNI DEVICES
+		labDevices.add("LABWSTZN5M001");
+		labDevices.add("LABWSTZN5M002");
+		labDevices.add("LABWSTZNYJ001");
+		labDevices.add("LABWSTZNZG001");
+		labDevices.add("LABWSTZNZG002");
+		labDevices.add("LABESTZNW2001");
+		labDevices.add("LABESTZNW2002");
+		labDevices.add("LABESTZNZG001");
 		return labDevices;
 	}
 
