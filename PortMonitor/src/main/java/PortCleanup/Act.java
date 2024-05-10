@@ -377,12 +377,12 @@ public class Act {
 			actInfo.add(identifier_id);
 			actInfo.add(header_identifier);
 			if (portNameList.size() > 0) {
-				portName = (String) portNameList.get(0);
-				actInfo.add(portName);
+//				portName = (String) portNameList.get(0);
+//				actInfo.add(portName);
 			}
 			if (deviceNameList.size() > 0) {
-				deviceName = (String) deviceNameList.get(0);
-				actInfo.add(deviceName);
+//				deviceName = (String) deviceNameList.get(0);
+//				actInfo.add(deviceName);
 			}
 		}
 

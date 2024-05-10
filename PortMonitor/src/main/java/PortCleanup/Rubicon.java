@@ -21,22 +21,6 @@ public class Rubicon {
 	// List of Lab Devices
 	public ArrayList<String> listLabDevices() {
 		ArrayList<String> labDevices = new ArrayList<String>();
-//		labDevices.add("LABBRMCOW2212");
-//		labDevices.add("LABBRMCOW2213");
-		labDevices.add("LABBRMCOW2310");
-//		labDevices.add("LABBRMCOW2311");
-		labDevices.add("LABBRMCOYP301");
-		labDevices.add("LABBRMCOYP305");
-		labDevices.add("LABBRMCOYJ302");
-		labDevices.add("LABBRMCOYJ303");
-		labDevices.add("LABBRMCOYJ304");
-		labDevices.add("LABBRMCOW2302");
-		labDevices.add("LABBRMCOZG009");
-		labDevices.add("LABBRMCOZN301");
-		labDevices.add("LABBRMCOZP307");
-//		labDevices.add("LABBRMCO5M301");
-//		labDevices.add("LABBRMCO5M302");
-		
 		//ZUNI DEVICES
 		labDevices.add("LABWSTZN5M001");
 		labDevices.add("LABWSTZN5M002");
@@ -113,84 +97,50 @@ public class Rubicon {
 
 		// create arraylist for each device
 
-		ArrayList<String> uniList_LABBRMCOW2212 = new ArrayList<String>();
-		ArrayList<String> uniList_LABBRMCOW2213 = new ArrayList<String>();
-		ArrayList<String> uniList_LABBRMCOW2310 = new ArrayList<String>();
-		ArrayList<String> uniList_LABBRMCOW2311 = new ArrayList<String>();
-		ArrayList<String> uniList_LABBRMCOYP301 = new ArrayList<String>();
-		ArrayList<String> uniList_LABBRMCOYP305 = new ArrayList<String>();
-		ArrayList<String> uniList_LABBRMCOYJ302 = new ArrayList<String>();
-		ArrayList<String> uniList_LABBRMCOYJ303 = new ArrayList<String>();
-		ArrayList<String> uniList_LABBRMCOYJ304 = new ArrayList<String>();
-		ArrayList<String> uniList_LABBRMCOZN301 = new ArrayList<String>();
-		ArrayList<String> uniList_LABBRMCOW2302 = new ArrayList<String>();
-		ArrayList<String> uniList_LABBRMCOZG009 = new ArrayList<String>();
-		ArrayList<String> uniList_LABBRMCOZP307 = new ArrayList<String>();
-		ArrayList<String> uniList_LABBRMCO5M301 = new ArrayList<String>();
-		ArrayList<String> uniList_LABBRMCO5M302 = new ArrayList<String>();
+		ArrayList<String> uniList_LABWSTZN5M001 = new ArrayList<String>();
+		ArrayList<String> uniList_LABWSTZN5M002 = new ArrayList<String>();
+		ArrayList<String> uniList_LABWSTZNYJ001 = new ArrayList<String>();
+		ArrayList<String> uniList_LABWSTZNZG001 = new ArrayList<String>();
+		ArrayList<String> uniList_LABWSTZNZG002 = new ArrayList<String>();
+		ArrayList<String> uniList_LABESTZNW2001 = new ArrayList<String>();
+		ArrayList<String> uniList_LABESTZNW2002 = new ArrayList<String>();
+		ArrayList<String> uniList_LABESTZNZG001 = new ArrayList<String>();
+		
 
 		for (String device : rubicon.listLabDevices()) {
 
-			if (device.contains("LABBRMCOW2212")) {
+			if (device.contains("LABWSTZN5M001")) {
 				System.out.println("Fetching UNIs on " + device);
-				uniList_LABBRMCOW2212 = rubicon.fetchUnisFromDevice(device);
-				uniListAllDevices.add(uniList_LABBRMCOW2212);
-			} else if (device.contains("LABBRMCOW2213")) {
+				uniList_LABWSTZN5M001 = rubicon.fetchUnisFromDevice(device);
+				uniListAllDevices.add(uniList_LABWSTZN5M001);
+			} else if (device.contains("LABWSTZN5M002")) {
 				System.out.println("Fetching UNIs on " + device);
-				uniList_LABBRMCOW2213 = rubicon.fetchUnisFromDevice(device);
-				uniListAllDevices.add(uniList_LABBRMCOW2213);
-			} else if (device.contains("LABBRMCOW2310")) {
+				uniList_LABWSTZN5M002 = rubicon.fetchUnisFromDevice(device);
+				uniListAllDevices.add(uniList_LABWSTZN5M002);
+			} else if (device.contains("LABWSTZNYJ001")) {
 				System.out.println("Fetching UNIs on " + device);
-				uniList_LABBRMCOW2310 = rubicon.fetchUnisFromDevice(device);
-				uniListAllDevices.add(uniList_LABBRMCOW2310);
-			} else if (device.contains("LABBRMCOW2311")) {
+				uniList_LABWSTZNYJ001 = rubicon.fetchUnisFromDevice(device);
+				uniListAllDevices.add(uniList_LABWSTZNYJ001);
+			} else if (device.contains("LABWSTZNZG001")) {
 				System.out.println("Fetching UNIs on " + device);
-				uniList_LABBRMCOW2311 = rubicon.fetchUnisFromDevice(device);
-				uniListAllDevices.add(uniList_LABBRMCOW2311);
-			} else if (device.contains("LABBRMCOYP301")) {
+				uniList_LABWSTZNZG001 = rubicon.fetchUnisFromDevice(device);
+				uniListAllDevices.add(uniList_LABWSTZNZG001);
+			} else if (device.contains("LABWSTZNZG002")) {
 				System.out.println("Fetching UNIs on " + device);
-				uniList_LABBRMCOYP301 = rubicon.fetchUnisFromDevice(device);
-				uniListAllDevices.add(uniList_LABBRMCOYP301);
-			} else if (device.contains("LABBRMCOYP305")) {
+				uniList_LABWSTZNZG002 = rubicon.fetchUnisFromDevice(device);
+				uniListAllDevices.add(uniList_LABWSTZNZG002);
+			} else if (device.contains("LABESTZNW2001")) {
 				System.out.println("Fetching UNIs on " + device);
-				uniList_LABBRMCOYP305 = rubicon.fetchUnisFromDevice(device);
-				uniListAllDevices.add(uniList_LABBRMCOYP305);
-			} else if (device.contains("LABBRMCOYJ302")) {
+				uniList_LABESTZNW2001 = rubicon.fetchUnisFromDevice(device);
+				uniListAllDevices.add(uniList_LABESTZNW2001);
+			} else if (device.contains("LABESTZNW2002")) {
 				System.out.println("Fetching UNIs on " + device);
-				uniList_LABBRMCOYJ302 = rubicon.fetchUnisFromDevice(device);
-				uniListAllDevices.add(uniList_LABBRMCOYJ302);
-			} else if (device.contains("LABBRMCOYJ303")) {
+				uniList_LABESTZNW2002 = rubicon.fetchUnisFromDevice(device);
+				uniListAllDevices.add(uniList_LABESTZNW2002);
+			} else if (device.contains("LABESTZNZG001")) {
 				System.out.println("Fetching UNIs on " + device);
-				uniList_LABBRMCOYJ303 = rubicon.fetchUnisFromDevice(device);
-				uniListAllDevices.add(uniList_LABBRMCOYJ303);
-			} else if (device.contains("LABBRMCOYJ304")) {
-				System.out.println("Fetching UNIs on " + device);
-				uniList_LABBRMCOYJ304 = rubicon.fetchUnisFromDevice(device);
-				uniListAllDevices.add(uniList_LABBRMCOYJ304);
-			} else if (device.contains("LABBRMCOZN301")) {
-				System.out.println("Fetching UNIs on " + device);
-				uniList_LABBRMCOZN301 = rubicon.fetchUnisFromDevice(device);
-				uniListAllDevices.add(uniList_LABBRMCOZN301);
-			} else if (device.contains("LABBRMCOW2302")) {
-				System.out.println("Fetching UNIs on " + device);
-				uniList_LABBRMCOW2302 = rubicon.fetchUnisFromDevice(device);
-				uniListAllDevices.add(uniList_LABBRMCOW2302);
-			} else if (device.contains("LABBRMCOZG009")) {
-				System.out.println("Fetching UNIs on " + device);
-				uniList_LABBRMCOZG009 = rubicon.fetchUnisFromDevice(device);
-				uniListAllDevices.add(uniList_LABBRMCOZG009);
-			} else if (device.contains("LABBRMCOZP307")) {
-				System.out.println("Fetching UNIs on " + device);
-				uniList_LABBRMCOZP307 = rubicon.fetchUnisFromDevice(device);
-				uniListAllDevices.add(uniList_LABBRMCOZP307);
-			} else if (device.contains("LABBRMCO5M301")) {
-				System.out.println("Fetching UNIs on " + device);
-				uniList_LABBRMCO5M301 = rubicon.fetchUnisFromDevice(device);
-				uniListAllDevices.add(uniList_LABBRMCO5M301);
-			} else if (device.contains("LABBRMCO5M302")) {
-				System.out.println("Fetching UNIs on " + device);
-				uniList_LABBRMCO5M302 = rubicon.fetchUnisFromDevice(device);
-				uniListAllDevices.add(uniList_LABBRMCO5M302);
+				uniList_LABESTZNZG001 = rubicon.fetchUnisFromDevice(device);
+				uniListAllDevices.add(uniList_LABESTZNZG001);
 			} else {
 				System.out.println("No UNI's found on " + device);
 			}
