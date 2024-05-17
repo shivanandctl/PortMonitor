@@ -165,7 +165,7 @@ public class Rubicon {
 				}
 				System.out.println("#-------------------------------------------------------------------#\n\n");
 			} else {
-				System.out.println("No UNI's found on " + device);
+				System.out.println("\n\nNo UNI's found on " + device);
 			}
 		}
 

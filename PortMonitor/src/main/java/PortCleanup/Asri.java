@@ -175,6 +175,42 @@ public class Asri {
 		return serviceType;
 
 	}
+	
+	
+	public ArrayList<String> getServiceAttribute(String service, String environment, String attribute) {
+
+		String sasiRes = "";
+		Response response;
+		ArrayList<String> serviceType = new ArrayList<String>();
+
+		if (environment.contains("1")) {
+			autopilot.environment = "1";
+			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
+					.get(base.TEST1_SASI_ASRI + service).then().extract().response();
+			sasiRes = response.asString();
+		} else if (environment.contains("2")) {
+			autopilot.environment = "2";
+			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
+					.get(base.TEST2_SASI_ASRI + service).then().extract().response();
+			sasiRes = response.asString();
+		} else if (environment.contains("4")) {
+			autopilot.environment = "4";
+			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
+					.get(base.TEST4_SASI_ASRI + service).then().extract().response();
+			sasiRes = response.asString();
+		}
+		serviceType = JsonPath.read(sasiRes, attribute);
+
+//		if (serviceType.isEmpty()) {
+//			System.out.println("No service type found for " + service);
+//		} else {
+//			System.out.println("Service type for " + service + " is " + serviceType.toString());
+//		}
+
+		return serviceType;
+
+	}
+	
 
 	public static LinkedHashMap consolidateServices(String service, String environment) {
 			
@@ -626,15 +662,16 @@ public class Asri {
 	public static void main(String[] args) {
 		Asri asri = new Asri();
 		
-		String service = "CO/KXFN/048751/LUMN";
-		String env = "4";
+		String service = "CO/KXFN/067680/LUMN";
+		String env = "2";
 		
-		LinkedHashMap<String, String> servicesMap = asri.consolidateServices(service, env);
-		ArrayList<String> rearragedServices = asri.getRearragedServices(servicesMap, env);
-		
-		for (String service_ : rearragedServices) {
-			System.out.println(service_);
+		ArrayList<String> attributName = asri.getServiceAttribute(service, env, "$..resources[0]..zend..device..name");
+		if (attributName.size() > 0) {
+			System.out.println(attributName.get(0));
+		} else {
+			System.out.println("No attribute found");
 		}
+		
 
 	}
 

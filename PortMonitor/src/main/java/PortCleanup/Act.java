@@ -58,20 +58,20 @@ public class Act {
 					String portName = null;
 					String deviceName = null;
 					
-					try {
-						portName = actInfo.get(2);
-						deviceName = actInfo.get(3);						
-					} catch (Exception e) {
-						portName = null;
-						deviceName = null;
-					}
+//					try {
+//						portName = actInfo.get(2);
+//						deviceName = actInfo.get(3);						
+//					} catch (Exception e) {
+//						portName = null;
+//						deviceName = null;
+//					}
 					// cleanup the network
 					System.out.println("+-----------------ACT CLEANUP START---------------------------------------------------------------+");
 					System.out.println("Act request found for ServiceID::"+service+ "in the environment::"+ environment);
 					System.out.println("Network cleanup already done for ServiceID::"+service+ "\n\nIDENTIFIER_ID::" + identifier_id + "\nHEADER_IDENTIFIER::" + header_identifier);
-					if (portName != null && deviceName != null) {
-						System.out.println("DEVICE_NAME::" + deviceName +"\nPORT_NAME::" + portName  );
-					}
+//					if (portName != null && deviceName != null) {
+//						System.out.println("DEVICE_NAME::" + deviceName +"\nPORT_NAME::" + portName  );
+//					}
 					actCleanupStatus = true;
 					System.out.println("+-----------------ACT CLEANUP END-----------------------------------------------------------------+");
 				}
@@ -85,20 +85,20 @@ public class Act {
 					String portName = null;
 					String deviceName = null;
 					
-					try {
-						portName = actInfo.get(2);
-						deviceName = actInfo.get(3);						
-					} catch (Exception e) {
-						portName = null;
-						deviceName = null;
-					}
+//					try {
+//						portName = actInfo.get(2);
+//						deviceName = actInfo.get(3);						
+//					} catch (Exception e) {
+//						portName = null;
+//						deviceName = null;
+//					}
 					// cleanup the network
 					System.out.println("+-----------------ACT CLEANUP START---------------------------------------------------------------+");
 					System.out.println("Act request found for ServiceID::"+service+ "in the environment::"+ environment);
 					System.out.println("Network cleanup is in progress for ServiceID::"+service+ "\n\nIDENTIFIER_ID::" + identifier_id + "\nHEADER_IDENTIFIER::" + header_identifier);
-					if (portName != null && deviceName != null) {
-                        System.out.println("DEVICE_NAME::" + deviceName +"\nPORT_NAME::" + portName  );
-                    }
+//					if (portName != null && deviceName != null) {
+//                        System.out.println("DEVICE_NAME::" + deviceName +"\nPORT_NAME::" + portName  );
+//                    }
 					
 					//perform network cleanup
 					

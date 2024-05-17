@@ -84,13 +84,37 @@ public class PortMonitor {
 					for (String env : envs) {
 						System.out.println(unis + "====>" + env);
 						ArrayList<String> storeCleanedUni2 = new ArrayList<String>();
-						storeCleanedUni2 = cleanPortsViaPortMonitorData(unis, env);
-						// print cleaned Uni List
-						if (storeCleanedUni2.size() > 0) {
-							for (String cleanedUni : storeCleanedUni2) {
-								CleanedUniList.add(cleanedUni);
+						
+						//get the device name of uni service from ASRI
+						ArrayList<String> deviceNameList =  asri.getServiceAttribute(unis, env, "$..resources[0]..zend..device..name");
+						if (deviceNameList.size() > 0) {
+							String deviceName = deviceNameList.get(0);
+							System.out.println("Device Name::" + deviceName);
+							//checking for PROD devices and not cleaning them
+							//check if this device is in the list of devices
+							if (deviceName.equals(device)) {
+								storeCleanedUni2 = cleanPortsViaPortMonitorData(unis, env);
+								// print cleaned Uni List
+								if (storeCleanedUni2.size() > 0) {
+									for (String cleanedUni : storeCleanedUni2) {
+										CleanedUniList.add(cleanedUni);
+									}
+								}
+							} else {
+								System.out.println("Device Name::" + deviceName + " not found in the list of devices so not cleaning");
+							}
+						} else {
+							System.out.println("Device Name::NULL");
+							storeCleanedUni2 = cleanPortsViaPortMonitorData(unis, env);
+							// print cleaned Uni List
+							if (storeCleanedUni2.size() > 0) {
+								for (String cleanedUni : storeCleanedUni2) {
+									CleanedUniList.add(cleanedUni);
+								}
 							}
 						}
+						
+						
 					}
 				}
 
