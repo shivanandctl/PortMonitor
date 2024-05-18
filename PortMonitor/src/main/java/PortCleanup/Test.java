@@ -107,9 +107,9 @@ public class Test {
 		pm.printCleanedUniList(CleanedUniList);
 		*/
 //		updatePortMonitorIfUniNotUpdated("CO/KXFN/048399/LUMN");
-//		updateRecordAfterCleanup("CO/KXFN/048864/LUMN");
+		pm.updatePortMonitorIfUniNotUpdated("CO/KXFN/067693/LUMN","LABWSTZNYJ001");
 //		cleanPortsViaPortMonitorData("CO/IRXX/048658/LUMN", "4");
-		cleanPortsViaPortMonitorData("CO/KXFN/067620/LUMN", "2");
+//		cleanPortsViaPortMonitorData("CO/KXFN/067620/LUMN", "2");
 
 	}
 	
