@@ -508,7 +508,9 @@ public class PortMonitor {
 		int statCode = response.getStatusCode();
 		String responseStr = response.asString();
 		
-		ArrayList<String> uniDevice = JsonPath.read(responseStr, "$..resources[0]..zend..device..name");
+		ArrayList<String> uniDevice = new ArrayList<String>();
+		
+		uniDevice = JsonPath.read(response.asString(), "$..resources[0]..zend..device..name");
 		if (uniDevice.size() > 0) {
 			System.out.println("Device Name::" + uniDevice.get(0));
 			if (statCode == 200 && uniDevice.get(0).equals(device)) {
@@ -516,69 +518,82 @@ public class PortMonitor {
 				System.out.println("UNI: " + uni + " is updated in PortMonitor in Test1");
 				getSasiDetails(response, environment);
 				triggerUpdateDbApi(getSasiDetails(response, environment));
-			} else {
-				System.out.println("UNI: " + uni + " is not updated in PortMonitor in Test1 as Device Name is not matching");
-				query = "https://sasi-test2.kubeodc-test.corp.intranet/inventory/v1/asri/services?name=" + uni;
-				response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and()
-						.when().get(query).then().extract().response();
-				statCode = response.getStatusCode();
+			} 
+//			else {
+//				System.out.println("UNI: " + uni + " is not updated in PortMonitor in Test1 as Device Name is not matching");
+//				query = "https://sasi-test2.kubeodc-test.corp.intranet/inventory/v1/asri/services?name=" + uni;
+//				response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and()
+//						.when().get(query).then().extract().response();
+//				statCode = response.getStatusCode();
+//				if (statCode == 200 && uniDevice.get(0).equals(device)) {
+//					String environment = "Test2";
+//					System.out.println("UNI: " + uni + " is updated in PortMonitor in Test2");
+//					getSasiDetails(response, environment);
+//					triggerUpdateDbApi(getSasiDetails(response, environment));
+//				} else {
+//					System.out.println("UNI: " + uni
+//							+ " is not updated in PortMonitor\n as it is not found in ASRI Test1 and Test2");
+//					query = "https://sasi-test4.kubeodc-test.corp.intranet/inventory/v1/asri/services?name=" + uni;
+//					response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and()
+//							.when().get(query).then().extract().response();
+//					statCode = response.getStatusCode();
+//					if (statCode == 200 && uniDevice.get(0).equals(device)) {
+//						String environment = "Test4";
+//						System.out.println("UNI: " + uni + " is updated in PortMonitor in Test4");
+//						getSasiDetails(response, environment);
+//						triggerUpdateDbApi(getSasiDetails(response, environment));
+//					} else {
+//						System.out.println("UNI: " + uni
+//								+ " is not updated in PortMonitor\n as it is not found in ASRI Test1, Test2 and Test4");
+//						System.out.println("UNI not updated in PortMonitor as Device Name is not matching");
+//					}
+//				}
+//			}
+		} else {
+			System.out.println("UNI: " + uni + " is not updated in PortMonitor in Test1 as Device Name is not matching");
+			query = "https://sasi-test2.kubeodc-test.corp.intranet/inventory/v1/asri/services?name=" + uni;
+			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and()
+					.when().get(query).then().extract().response();
+			
+			statCode = response.getStatusCode();
+			uniDevice = JsonPath.read(response.asString(), "$..resources[0]..zend..device..name");
+			
+			if (uniDevice.size() > 0) {
 				if (statCode == 200 && uniDevice.get(0).equals(device)) {
 					String environment = "Test2";
 					System.out.println("UNI: " + uni + " is updated in PortMonitor in Test2");
 					getSasiDetails(response, environment);
 					triggerUpdateDbApi(getSasiDetails(response, environment));
-				} else {
+				} 
+			} else {
+				{
 					System.out.println("UNI: " + uni
 							+ " is not updated in PortMonitor\n as it is not found in ASRI Test1 and Test2");
 					query = "https://sasi-test4.kubeodc-test.corp.intranet/inventory/v1/asri/services?name=" + uni;
-					response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and()
-							.when().get(query).then().extract().response();
+					response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json")
+							.and().when().get(query).then().extract().response();
 					statCode = response.getStatusCode();
-					if (statCode == 200 && uniDevice.get(0).equals(device)) {
-						String environment = "Test4";
-						System.out.println("UNI: " + uni + " is updated in PortMonitor in Test4");
-						getSasiDetails(response, environment);
-						triggerUpdateDbApi(getSasiDetails(response, environment));
+					uniDevice = JsonPath.read(response.asString(), "$..resources[0]..zend..device..name");
+					if (uniDevice.size() > 0) {
+						if (statCode == 200 && uniDevice.get(0).equals(device)) {
+							String environment = "Test4";
+							System.out.println("UNI: " + uni + " is updated in PortMonitor in Test4");
+							getSasiDetails(response, environment);
+							triggerUpdateDbApi(getSasiDetails(response, environment));
+						} else {
+							
+							System.out.println("UNI not updated in PortMonitor as Device Name is not matching in Test4");
+						}
 					} else {
 						System.out.println("UNI: " + uni
 								+ " is not updated in PortMonitor\n as it is not found in ASRI Test1, Test2 and Test4");
-						System.out.println("UNI not updated in PortMonitor as Device Name is not matching");
 					}
 				}
 			}
-		} else {
-			System.out.println("Device Name::NULL");
-			if (statCode == 200) {
-				String environment = "Test1";
-				System.out.println("UNI: " + uni + " is updated in PortMonitor in Test1");
-				getSasiDetails(response, environment);
-				triggerUpdateDbApi(getSasiDetails(response, environment));
-			} else {
-				query = "https://sasi-test2.kubeodc-test.corp.intranet/inventory/v1/asri/services?name=" + uni;
-				response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and()
-						.when().get(query).then().extract().response();
-				statCode = response.getStatusCode();
-				if (statCode == 200) {
-					String environment = "Test2";
-					System.out.println("UNI: " + uni + " is updated in PortMonitor in Test2");
-					getSasiDetails(response, environment);
-					triggerUpdateDbApi(getSasiDetails(response, environment));
-				} else {
-					query = "https://sasi-test4.kubeodc-test.corp.intranet/inventory/v1/asri/services?name=" + uni;
-					response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and()
-							.when().get(query).then().extract().response();
-					statCode = response.getStatusCode();
-					if (statCode == 200) {
-						String environment = "Test4";
-						System.out.println("UNI: " + uni + " is updated in PortMonitor in Test4");
-						getSasiDetails(response, environment);
-						triggerUpdateDbApi(getSasiDetails(response, environment));
-					} else {
-						System.out.println(
-								"UNI: " + uni + " is not updated in PortMonitor\n as it is not found in ASRI Test1, Test2 and Test4");
-						}
-				}
-			}
+			
+			
+			
+			
 		}
 		
 		
