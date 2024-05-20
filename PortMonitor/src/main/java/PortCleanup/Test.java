@@ -107,7 +107,7 @@ public class Test {
 		pm.printCleanedUniList(CleanedUniList);
 		*/
 //		updatePortMonitorIfUniNotUpdated("CO/KXFN/048399/LUMN");
-		pm.updatePortMonitorIfUniNotUpdated("CO/KXFN/067693/LUMN","LABWSTZNYJ001");
+		pm.updatePortMonitorIfUniNotUpdated("CO/KXFN/067714/LUMN","LABWSTZNZG002");
 //		cleanPortsViaPortMonitorData("CO/IRXX/048658/LUMN", "4");
 //		cleanPortsViaPortMonitorData("CO/KXFN/067620/LUMN", "2");
 
@@ -599,5 +599,46 @@ public class Test {
 			System.out.println("PortMonitor DB not updated after cleanup");
 		}
 
+	}
+	
+	public static void validateAttributesOfUpdatedUni(String uni, String device) {
+		String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/getUnidata/" + uni;
+		Response uniResponse = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json")
+				.and().when().get(query).then().extract().response();
+		
+		String uniRes = uniResponse.asString();
+		String unialias = JsonPath.read(uniRes, "$.unialias");
+		String environment = JsonPath.read(uniRes, "$.environment");
+		String createdDate = JsonPath.read(uniRes, "$.createdDate");
+		String deviceName = JsonPath.read(uniRes, "$.device");
+		String portNum = JsonPath.read(uniRes, "$.portnum");
+		String prodType = JsonPath.read(uniRes, "$.prodType");
+		String team = JsonPath.read(uniRes, "$.team");
+		String orderId = JsonPath.read(uniRes, "$.orderId");
+		String createdBy = JsonPath.read(uniRes, "$.createdBy");
+		String userComment = JsonPath.read(uniRes, "$.user_comment");
+		String cleanupDate = JsonPath.read(uniRes, "$.cleanup_date");
+		String cleanedDate = JsonPath.read(uniRes, "$.cleanedDate");
+		
+		if (deviceName.equals(device)) {
+			System.out.println("Device Name is matching");
+		} else {
+			System.out.println("Device Name is not matching");
+			updatePortMonitorIfUniNotUpdated(uni);
+			
+			try {
+				Response response;
+				String query1 = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/getUnidata/" + uni;
+				response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
+						.get(query1).then().extract().response();
+
+				int statCode = response.getStatusCode();
+				System.out.println("Status code: " + statCode);
+				String sasiRes = response.asString();
+				response.prettyPrint();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}	
 	}
 }
