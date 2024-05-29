@@ -662,15 +662,10 @@ public class Asri {
 	public static void main(String[] args) {
 		Asri asri = new Asri();
 		
-		String service = "CO/KXFN/067680/LUMN";
+		String service = "CO/KXFN/067549/LUMN";
 		String env = "2";
 		
-		ArrayList<String> attributName = asri.getServiceAttribute(service, env, "$..resources[0]..zend..device..name");
-		if (attributName.size() > 0) {
-			System.out.println(attributName.get(0));
-		} else {
-			System.out.println("No attribute found");
-		}
+		asri.consolidateServices(service, env);
 		
 
 	}

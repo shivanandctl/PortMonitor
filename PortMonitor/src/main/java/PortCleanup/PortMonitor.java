@@ -58,11 +58,16 @@ public class PortMonitor {
 
 			// print the validated UNIs
 			System.out.println(
-					"+------------------------------VALIDATED UNIs FOR CLEANUP------------------------------------+");
-			for (String unis : validatedUnis) {
-				System.out.println(unis);
+					"+-------------------------VALIDATED UNIs FOR CLEANUP-------------------------------+");
+			if (validatedUnis.size() > 0) {
+				for (String unis : validatedUnis) {
+					System.out.println(unis);
+				}
+			} else {
+				System.out.println("No UNIs are qualified for cleanup in this device " + device);
 			}
-			System.out.println("===============================================================================");
+			
+			System.out.println("===================================================================================");
 
 			for (String unis : validatedUnis) {
 				System.out.println("############################################################################");
@@ -344,7 +349,8 @@ public class PortMonitor {
 			cleanupUnis.add(uni);
 			System.out.println("No record found in PortMonitor DB\nUpdating UNI::" + uni + " into port UI for Cleanup");
 			updatePortMonitorIfUniNotUpdated(uni, device);
-			System.out.println("+--------------------------------------------------------------------------+");
+			System.out.println(
+					"+----------------------------------------------------------------------------------+");
 		}
 
 		return cleanupUnis;
@@ -511,11 +517,12 @@ public class PortMonitor {
 		ArrayList<String> uniDevice = new ArrayList<String>();
 		
 		uniDevice = JsonPath.read(response.asString(), "$..resources[0]..zend..device..name");
-		if (uniDevice.size() > 0) {
-			System.out.println("Device found in ASRI Test1::" + uniDevice.get(0));
-		}
+//		if (uniDevice.size() > 0) {
+//			System.out.println("Device found in ASRI Test1::" + uniDevice.get(0));
+//		}
 		
 			if (uniDevice.size() > 0 && statCode == 200 && uniDevice.get(0).equals(device)) {
+				System.out.println("Matching Device found in ASRI Test1::" + uniDevice.get(0));
 				String environment = "Test1";
 				System.out.println("UNI: " + uni + " is updated in PortMonitor in Test1");
 				getSasiDetails(response, environment);

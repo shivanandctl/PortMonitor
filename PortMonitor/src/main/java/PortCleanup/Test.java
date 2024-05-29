@@ -20,6 +20,7 @@ public class Test {
 		PortMonitor pm = new PortMonitor();
 		Rubicon rubicon = new Rubicon();
 		Asri asri = new Asri();
+//		asri.cleanIp("CO/IRXX/059408/LUMN");
 		/*
 		ArrayList<String> cleanupUnis = new ArrayList<String>();
 		ArrayList<String> validatedUnis = new ArrayList<String>();
@@ -107,9 +108,13 @@ public class Test {
 		pm.printCleanedUniList(CleanedUniList);
 		*/
 //		updatePortMonitorIfUniNotUpdated("CO/KXFN/048399/LUMN");
-		pm.updatePortMonitorIfUniNotUpdated("CO/KXFN/067714/LUMN","LABWSTZNZG002");
-//		cleanPortsViaPortMonitorData("CO/IRXX/048658/LUMN", "4");
-//		cleanPortsViaPortMonitorData("CO/KXFN/067620/LUMN", "2");
+//		pm.updatePortMonitorIfUniNotUpdated("CO/KXFN/067714/LUMN","LABWSTZNZG002");
+		cleanPortsViaPortMonitorData("CO/IRXX/059317/LUMN", "1");
+//		cleanPortsViaPortMonitorData("101/GE10/DNVFCOQE4L001/LABWSTZNYJ001", "2");
+//		pm.updateRecordAfterCleanup("CO/KXFN/067591/LUMN");
+		//add the below list into a arraylist
+//		pm.validateUniForCleanup("CO/KXFN/067845/LUMN", "LABWSTZNZG002");
+
 
 	}
 	
@@ -640,5 +645,17 @@ public class Test {
 				e.printStackTrace();
 			}
 		}	
+	}
+	
+	public  void deleteRecordFromPortMonitor(String uni) {
+		String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/deleteRecord/" + uni;
+		Response response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json")
+				.and().when().delete(query).then().extract().response();
+		int statCode = response.getStatusCode();
+		if (statCode == 200) {
+			System.out.println("Record deleted successfully from PortMonitor");
+		} else {
+			System.out.println("Record not deleted from PortMonitor");
+		}
 	}
 }
