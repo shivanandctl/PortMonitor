@@ -18,6 +18,7 @@ public class Test {
 
 	public static void main(String[] args) {
 		PortMonitor pm = new PortMonitor();
+		PortMonitor2 pm2 = new PortMonitor2();
 		Rubicon rubicon = new Rubicon();
 		Asri asri = new Asri();
 //		asri.cleanIp("CO/IRXX/059408/LUMN");
@@ -109,9 +110,10 @@ public class Test {
 		*/
 //		updatePortMonitorIfUniNotUpdated("CO/KXFN/048399/LUMN");
 //		pm.updatePortMonitorIfUniNotUpdated("CO/KXFN/067714/LUMN","LABWSTZNZG002");
-		cleanPortsViaPortMonitorData("CO/IRXX/059317/LUMN", "1");
+//		cleanPortsViaPortMonitorData("CO/IRXX/059317/LUMN", "1");
 //		cleanPortsViaPortMonitorData("101/GE10/DNVFCOQE4L001/LABWSTZNYJ001", "2");
-//		pm.updateRecordAfterCleanup("CO/KXFN/067591/LUMN");
+//		pm.updateRecordAfterCleanup("CO/KXFN/067549/LUMN");
+		pm2.cleanPortsViaPortMonitorData("CO/KXFN/073070/LUMN", "4");
 		//add the below list into a arraylist
 //		pm.validateUniForCleanup("CO/KXFN/067845/LUMN", "LABWSTZNZG002");
 

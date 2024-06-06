@@ -632,28 +632,55 @@ public class Asri {
 		System.out.println("==============================================IP CLEANUP START=================================================");
 		boolean isIpCleaned = false;
 		String resolvedIpUrl =  Test_Get_IPs + serviceID;
-		String iPResBody = RestAssured.given().relaxedHTTPSValidation().get(resolvedIpUrl).body().asString();
-		ArrayList<String> ipList = JsonPath.read(iPResBody, "$..ipBlock..cidrRange");
-		if (ipList.size() > 0) {
-			System.out.println("IPs Found!!\nNumber of IPs occupied by " + serviceID + " is::" + ipList.size());
-			for (String ip : ipList) {
-				System.out.println("Releasing IP::" + ip);
-				String ipReleasePayload = "{\r\n" + "    \"circuitId\" : \"" + serviceID + "\",\r\n"
-						+ "    \"cidrRange\" : \"" + ip + "\"\r\n" + "}";
-				System.out.println(ipReleasePayload);
-				String ipReleaseResponse = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json")
-						.and().body(ipReleasePayload).when().post(Test_IP_Release).then().extract().response()
-						.asString();
-				System.out.println(ipReleaseResponse);
-				ArrayList<String> ipReleaseList = JsonPath.read(ipReleaseResponse, "$..errorMessage");
-				if (ipReleaseList.size() > 0) {
-					System.out.println(ipReleaseList.get(0));
-					ipReleaseList.get(0).equalsIgnoreCase("SUCCESS");
+		
+		try {
+			String iPResBody = RestAssured.given().relaxedHTTPSValidation().get(resolvedIpUrl).body().asString();
+			ArrayList<String> ipList = JsonPath.read(iPResBody, "$..ipBlock..cidrRange");
+			if (ipList.size() > 0) {
+				System.out.println("IPs Found!!\nNumber of IPs occupied by " + serviceID + " is::" + ipList.size());
+				for (String ip : ipList) {
+					System.out.println("Releasing IP::" + ip);
+					String ipReleasePayload = "{\r\n" + "    \"circuitId\" : \"" + serviceID + "\",\r\n"
+							+ "    \"cidrRange\" : \"" + ip + "\"\r\n" + "}";
+					System.out.println(ipReleasePayload);
+					String ipReleaseResponse = RestAssured.given().relaxedHTTPSValidation()
+							.header("Content-type", "application/json").and().body(ipReleasePayload).when()
+							.post(Test_IP_Release).then().extract().response().asString();
+					System.out.println(ipReleaseResponse);
+					ArrayList<String> ipReleaseList = JsonPath.read(ipReleaseResponse, "$..errorMessage");
+					if (ipReleaseList.size() > 0) {
+						System.out.println(ipReleaseList.get(0));
+						ipReleaseList.get(0).equalsIgnoreCase("SUCCESS");
+					}
 				}
+			} else {
+				System.out.println("No IPs occupied by the service::" + serviceID);
 			}
-		} else {
-			System.out.println("No IPs occupied by the service::" + serviceID);
+		} catch (Exception e) {
+			System.out.println("Error in cleanIp()" + e.getMessage());
 		}
+//		String iPResBody = RestAssured.given().relaxedHTTPSValidation().get(resolvedIpUrl).body().asString();
+//		ArrayList<String> ipList = JsonPath.read(iPResBody, "$..ipBlock..cidrRange");
+//		if (ipList.size() > 0) {
+//			System.out.println("IPs Found!!\nNumber of IPs occupied by " + serviceID + " is::" + ipList.size());
+//			for (String ip : ipList) {
+//				System.out.println("Releasing IP::" + ip);
+//				String ipReleasePayload = "{\r\n" + "    \"circuitId\" : \"" + serviceID + "\",\r\n"
+//						+ "    \"cidrRange\" : \"" + ip + "\"\r\n" + "}";
+//				System.out.println(ipReleasePayload);
+//				String ipReleaseResponse = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json")
+//						.and().body(ipReleasePayload).when().post(Test_IP_Release).then().extract().response()
+//						.asString();
+//				System.out.println(ipReleaseResponse);
+//				ArrayList<String> ipReleaseList = JsonPath.read(ipReleaseResponse, "$..errorMessage");
+//				if (ipReleaseList.size() > 0) {
+//					System.out.println(ipReleaseList.get(0));
+//					ipReleaseList.get(0).equalsIgnoreCase("SUCCESS");
+//				}
+//			}
+//		} else {
+//			System.out.println("No IPs occupied by the service::" + serviceID);
+//		}
 		System.out.println("==============================================IP CLEANUP END===================================================\n\n");
 		return isIpCleaned;
 
