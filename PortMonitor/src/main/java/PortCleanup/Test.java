@@ -112,8 +112,10 @@ public class Test {
 //		pm.updatePortMonitorIfUniNotUpdated("CO/KXFN/067714/LUMN","LABWSTZNZG002");
 //		cleanPortsViaPortMonitorData("CO/IRXX/059317/LUMN", "1");
 //		cleanPortsViaPortMonitorData("101/GE10/DNVFCOQE4L001/LABWSTZNYJ001", "2");
-//		pm.updateRecordAfterCleanup("CO/KXFN/067549/LUMN");
-		pm2.cleanPortsViaPortMonitorData("CO/KXFN/073070/LUMN", "4");
+//		pm2.updateRecordAfterCleanup("CO/KXFN/073340/LUMN");
+		pm2.cleanPortsViaPortMonitorData("CO/KXFN/073627/LUMN", "4");
+		pm2.cleanPortsViaPortMonitorData("CO/KXFN/073625/LUMN", "4");
+//		pm2.cleanPortsViaPortMonitorData("CO/KXFN/073627/LUMN", "4");
 		//add the below list into a arraylist
 //		pm.validateUniForCleanup("CO/KXFN/067845/LUMN", "LABWSTZNZG002");
 
