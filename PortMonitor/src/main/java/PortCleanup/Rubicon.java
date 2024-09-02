@@ -30,6 +30,9 @@ public class Rubicon {
 		labDevices.add("LABESTZNW2001");
 		labDevices.add("LABESTZNW2002");
 		labDevices.add("LABESTZNZG001");
+		labDevices.add("LAB2COZEZG001");
+		labDevices.add("LAB2COZEW2002");
+		
 		return labDevices;
 	}
 
