@@ -16,108 +16,69 @@ import io.restassured.response.*;
 
 public class Test {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		PortMonitor pm = new PortMonitor();
 		PortMonitor2 pm2 = new PortMonitor2();
 		Rubicon rubicon = new Rubicon();
 		Asri asri = new Asri();
-//		asri.cleanIp("CO/IRXX/059408/LUMN");
-		/*
-		ArrayList<String> cleanupUnis = new ArrayList<String>();
-		ArrayList<String> validatedUnis = new ArrayList<String>();
-		ArrayList<String> CleanedUniList = new ArrayList<String>();
-
-		System.out.println("\n");
-		System.out.println("###### ########  #######   ########  ########");
-		System.out.println("##        ##     ##   ##   ##    ##     ##   ");
-		System.out.println("##        ##     ##   ##   ##    ##     ##   ");
-		System.out.println("######    ##     #######   ########     ##   ");
-		System.out.println("    ##    ##     ##   ##   ## ##        ##   ");
-		System.out.println("    ##    ##     ##   ##   ##  ##       ##   ");
-		System.out.println("######    ##     ##   ##   ##   ###     ##   ");
-		System.out.println("\n");
-
-		ArrayList<String> devices = rubicon.listLabDevices();
-		for (String device : devices) {
-			System.out.println(
-					"################################################################################################");
-			System.out.println("Device::" + device);
-			System.out.println(
-					"################################################################################################");
-			ArrayList<String> uniList = rubicon.fetchUnisFromDevice(device);
-			System.out.println("+------------------List of UNIs on Device::" + device + "------------------------+");
-			for (String uni : uniList) {
-				System.out.println(uni);
-			}
-			System.out.println("===============================================================================");
-
-			for (int i = 1; i < uniList.size(); i++) {
-				cleanupUnis = pm.validateUniForCleanup(uniList.get(i));
-				if (cleanupUnis.size() > 0) {
-					validatedUnis.add(uniList.get(i));
-				}
-			}
-
-			System.out.println(
-					"+------------------------------VALIDATED UNIs FOR CLEANUP------------------------------------+");
-			for (String unis : validatedUnis) {
-				System.out.println(unis);
-			}
-			System.out.println("===============================================================================");
-
-			for (String unis : validatedUnis) {
-				System.out.println("############################################################################");
-				System.out.println("Cleanup Started for::" + unis);
-				ArrayList<String> envs = asri.getServiceEnvironment(unis);
-
-				if (envs.size() == 0) {
-					System.out.println(unis + "::No Environment found");
-					ArrayList<String> storeCleanedUni1 = new ArrayList<String>();
-					storeCleanedUni1 = cleanPortsViaPortMonitorData(unis, "1");
-					if (storeCleanedUni1.size() > 0) {
-						for (String cleanedUni : storeCleanedUni1) {
-							CleanedUniList.add(cleanedUni);
-						}
-					}
-					
-				} else if (envs.size() > 0) {
-					for (String env : envs) {
-						System.out.println(unis + "====>" + env);
-						ArrayList<String> storeCleanedUni2 = new ArrayList<String>();
-						storeCleanedUni2 = cleanPortsViaPortMonitorData(unis, env);
-						if (storeCleanedUni2.size() > 0) {
-							for (String cleanedUni : storeCleanedUni2) {
-								CleanedUniList.add(cleanedUni);
-							}
-						}
-					}
-				}
-
-			}
-			validatedUnis.clear();
-		}
-		System.out.println("############################################################################");
-		System.out.println("Final List of Cleaned UNIs");
-		System.out.println("############################################################################");
-		for (String uni : CleanedUniList) {
-			System.out.println(uni);
-		}
-		System.out.println("Total UNIs cleaned::" + CleanedUniList.size());
-		System.out.println("############################################################################");
-		
-		
-		pm.printCleanedUniList(CleanedUniList);
-		*/
+		Autopilot ap = new Autopilot();
 //		updatePortMonitorIfUniNotUpdated("CO/KXFN/048399/LUMN");
 //		pm.updatePortMonitorIfUniNotUpdated("CO/KXFN/067714/LUMN","LABWSTZNZG002");
 //		cleanPortsViaPortMonitorData("CO/IRXX/059317/LUMN", "1");
-//		cleanPortsViaPortMonitorData("101/GE10/DNVFCOQE4L001/LABWSTZNYJ001", "2");
-//		pm2.updateRecordAfterCleanup("CO/KXFN/073340/LUMN");
-		pm2.cleanPortsViaPortMonitorData("CO/KXFN/073627/LUMN", "4");
-		pm2.cleanPortsViaPortMonitorData("CO/KXFN/073625/LUMN", "4");
-//		pm2.cleanPortsViaPortMonitorData("CO/KXFN/073627/LUMN", "4");
+//		cleanPortsViaPortMonitorData("CO/IRXX/066263/LUMN", "1");
+//		asri.cleanIp("CO/IRXX/066263/LUMN");
+//		pm2.updateRecordAfterCleanup("CO/KXFN/077258/LUMN");
+		
+
+		
+//		add the below list into a arraylist
+		ArrayList<String> CleanedUniList = new ArrayList<String>();
+		CleanedUniList.add("CO/KXFN/079448/LUMN");
+		CleanedUniList.add("CO/KXFN/079312/LUMN");
+		CleanedUniList.add("CO/KXFN/073960/LUMN");
+		CleanedUniList.add("CO/KXFN/079542/LUMN");
+		CleanedUniList.add("CO/KXFN/079564/LUMN");
+		CleanedUniList.add("CO/KXFN/079611/LUMN");
+		CleanedUniList.add("CO/KXFN/079598/LUMN");
+		CleanedUniList.add("CO/KXFN/079589/LUMN");
+		CleanedUniList.add("CO/KXFN/079600/LUMN");
+		CleanedUniList.add("CO/KXFN/079543/LUMN");
+		CleanedUniList.add("CO/KXFN/079511/LUMN");
+		CleanedUniList.add("CO/KXFN/079139/LUMN");
+		CleanedUniList.add("CO/KXFN/079055/LUMN");
+		CleanedUniList.add("CO/KXFN/078844/LUMN");
+		CleanedUniList.add("CO/KXFN/076966/LUMN");
+		CleanedUniList.add("CO/KXFN/076793/LUMN");
+		CleanedUniList.add("CO/KXFN/074724/LUMN");
+		
+		for (String uni : CleanedUniList) {
+			pm2.cleanPortsViaPortMonitorData(uni, "4");
+        }
+		
+//		
+
+		
+		
+		
+		
+		
+		
 		//add the below list into a arraylist
 //		pm.validateUniForCleanup("CO/KXFN/067845/LUMN", "LABWSTZNZG002");
+		
+//		ap.environment = "4";
+//		String token = ap.getToken("AC70068", "RobVanDam@wwf@1992#");
+//		String x = ap.triggerWorkflow("91657d32-01e0-4064-b418-ffd45851038b", "2e849c00-7f18-11ef-ae3e-2b7ed5be0092", "LNAAS_DELETE_TRANSACTION_ACT_TL_V1", token);
+//		System.out.println("Workflow Job::"+x);
+//		System.out.println("Workflow Status::"+ap.getWorkflowStatus(x, token));
+//		
+//		asri.cleanIp("CO/IRXX/068433/LUMN");
+//		asri.inventoryCleanUp("CO/IRXX/066284/LUMN", "1");
+		
+		
+		
+		
+		
 
 
 	}
