@@ -17,6 +17,7 @@ public class Asri {
 	String username = base.username;
 	String password = base.password;
 
+	@SuppressWarnings("static-access")
 	public ArrayList<String> getServiceEnvironment(String service) {
 		String environment = "";
 		String sasiRes = "";
@@ -35,7 +36,9 @@ public class Asri {
 		ArrayList<String> envCountList = new ArrayList<String>();
 
 		for (String env : envList) {
-			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when().get(env)
+			response = RestAssured.given().relaxedHTTPSValidation()
+					.header(base.SASI_HEADER_APP_KEY_NAME,base.SASI_HEADER_APP_KEY_VALUE)
+					.header("Content-type", "application/json").and().when().get(env)
 					.then().extract().response();
 			sasiRes = response.asString();
 
@@ -81,17 +84,23 @@ public class Asri {
 		try {
 			if (environment.contains("1")) {
 				autopilot.environment = "1";
-				response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
+				response = RestAssured.given().relaxedHTTPSValidation()
+						.header(base.SASI_HEADER_APP_KEY_NAME,base.SASI_HEADER_APP_KEY_VALUE)
+						.header("Content-type", "application/json").and().when()
 						.get(base.TEST1_SASI_ASRI + service).then().extract().response();
 				sasiRes = response.asString();
 			} else if (environment.contains("2")) {
 				autopilot.environment = "2";
-				response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
+				response = RestAssured.given().relaxedHTTPSValidation()
+						.header(base.SASI_HEADER_APP_KEY_NAME,base.SASI_HEADER_APP_KEY_VALUE)
+						.header("Content-type", "application/json").and().when()
 						.get(base.TEST2_SASI_ASRI + service).then().extract().response();
 				sasiRes = response.asString();
 			} else if (environment.contains("4")) {
 				autopilot.environment = "4";
-				response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
+				response = RestAssured.given().relaxedHTTPSValidation()
+						.header(base.SASI_HEADER_APP_KEY_NAME,base.SASI_HEADER_APP_KEY_VALUE)
+						.header("Content-type", "application/json").and().when()
 						.get(base.TEST4_SASI_ASRI + service).then().extract().response();
 				sasiRes = response.asString();
 			}
@@ -150,17 +159,23 @@ public class Asri {
 
 		if (environment.contains("1")) {
 			autopilot.environment = "1";
-			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
+			response = RestAssured.given().relaxedHTTPSValidation()
+					.header(base.SASI_HEADER_APP_KEY_NAME,base.SASI_HEADER_APP_KEY_VALUE)
+					.header("Content-type", "application/json").and().when()
 					.get(base.TEST1_SASI_ASRI + service).then().extract().response();
 			sasiRes = response.asString();
 		} else if (environment.contains("2")) {
 			autopilot.environment = "2";
-			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
+			response = RestAssured.given().relaxedHTTPSValidation()
+					.header(base.SASI_HEADER_APP_KEY_NAME,base.SASI_HEADER_APP_KEY_VALUE)
+					.header("Content-type", "application/json").and().when()
 					.get(base.TEST2_SASI_ASRI + service).then().extract().response();
 			sasiRes = response.asString();
 		} else if (environment.contains("4")) {
 			autopilot.environment = "4";
-			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
+			response = RestAssured.given().relaxedHTTPSValidation()
+					.header(base.SASI_HEADER_APP_KEY_NAME,base.SASI_HEADER_APP_KEY_VALUE)
+					.header("Content-type", "application/json").and().when()
 					.get(base.TEST4_SASI_ASRI + service).then().extract().response();
 			sasiRes = response.asString();
 		}
@@ -185,17 +200,23 @@ public class Asri {
 
 		if (environment.contains("1")) {
 			autopilot.environment = "1";
-			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
+			response = RestAssured.given().relaxedHTTPSValidation()
+					.header(base.SASI_HEADER_APP_KEY_NAME,base.SASI_HEADER_APP_KEY_VALUE)
+					.header("Content-type", "application/json").and().when()
 					.get(base.TEST1_SASI_ASRI + service).then().extract().response();
 			sasiRes = response.asString();
 		} else if (environment.contains("2")) {
 			autopilot.environment = "2";
-			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
+			response = RestAssured.given().relaxedHTTPSValidation()
+					.header(base.SASI_HEADER_APP_KEY_NAME,base.SASI_HEADER_APP_KEY_VALUE)
+					.header("Content-type", "application/json").and().when()
 					.get(base.TEST2_SASI_ASRI + service).then().extract().response();
 			sasiRes = response.asString();
 		} else if (environment.contains("4")) {
 			autopilot.environment = "4";
-			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
+			response = RestAssured.given().relaxedHTTPSValidation()
+					.header(base.SASI_HEADER_APP_KEY_NAME,base.SASI_HEADER_APP_KEY_VALUE)
+					.header("Content-type", "application/json").and().when()
 					.get(base.TEST4_SASI_ASRI + service).then().extract().response();
 			sasiRes = response.asString();
 		}
@@ -626,15 +647,17 @@ public class Asri {
 	}
 
 	public static boolean cleanIp(String serviceID) {
-		String Test_Get_IPs = "https://sasi-sasiwrap-test1.kubeodc.corp.intranet/wrappers/nisws/ipBlocks?circuitId=";
-		String Test_IP_Release = "https://sasi-sasiwrap-test1.kubeodc.corp.intranet/wrappers/nisws/ipRelease";
+//		String Test_Get_IPs = "https://sasi-sasiwrap-test1.kubeodc.corp.intranet/wrappers/nisws/ipBlocks?circuitId=";
+//		String Test_IP_Release = "https://sasi-sasiwrap-test1.kubeodc.corp.intranet/wrappers/nisws/ipRelease";
 		
 		System.out.println("==============================================IP CLEANUP START=================================================");
 		boolean isIpCleaned = false;
-		String resolvedIpUrl =  Test_Get_IPs + serviceID;
+		String resolvedIpUrl =  Base.TEST_GET_IP + serviceID;
 		
 		try {
-			String iPResBody = RestAssured.given().relaxedHTTPSValidation().get(resolvedIpUrl).body().asString();
+			String iPResBody = RestAssured.given().relaxedHTTPSValidation()
+					.header(Base.SASI_HEADER_APP_KEY_NAME,Base.SASI_HEADER_APP_KEY_VALUE)
+					.get(resolvedIpUrl).body().asString();
 			ArrayList<String> ipList = JsonPath.read(iPResBody, "$..ipBlock..cidrRange");
 			if (ipList.size() > 0) {
 				System.out.println("IPs Found!!\nNumber of IPs occupied by " + serviceID + " is::" + ipList.size());
@@ -644,8 +667,9 @@ public class Asri {
 							+ "    \"cidrRange\" : \"" + ip + "\"\r\n" + "}";
 					System.out.println(ipReleasePayload);
 					String ipReleaseResponse = RestAssured.given().relaxedHTTPSValidation()
+							.header(Base.SASI_HEADER_APP_KEY_NAME,Base.SASI_HEADER_APP_KEY_VALUE)
 							.header("Content-type", "application/json").and().body(ipReleasePayload).when()
-							.post(Test_IP_Release).then().extract().response().asString();
+							.post(Base.TEST_IP_RELEASE).then().extract().response().asString();
 					System.out.println(ipReleaseResponse);
 					ArrayList<String> ipReleaseList = JsonPath.read(ipReleaseResponse, "$..errorMessage");
 					if (ipReleaseList.size() > 0) {
@@ -689,10 +713,12 @@ public class Asri {
 	public static void main(String[] args) {
 		Asri asri = new Asri();
 		
-		String service = "CO/KXFN/067549/LUMN";
-		String env = "2";
+//		String service = "CO/KXFN/067549/LUMN";
+//		String env = "2";
+//		
+//		asri.consolidateServices(service, env);
 		
-		asri.consolidateServices(service, env);
+		asri.cleanIp("7763088201");
 		
 
 	}

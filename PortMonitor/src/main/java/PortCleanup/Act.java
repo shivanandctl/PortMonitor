@@ -94,7 +94,7 @@ public class Act {
 //					}
 					// cleanup the network
 					System.out.println("+-----------------ACT CLEANUP START---------------------------------------------------------------+");
-					System.out.println("Act request found for ServiceID::"+service+ "in the environment::"+ environment);
+					System.out.println("Act request found for ServiceID::"+service+ " in the environment::"+ environment);
 					System.out.println("Network cleanup is in progress for ServiceID::"+service+ "\n\nIDENTIFIER_ID::" + identifier_id + "\nHEADER_IDENTIFIER::" + header_identifier);
 //					if (portName != null && deviceName != null) {
 //                        System.out.println("DEVICE_NAME::" + deviceName +"\nPORT_NAME::" + portName  );
@@ -241,6 +241,13 @@ public class Act {
 			actJsonResponse = RestAssured.given().cookies(cookiesMap.get(0)).when()
 					.get("http://act-env4.idc1.level3.com:8081/ac-ip-rs-web/rs/view/default/data?q0=" + serviceAlias)
 					.body().asString();
+		}
+		
+		if (actJsonResponse.contains("Unauthorized")) {
+			System.out.println("\n\n\n+-------------------------------------------------+");
+			System.out.println("ACT Login Failed..\nPlease check the credentials and try again..");
+			System.out.println("+-------------------------------------------------+");
+			System.exit(0);
 		}
 
 		JSONObject xmlJSONObj = XML.toJSONObject(actJsonResponse);

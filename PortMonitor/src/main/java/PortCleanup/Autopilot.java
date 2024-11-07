@@ -34,6 +34,14 @@ public class Autopilot {
 		                .when().post("https://autopilotapp-test4-01.test.intranet:3443/login")
 		                .then().extract().response().asString();
 			}
+			
+			if (token.contains("Invalid Credentials")) {
+				System.out.println("\n\n\n+---------------------------------------------+");
+				System.out.println("Autopilot Login Failed.. Invalid Credentials");
+				System.out.println("+---------------------------------------------+");
+				System.exit(0);
+			}
+			
 		} catch (Exception e) {
             e.printStackTrace();
          }

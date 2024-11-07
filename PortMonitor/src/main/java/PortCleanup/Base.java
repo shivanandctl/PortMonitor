@@ -8,10 +8,14 @@ import java.util.HashMap;
 import java.util.Properties;
 
 public class Base {
+	
+	// SASI APP KEY
+	public static String SASI_HEADER_APP_KEY_NAME = "X-Level3-Application-key";
+	public static String SASI_HEADER_APP_KEY_VALUE = "APPKEY764872024091808122324561435";
 
 	// TEST1 VARIABLES
-	public static String TEST1_SASI_ASRI = "https://sasi-test1.kubeodc-test.corp.intranet/inventory/v1/asri/services?name=";
-	public static String TEST1_SASI_ARM = "https://sasi-test1.kubeodc-test.corp.intranet/inventory/v1/arm/services?name=";
+	public static String TEST1_SASI_ASRI = "https://api-test1.test.intranet/Inventory/v1/Resource/sasi/asri/services?name=";
+	public static String TEST1_SASI_ARM = "https://api-test1.test.intranet/Inventory/v1/Resource/sasi/arm/services?name=";
 	
 	public static String TEST1_AUTH_URL = "";
 	public static String TEST1_FETCH_URL = "";
@@ -20,8 +24,8 @@ public class Base {
 	public static String TEST1_OMNIVUE = "";
 
 	// TEST2 VARIABLES
-	public static String TEST2_SASI_ASRI = "https://sasi-test2.kubeodc-test.corp.intranet/inventory/v1/asri/services?name=";
-	public static String TEST2_SASI_ARM = "https://sasi-test2.kubeodc-test.corp.intranet/inventory/v1/arm/services?name=";
+	public static String TEST2_SASI_ASRI = "https://api-test2.test.intranet/Inventory/v1/Resource/sasi/asri/services?name=";
+	public static String TEST2_SASI_ARM = "https://api-test2.test.intranet/Inventory/v1/Resource/sasi/arm/services?name=";
 	
 	public static String TEST2_AUTH_URL = "";
 	public static String TEST2_FETCH_URL = "";
@@ -30,8 +34,8 @@ public class Base {
 	public static String TEST2_OMNIVUE = "";
 
 	// TEST4 VARIABLES
-	public static String TEST4_SASI_ASRI = "https://sasi-test4.kubeodc-test.corp.intranet/inventory/v1/asri/services?name=";
-	public static String TEST4_SASI_ARM = "https://sasi-test4.kubeodc-test.corp.intranet/inventory/v1/arm/services?name=";
+	public static String TEST4_SASI_ASRI = "https://api-test4.test.intranet/Inventory/v1/Resource/sasi/asri/services?name=";
+	public static String TEST4_SASI_ARM = "https://api-test4.test.intranet/Inventory/v1/Resource/sasi/asri/services?name=";
 	
 	public static String TEST4_AUTH_URL = "";
 	public static String TEST4_FETCH_URL = "";
@@ -40,8 +44,8 @@ public class Base {
 	public static String TEST4_OMNIVUE = "";
 
 	// IP VARIABLES
-	public static String TEST_GET_IP = "";
-	public static String TEST_IP_RELEASE = "";
+	public static String TEST_GET_IP = "https://api-test1.test.intranet/Inventory/v1/Resource/sasiwrap/nisws/ipBlocks?circuitId=";
+	public static String TEST_IP_RELEASE = "https://api-test1.test.intranet/Inventory/v1/Resource/sasiwrap/nisws/ipRelease";
 
 	// LAB RUBICON VARIABLES
 	public static String RUBICON_INT_DESCRIPTION_URL = "http://rubicon-tst01.test.intranet:8080/nds.services/query/intDescriptions?tid=";

@@ -22,38 +22,34 @@ public class Test {
 		Rubicon rubicon = new Rubicon();
 		Asri asri = new Asri();
 		Autopilot ap = new Autopilot();
-//		updatePortMonitorIfUniNotUpdated("CO/KXFN/048399/LUMN");
+//		updatePortMonitorIfUniNotUpdated("CO/KXFN/076384/LUMN");
 //		pm.updatePortMonitorIfUniNotUpdated("CO/KXFN/067714/LUMN","LABWSTZNZG002");
 //		cleanPortsViaPortMonitorData("CO/IRXX/059317/LUMN", "1");
 //		cleanPortsViaPortMonitorData("CO/IRXX/066263/LUMN", "1");
 //		asri.cleanIp("CO/IRXX/066263/LUMN");
-//		pm2.updateRecordAfterCleanup("CO/KXFN/077258/LUMN");
+//		pm2.updateRecordAfterCleanup("CO/KXFN/076377/LUMN");
 		
 
 		
 //		add the below list into a arraylist
+		/*
+		 * CO/KXFN/075993/LUMN
+		 * 
+		 */
 		ArrayList<String> CleanedUniList = new ArrayList<String>();
-		CleanedUniList.add("CO/KXFN/079448/LUMN");
-		CleanedUniList.add("CO/KXFN/079312/LUMN");
-		CleanedUniList.add("CO/KXFN/073960/LUMN");
-		CleanedUniList.add("CO/KXFN/079542/LUMN");
-		CleanedUniList.add("CO/KXFN/079564/LUMN");
-		CleanedUniList.add("CO/KXFN/079611/LUMN");
-		CleanedUniList.add("CO/KXFN/079598/LUMN");
-		CleanedUniList.add("CO/KXFN/079589/LUMN");
-		CleanedUniList.add("CO/KXFN/079600/LUMN");
-		CleanedUniList.add("CO/KXFN/079543/LUMN");
-		CleanedUniList.add("CO/KXFN/079511/LUMN");
-		CleanedUniList.add("CO/KXFN/079139/LUMN");
-		CleanedUniList.add("CO/KXFN/079055/LUMN");
-		CleanedUniList.add("CO/KXFN/078844/LUMN");
-		CleanedUniList.add("CO/KXFN/076966/LUMN");
-		CleanedUniList.add("CO/KXFN/076793/LUMN");
-		CleanedUniList.add("CO/KXFN/074724/LUMN");
+//		CleanedUniList.add("CO/KXFN/076200/LUMN");
+//		CleanedUniList.add("101/GE10/DNVFCOQE00W/DNVFCOQE71W");
+//		CleanedUniList.add("101/GE10/DNVFCOQE00W/DNVFCOQE71W");
 		
-		for (String uni : CleanedUniList) {
-			pm2.cleanPortsViaPortMonitorData(uni, "4");
-        }
+		
+//
+//		
+//		for (String uni : CleanedUniList) {
+//			pm.cleanPortsViaPortMonitorData(uni, "1");
+//        }
+		
+		pm.cleanPortsViaPortMonitorData("CO/KXFN/079297/LUMN", "1");
+//		asri.cleanIp("CO/IRXX/067083/LUMN");
 		
 //		
 

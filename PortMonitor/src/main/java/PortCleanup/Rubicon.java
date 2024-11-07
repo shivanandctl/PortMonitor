@@ -22,17 +22,29 @@ public class Rubicon {
 	public ArrayList<String> listLabDevices() {
 		ArrayList<String> labDevices = new ArrayList<String>();
 		//ZUNI DEVICES
+		labDevices.add("LAB2COZEZG001");  //LABESTZNZG001
+		labDevices.add("LAB2COZEW2001");  //LABESTZNW2001
+		labDevices.add("LAB2COZEW2002");  //LABESTZNW2002
+		
+		labDevices.add("LAB4COZW5M001");  //LABWSTZN5M001
+		labDevices.add("LAB4COZW5M002");  //LABWSTZN5M002
+		labDevices.add("LAB4COZWYJ001");  //LABWSTZNYJ001	
+		labDevices.add("LAB4COZWZG001");  //LABWSTZNZG001
+		labDevices.add("LAB4COZWZG002");  //LABWSTZNZG002
+		
+		//Old Device names
+		
+		/*		
+		labDevices.add("LABESTZNZG001");
+		labDevices.add("LABESTZNW2001");
+		labDevices.add("LABESTZNW2002");
+		
 		labDevices.add("LABWSTZN5M001");
 		labDevices.add("LABWSTZN5M002");
 		labDevices.add("LABWSTZNYJ001");
 		labDevices.add("LABWSTZNZG001");
-		labDevices.add("LABWSTZNZG002");
-		labDevices.add("LABESTZNW2001");
-		labDevices.add("LABESTZNW2002");
-		labDevices.add("LABESTZNZG001");
-		labDevices.add("LAB2COZEZG001");
-		labDevices.add("LAB2COZEW2001");
-		labDevices.add("LAB2COZEW2002");
+		labDevices.add("LABWSTZNZG002");		
+		*/		
 		
 		return labDevices;
 	}
@@ -84,6 +96,18 @@ public class Rubicon {
 		Matcher matcher1 = pattern1.matcher(rubRes);
 		while (matcher1.find()) {
 			uniList.add(matcher1.group());
+		}
+		
+		Pattern pattern2 = Pattern.compile("NA/KXFN/\\d+/LUMN");
+		Matcher matcher2 = pattern2.matcher(rubRes);
+		while (matcher2.find()) {
+			uniList.add(matcher2.group());
+		}
+		
+		Pattern pattern3 = Pattern.compile("WA/KXFN/\\d+/LUMN");
+		Matcher matcher3 = pattern3.matcher(rubRes);
+		while (matcher3.find()) {
+			uniList.add(matcher3.group());
 		}
 
 		return uniList;

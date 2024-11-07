@@ -20,6 +20,7 @@ public class PortMonitor {
 		PortMonitor pm = new PortMonitor();
 		Rubicon rubicon = new Rubicon();
 		Asri asri = new Asri();
+		Base base = new Base();
 		ArrayList<String> cleanupUnis = new ArrayList<String>();
 		ArrayList<String> validatedUnis = new ArrayList<String>();
 		ArrayList<String> CleanedUniList = new ArrayList<String>();
@@ -57,8 +58,7 @@ public class PortMonitor {
 			}
 
 			// print the validated UNIs
-			System.out.println(
-					"+-------------------------VALIDATED UNIs FOR CLEANUP-------------------------------+");
+			System.out.println("+-------------------------VALIDATED UNIs FOR CLEANUP-------------------------------+");
 			if (validatedUnis.size() > 0) {
 				for (String unis : validatedUnis) {
 					System.out.println(unis);
@@ -66,7 +66,7 @@ public class PortMonitor {
 			} else {
 				System.out.println("No UNIs are qualified for cleanup in this device " + device);
 			}
-			
+
 			System.out.println("===================================================================================");
 
 			for (String unis : validatedUnis) {
@@ -84,19 +84,20 @@ public class PortMonitor {
 							CleanedUniList.add(cleanedUni);
 						}
 					}
-					
+
 				} else if (envs.size() > 0) {
 					for (String env : envs) {
 						System.out.println(unis + "====>" + env);
 						ArrayList<String> storeCleanedUni2 = new ArrayList<String>();
-						
-						//get the device name of uni service from ASRI
-						ArrayList<String> deviceNameList =  asri.getServiceAttribute(unis, env, "$..resources[0]..zend..device..name");
+
+						// get the device name of uni service from ASRI
+						ArrayList<String> deviceNameList = asri.getServiceAttribute(unis, env,
+								"$..resources[0]..zend..device..name");
 						if (deviceNameList.size() > 0) {
 							String deviceName = deviceNameList.get(0);
 							System.out.println("Device Name::" + deviceName);
-							//checking for PROD devices and not cleaning them
-							//check if this device is in the list of devices
+							// checking for PROD devices and not cleaning them
+							// check if this device is in the list of devices
 							if (deviceName.equals(device)) {
 								storeCleanedUni2 = cleanPortsViaPortMonitorData(unis, env);
 								// print cleaned Uni List
@@ -106,7 +107,8 @@ public class PortMonitor {
 									}
 								}
 							} else {
-								System.out.println("Device Name::" + deviceName + " not found in the list of devices so not cleaning");
+								System.out.println("Device Name::" + deviceName
+										+ " not found in the list of devices so not cleaning");
 							}
 						} else {
 							System.out.println("Device Name::NULL");
@@ -118,8 +120,7 @@ public class PortMonitor {
 								}
 							}
 						}
-						
-						
+
 					}
 				}
 
@@ -134,8 +135,7 @@ public class PortMonitor {
 		}
 		System.out.println("Total UNIs cleaned::" + CleanedUniList.size());
 		System.out.println("############################################################################");
-		
-		
+
 		// print cleaned Uni List
 		pm.printCleanedUniList(CleanedUniList);
 
@@ -144,63 +144,60 @@ public class PortMonitor {
 //		cleanPortsViaPortMonitorData("CO/KXFN/048459/LUMN", "4");
 
 	}
-	
+
 	// Function to print final list of cleaned UNIs
 	public void printCleanedUniList(ArrayList<String> CleanedUniList) {
 		//
 		System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_START");
-		System.out.println("<h3 style=\"background-color: #5aadff;color: #ffffff;margin-top: 7px;padding: 8px 5px;text-align: center;\">\r\n"
-				+ "    CLEANED UNI LIST\r\n"
-				+ "</h3><hr>");
-		int rows = CleanedUniList.size()+1;
+		System.out.println(
+				"<h3 style=\"background-color: #5aadff;color: #ffffff;margin-top: 7px;padding: 8px 5px;text-align: center;\">\r\n"
+						+ "    CLEANED UNI LIST\r\n" + "</h3><hr>");
+		int rows = CleanedUniList.size() + 1;
 		String data[][] = new String[rows][4];
 		data[0][0] = "<b>UNI SERVICE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
 		data[0][1] = "<b>ENV&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
 		data[0][2] = "<b>DEVICE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
 		data[0][3] = "<b>PORT&nbsp;&nbsp;&nbsp;&nbsp;</b><hr>";
-		
+
 		int i = 1;
 		for (String uni : CleanedUniList) {
-			
+
 			try {
 				String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/getUnidata/" + uni;
-				String response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json")
-						.and().when().get(query).then().extract().response().asString();
+				String response = RestAssured.given().relaxedHTTPSValidation()
+						.header("Content-type", "application/json").and().when().get(query).then().extract().response()
+						.asString();
 
 				String unialias = JsonPath.read(response, "$.unialias");
 				String env = JsonPath.read(response, "$.environment");
 				String device = JsonPath.read(response, "$.device");
 				String port = JsonPath.read(response, "$.portnum");
-				
-				
-					data[i][0] = unialias;
-					data[i][1] = env;
-					data[i][2] = device;
-					data[i][3] = port;
-				    i++;
+
+				data[i][0] = unialias;
+				data[i][1] = env;
+				data[i][2] = device;
+				data[i][3] = port;
+				i++;
 			} catch (Exception e) {
 //				System.out.println("Exception in getting UNI details::" + uni);
 				data[i][0] = uni;
 				data[i][1] = e.getMessage();
 				data[i][2] = "";
 				data[i][3] = "";
-			    i++;
-			}		
+				i++;
+			}
 		}
-		
+
 		// print the data in html table format
 
 		for (int j = 0; j < rows; j++) {
 			printRow(data[j]);
 			System.out.println("");
-			
+
 		}
-		
+
 		System.out.println("<hr><h5 style=\"background-color: #ececec;color: #000000;padding: 8px 5px;;\">\r\n"
-				+ "              TOTAL UNIs CLEANED::"+CleanedUniList.size()+"\r\n"
-				+ "</h5>");
-		
-		
+				+ "              TOTAL UNIs CLEANED::" + CleanedUniList.size() + "\r\n" + "</h5>");
 
 		System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_END");
 	}
@@ -213,78 +210,66 @@ public class PortMonitor {
 	}
 
 	public static void printRow(String[] row) {
-	    System.out.print("<pre>");	
+		System.out.print("<pre>");
 		for (String cell : row) {
 //			System.out.printf("  %-21s ", cell);
-			System.out.print(cell+"&nbsp;&nbsp;&nbsp;&nbsp;");
+			System.out.print(cell + "&nbsp;&nbsp;&nbsp;&nbsp;");
 		}
 		System.out.print("</pre><br>");
 	}
 	/*
-	// Function to print final list of cleaned UNIs
-	public void printCleanedUniList(ArrayList<String> CleanedUniList) {
-
-		//System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_START");
-		System.out.println(""
-				+ "+====================================================================+");
-		System.out.println("\t\tCLEANED UNI LIST                                                      ");
-		System.out.println(""
-				+ "+=====================================================================+");
-		int rows = CleanedUniList.size()+1;
-		String data[][] = new String[rows][4];
-		data[0][0] = "UNI SERVICE";
-		data[0][1] = "\t\tENV";
-		data[0][2] = "\t   DEVICE";
-		data[0][3] = "\t   PORT";
-		
-		int i = 1;
-		for (String uni : CleanedUniList) {
-			
-			String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/getUnidata/" + uni;
-			String response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json")
-					.and().when().get(query).then().extract().response().asString();
-
-			String unialias = JsonPath.read(response, "$.unialias");
-			String env = JsonPath.read(response, "$.environment");
-			String device = JsonPath.read(response, "$.device");
-			String port = JsonPath.read(response, "$.portnum");
-			
-			
-				data[i][0] = unialias;
-				data[i][1] = env;
-				data[i][2] = device;
-				data[i][3] = port;
-			    i++;
-			
-
-		}
-
-		printLine();
-		for (String[] row : data) {
-			printRow(row);
-			printLine();
-		}
-		System.out.println(""
-				+ "+=====================================================================+");
-		
-		System.out.println("TOTAL UNIs CLEANED::" + CleanedUniList.size());
-		System.out.println(""
-				+ "+=====================================================================+");
-
-		//System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_END");
-	}
-	
-	public static void printLine() {
-		System.out.println(""
-				+ "\n--------------------------------------------------------------------------------------------------------------------------");
-	}
-
-	public static void printRow(String[] row) {
-		for (String cell : row) {
-			System.out.printf("  %-21s ", cell);
-		}
-	}
-	*/
+	 * // Function to print final list of cleaned UNIs public void
+	 * printCleanedUniList(ArrayList<String> CleanedUniList) {
+	 * 
+	 * //System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_START");
+	 * System.out.println("" +
+	 * "+====================================================================+");
+	 * System.out.
+	 * println("\t\tCLEANED UNI LIST                                                      "
+	 * ); System.out.println("" +
+	 * "+=====================================================================+");
+	 * int rows = CleanedUniList.size()+1; String data[][] = new String[rows][4];
+	 * data[0][0] = "UNI SERVICE"; data[0][1] = "\t\tENV"; data[0][2] =
+	 * "\t   DEVICE"; data[0][3] = "\t   PORT";
+	 * 
+	 * int i = 1; for (String uni : CleanedUniList) {
+	 * 
+	 * String query =
+	 * "https://ndf-test-cleanup.kubeodc-test.corp.intranet/getUnidata/" + uni;
+	 * String response =
+	 * RestAssured.given().relaxedHTTPSValidation().header("Content-type",
+	 * "application/json")
+	 * .and().when().get(query).then().extract().response().asString();
+	 * 
+	 * String unialias = JsonPath.read(response, "$.unialias"); String env =
+	 * JsonPath.read(response, "$.environment"); String device =
+	 * JsonPath.read(response, "$.device"); String port = JsonPath.read(response,
+	 * "$.portnum");
+	 * 
+	 * 
+	 * data[i][0] = unialias; data[i][1] = env; data[i][2] = device; data[i][3] =
+	 * port; i++;
+	 * 
+	 * 
+	 * }
+	 * 
+	 * printLine(); for (String[] row : data) { printRow(row); printLine(); }
+	 * System.out.println("" +
+	 * "+=====================================================================+");
+	 * 
+	 * System.out.println("TOTAL UNIs CLEANED::" + CleanedUniList.size());
+	 * System.out.println("" +
+	 * "+=====================================================================+");
+	 * 
+	 * //System.out.println("PORT_MONITOR_BUILD_LOG_EXCERPT_END"); }
+	 * 
+	 * public static void printLine() { System.out.println("" +
+	 * "\n--------------------------------------------------------------------------------------------------------------------------"
+	 * ); }
+	 * 
+	 * public static void printRow(String[] row) { for (String cell : row) {
+	 * System.out.printf("  %-21s ", cell); } }
+	 */
 
 	public ArrayList<String> validateUniForCleanup(String uni, String device) {
 
@@ -349,8 +334,7 @@ public class PortMonitor {
 			cleanupUnis.add(uni);
 			System.out.println("No record found in PortMonitor DB\nUpdating UNI::" + uni + " into port UI for Cleanup");
 			updatePortMonitorIfUniNotUpdated(uni, device);
-			System.out.println(
-					"+----------------------------------------------------------------------------------+");
+			System.out.println("+----------------------------------------------------------------------------------+");
 		}
 
 		return cleanupUnis;
@@ -378,7 +362,7 @@ public class PortMonitor {
 					System.out.println("Act Cleanup is successful");
 
 					// cleaning Ips
-					if (s.contains("IRXX")||s.contains("MVXX")) {
+					if (s.contains("IRXX") || s.contains("MVXX")) {
 						asri.cleanIp(s);
 					}
 					boolean asriCleanUpStatus = asri.inventoryCleanUp(s, env);
@@ -507,61 +491,63 @@ public class PortMonitor {
 	public static void updatePortMonitorIfUniNotUpdated(String uni, String device) {
 
 		Response response;
-		String query = "https://sasi-test1.kubeodc-test.corp.intranet/inventory/v1/asri/services?name=" + uni;
-		response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
-				.get(query).then().extract().response();
-
+		String query = Base.TEST1_SASI_ASRI + uni;
+		response = RestAssured.given().relaxedHTTPSValidation()
+				.header(Base.SASI_HEADER_APP_KEY_NAME, Base.SASI_HEADER_APP_KEY_VALUE)
+				.header("Content-type", "application/json").and().when().get(query).then().extract().response();
 		int statCode = response.getStatusCode();
 		String responseStr = response.asString();
-		
+
 		ArrayList<String> uniDevice = new ArrayList<String>();
-		
+
 		uniDevice = JsonPath.read(response.asString(), "$..resources[0]..zend..device..name");
-//		if (uniDevice.size() > 0) {
-//			System.out.println("Device found in ASRI Test1::" + uniDevice.get(0));
-//		}
-		
-			if (uniDevice.size() > 0 && statCode == 200 && uniDevice.get(0).equals(device)) {
-				System.out.println("Matching Device found in ASRI Test1::" + uniDevice.get(0));
-				String environment = "Test1";
-				System.out.println("UNI: " + uni + " is updated in PortMonitor in Test1");
-				getSasiDetails(response, environment);
-				triggerUpdateDbApi(getSasiDetails(response, environment));
-			} 
+		if (uniDevice.size() > 0) {
+			System.out.println("Device found in ASRI Test1::" + uniDevice.get(0));
+		} else {
+			System.out.println("Device not found in ASRI Test1");
+		}
+
+		if (uniDevice.size() > 0 && statCode == 200 && uniDevice.get(0).equals(device)) {
+			System.out.println("Matching Device found in ASRI Test1::" + uniDevice.get(0));
+			String environment = "Test1";
+			System.out.println("UNI: " + uni + " is updated in PortMonitor in Test1");
+			getSasiDetails(response, environment);
+			triggerUpdateDbApi(getSasiDetails(response, environment));
+		}
 
 		else {
-			System.out.println("UNI: " + uni + " is not updated in PortMonitor in Test1 as Device Name is not matching");
-			query = "https://sasi-test2.kubeodc-test.corp.intranet/inventory/v1/asri/services?name=" + uni;
-			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and()
-					.when().get(query).then().extract().response();
-			
+			System.out
+					.println("UNI: " + uni + " is not updated in PortMonitor in Test1 as Device Name is not matching");
+			query = Base.TEST2_SASI_ASRI + uni;
+			response = RestAssured.given().relaxedHTTPSValidation()
+					.header(Base.SASI_HEADER_APP_KEY_NAME, Base.SASI_HEADER_APP_KEY_VALUE)
+					.header("Content-type", "application/json").and().when().get(query).then().extract().response();
+
 			statCode = response.getStatusCode();
 			uniDevice = JsonPath.read(response.asString(), "$..resources[0]..zend..device..name");
-			
-			
-			
-			if (uniDevice.size() > 0) {
+
+			if (uniDevice.size() > 0 && uniDevice.get(0).equals(device)) {
 				System.out.println("Device found in ASRI Test2::" + uniDevice.get(0));
 				if (statCode == 200 && uniDevice.get(0).equals(device)) {
 					String environment = "Test2";
 					System.out.println("UNI: " + uni + " is updated in PortMonitor in Test2");
 					getSasiDetails(response, environment);
 					triggerUpdateDbApi(getSasiDetails(response, environment));
-				}
-				else {
+				} else {
 					System.out.println(
 							"UNI: " + uni + " is not updated in PortMonitor in Test2 as Device Name is not matching");
 				}
 			} else {
 				{
-					System.out.println("UNI: " + uni
-							+ " is not updated in PortMonitor\n as it is not found in ASRI Test1 and Test2");
-					query = "https://sasi-test4.kubeodc-test.corp.intranet/inventory/v1/asri/services?name=" + uni;
-					response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json")
-							.and().when().get(query).then().extract().response();
+					System.out.println("UNI: " + uni + " is not updated in PortMonitor as it is not found in ASRI Test1 and Test2");
+					query = Base.TEST4_SASI_ASRI + uni;
+					response = RestAssured.given().relaxedHTTPSValidation()
+							.header(Base.SASI_HEADER_APP_KEY_NAME, Base.SASI_HEADER_APP_KEY_VALUE)
+							.header("Content-type", "application/json").and().when().get(query).then().extract()
+							.response();
 					statCode = response.getStatusCode();
 					uniDevice = JsonPath.read(response.asString(), "$..resources[0]..zend..device..name");
-					if (uniDevice.size() > 0) {
+					if (uniDevice.size() > 0 && uniDevice.get(0).equals(device)) {
 						System.out.println("Device found in ASRI Test4::" + uniDevice.get(0));
 						if (statCode == 200 && uniDevice.get(0).equals(device)) {
 							String environment = "Test4";
@@ -569,23 +555,18 @@ public class PortMonitor {
 							getSasiDetails(response, environment);
 							triggerUpdateDbApi(getSasiDetails(response, environment));
 						} else {
-							
-							System.out.println("UNI not updated in PortMonitor as Device Name is not matching in Test4");
+
+							System.out
+									.println("UNI not updated in PortMonitor as Device Name is not matching in Test4");
 						}
 					} else {
-						System.out.println("UNI: " + uni
-								+ " is not updated in PortMonitor\n as it is not found in ASRI Test1, Test2 and Test4");
+						System.out.println("UNI: " + uni + " is not updated in PortMonitor as it is not found in ASRI Test1, Test2 and Test4");
 					}
 				}
 			}
-			
-			
-			
-			
+
 		}
-		
-		
-		
+
 	}
 
 	public static String getSasiDetails(Response response, String env) {
@@ -652,14 +633,14 @@ public class PortMonitor {
 	// This function is used to trigger the update db api to update the portmonitor
 	// db with the sasi details
 	public static void triggerUpdateDbApi(String sasiDetails) {
-		
+
 		try {
 			Response response;
 			String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/updateUnidetailsInDbFromSoa";
 			String jsonBody = "{\r\n" + "    \"unialias\": \"" + sasiDetails.split(",")[0] + "\",\r\n"
 					+ "    \"environment\": \"" + sasiDetails.split(",")[1] + "\",\r\n" + "    \"createddate\": \""
-					+ sasiDetails.split(",")[2] + "\",\r\n" + "    \"device\": \"" + sasiDetails.split(",")[3] + "\",\r\n"
-					+ "    \"portnum\": \"" + sasiDetails.split(",")[4] + "\",\r\n" + "    \"prodType\": \""
+					+ sasiDetails.split(",")[2] + "\",\r\n" + "    \"device\": \"" + sasiDetails.split(",")[3]
+					+ "\",\r\n" + "    \"portnum\": \"" + sasiDetails.split(",")[4] + "\",\r\n" + "    \"prodType\": \""
 					+ sasiDetails.split(",")[5] + "\",\r\n" + "    \"team\": \"" + sasiDetails.split(",")[6] + "\",\r\n"
 					+ "    \"orderId\": \"" + sasiDetails.split(",")[7] + "\",\r\n" + "    \"createdBy\": \""
 					+ sasiDetails.split(",")[8] + "\",\r\n" + "    \"user_comment\": \"" + sasiDetails.split(",")[9]
@@ -679,7 +660,7 @@ public class PortMonitor {
 			System.out.println("Exception in triggerUpdateDbApi::" + e);
 			System.out.println("PortMonitor DB not updated by triggerUpdateDbApi");
 		}
-		
+
 	}
 
 	// This function is used to update the record in portmonitor db after cleanup is
@@ -693,8 +674,8 @@ public class PortMonitor {
 		try {
 			Response response;
 			String query = "https://ndf-test-cleanup.kubeodc-test.corp.intranet/getUnidata/" + uni;
-			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and().when()
-					.get(query).then().extract().response();
+			response = RestAssured.given().relaxedHTTPSValidation().header("Content-type", "application/json").and()
+					.when().get(query).then().extract().response();
 
 			int statCode = response.getStatusCode();
 			System.out.println("Status code: " + statCode);
@@ -747,8 +728,5 @@ public class PortMonitor {
 		}
 
 	}
-	
 
-	
-	
 }
