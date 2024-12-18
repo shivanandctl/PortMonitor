@@ -5,4 +5,5 @@ PortCleanup\Rubicon.class
 PortCleanup\Base.class
 PortCleanup\PortMonitor2.class
 PortCleanup\Autopilot.class
+PortCleanup\UtilityClass.class
 PortCleanup\Test.class

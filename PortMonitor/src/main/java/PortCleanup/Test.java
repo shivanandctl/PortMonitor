@@ -27,7 +27,7 @@ public class Test {
 //		cleanPortsViaPortMonitorData("CO/IRXX/059317/LUMN", "1");
 //		cleanPortsViaPortMonitorData("CO/IRXX/066263/LUMN", "1");
 //		asri.cleanIp("CO/IRXX/066263/LUMN");
-//		pm2.updateRecordAfterCleanup("CO/KXFN/076377/LUMN");
+//		pm2.updateRecordAfterCleanup("CO/KXFN/095651/LUMN");
 		
 
 		
@@ -48,7 +48,9 @@ public class Test {
 //			pm.cleanPortsViaPortMonitorData(uni, "1");
 //        }
 		
-		pm.cleanPortsViaPortMonitorData("CO/KXFN/079297/LUMN", "1");
+//		pm.cleanPortsViaPortMonitorData("00/VLXM/000143/LUMN_CO/KXFN/076625/LUMN", "1");
+		pm.cleanPortsViaPortMonitorData("CO/KXFN/102413/LUMN", "4");
+		
 //		asri.cleanIp("CO/IRXX/067083/LUMN");
 		
 //		
