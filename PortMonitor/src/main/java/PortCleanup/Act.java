@@ -197,9 +197,9 @@ public class Act {
 		String Test_authUrl = "";
 
 		if (environment.contains("1")) {
-			Test_authUrl = "http://act-env1.idc1.level3.com:8081/ac-ip-rs-web/rs/auth";
+			Test_authUrl = "https://act-env1.corp.intranet/ac-ip-rs-web/rs/auth";
 		} else if (environment.contains("2")) {
-			Test_authUrl = "http://act-env2.idc1.level3.com:8081/ac-ip-rs-web/rs/auth";
+			Test_authUrl = "https://act-env2.corp.intranet/ac-ip-rs-web/rs/auth";
 		} else if (environment.contains("4")) {
 			Test_authUrl = "https://act-env4.corp.intranet/ac-ip-rs-web/rs/auth";
 		}
@@ -255,14 +255,14 @@ public class Act {
 
 		// prepare complete URL
 		if (environment.contains("1")) {
-			finalUrl = "http://act-env1.idc1.level3.com:8081/ac-ip-rs-web/rs/view/default/data?q0=" + serviceAlias;
+			finalUrl = "https://act-env1.corp.intranet/ac-ip-rs-web/rs/view/default/data?q0=" + serviceAlias;
 		} else if (environment.contains("2")) {
-			finalUrl = "http://act-env2.idc1.level3.com:8081/ac-ip-rs-web/rs/view/default/data?q0=" + serviceAlias;
+			finalUrl = "https://act-env2.corp.intranet/ac-ip-rs-web/rs/view/default/data?q0=" + serviceAlias;
 		} else if (environment.contains("4")) {
 			finalUrl = "https://act-env4.corp.intranet/ac-ip-rs-web/rs/view/default/data?q0=" + serviceAlias;
 		}
 
-		System.out.println("Final URL for ACT in the environment::"+environment+"::\n"+finalUrl);
+		System.out.println("URL for ACT in the environment::"+environment+"\n"+finalUrl);
 		actJsonResponse = RestAssured.given().relaxedHTTPSValidation().cookies(cookiesMap.get(0)).when()
 				.get(finalUrl)
 				.body().asString();
@@ -398,12 +398,12 @@ public class Act {
 
 		if (environment.contains("1")) {
 			actJsonResponse = RestAssured.given().when()
-					.get("http://act-env1.idc1.level3.com:8081/ac-ip-rs-web/rs/requestPayload?requestID=" + requestId)
-					.body().asString();
+					.get("http://act-env1.corp.intranet/ac-ip-rs-web/rs/requestPayload?requestID=" + requestId).body()
+					.asString();
 		} else if (environment.contains("2")) {
 			actJsonResponse = RestAssured.given().when()
-					.get("http://act-env2.idc1.level3.com:8081/ac-ip-rs-web/rs/requestPayload?requestID=" + requestId)
-					.body().asString();
+					.get("http://act-env2.corp.intranet/ac-ip-rs-web/rs/requestPayload?requestID=" + requestId).body()
+					.asString();
 		} else if (environment.contains("4")) {
 			actJsonResponse = RestAssured.given().when()
 					.get("http://act-env4.corp.intranet/ac-ip-rs-web/rs/requestPayload?requestID=" + requestId).body()
