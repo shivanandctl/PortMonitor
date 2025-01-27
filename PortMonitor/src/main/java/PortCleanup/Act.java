@@ -397,16 +397,16 @@ public class Act {
 		String deviceName = null;
 
 		if (environment.contains("1")) {
-			actJsonResponse = RestAssured.given().when()
-					.get("http://act-env1.corp.intranet/ac-ip-rs-web/rs/requestPayload?requestID=" + requestId).body()
+			actJsonResponse = RestAssured.given().relaxedHTTPSValidation().when()
+					.get("https://act-env1.corp.intranet/ac-ip-rs-web/rs/requestPayload?requestID=" + requestId).body()
 					.asString();
 		} else if (environment.contains("2")) {
-			actJsonResponse = RestAssured.given().when()
-					.get("http://act-env2.corp.intranet/ac-ip-rs-web/rs/requestPayload?requestID=" + requestId).body()
+			actJsonResponse = RestAssured.given().relaxedHTTPSValidation().when()
+					.get("https://act-env2.corp.intranet/ac-ip-rs-web/rs/requestPayload?requestID=" + requestId).body()
 					.asString();
 		} else if (environment.contains("4")) {
-			actJsonResponse = RestAssured.given().when()
-					.get("http://act-env4.corp.intranet/ac-ip-rs-web/rs/requestPayload?requestID=" + requestId).body()
+			actJsonResponse = RestAssured.given().relaxedHTTPSValidation().when()
+					.get("https://act-env4.corp.intranet/ac-ip-rs-web/rs/requestPayload?requestID=" + requestId).body()
 					.asString();
 		}
 		JSONObject xmlJSONObj = XML.toJSONObject(actJsonResponse);
